@@ -39,7 +39,7 @@ import Chartlist from "../pdf/chart";
 //   img.src = 'https://203.151.151.186/chart.png?id=2014&avg=15&sdate=2020-05-06-00-00-00&edate=2020-05-07-00-00-00&width=850&height=270&graphstyling=baseFontSize=12%20showLegend=1&graphid=-1&username=readonly&password=mis@Pass01;
 // }
 
-class TableList extends Component {
+class Domain extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -50,7 +50,6 @@ class TableList extends Component {
       sdate: "",
       edate: "",
       report: [],
-      line_datasets: []
     };
   }
 
@@ -76,56 +75,40 @@ class TableList extends Component {
 
   // เซ็ต State สำหรับส่งค่าทั้งกล่องเพื่อ post ไปที่ Backend
   // โดยอ้างอิงข้อมูลจาก url ที่กำหนดถ้าข้อมูลไม่มาให้ดูตรงนี้ก่อน <<<<<
-  handleSubmit = async (e) => {
+  handleSubmit = (e) => {
     e.preventDefault();
     console.log(this.state);
-
+    // console.log("vm submit",this.state.vm)
     // url ที่กำหนด
-    const  url = "http://192.168.250.97:5555/api/selectVm";
-    // const qs = require("querystring");
+    const url = "http://203.151.34.28:5551/api/selectVm";
+    const qs = require("querystring");
     // Object Identify ที่ใช้ในการเรียกใช้ State
     const objid = {
       customer: this.state.selectedCustomer,
       device: this.state.selectedVM,
       sdate: this.state.sdate,
       edate:this.state.edate,
+      // sdate: this.state.sdate,
+      // edate: this.state.edate,
     };
     // console.log("sdate : ", this.state.sdate);
     // console.log("edate : ", this.state.edate);
     // console.log("this.props");
     // console.log(this.props);
     // กำหนดส่งค่า url และ Object Identify ออกไป
-    // await axios
-    //   .post(url, objid)
-    //   .then((res) => {
-    //     //handle your method
-    //     // console.log(res);
-    //     this.setState({report:res.data})
-    //     console.log('objid',res.data);
-    //     // res.data.cpu_data[0].raw_data
-    //   })
-    //   .catch((e) => {
-    //     //handle your errors
-    //     console.log(e);
-    //   });
-
-    try {
-      const res = await axios.post(url, objid)
-      console.log(res);
-
-      // ใช้ if ดัก data ให้มันรอและเซ็ต report ให้เก็บ res.data
-      if (res.data) {
-        await this.setState({report:res.data})
-        console.log(this.state);
-      }
-      
-    } catch (e){
-      console.log(e);
-      return null;
-    }
+    axios
+      .post(url, objid)
+      .then((res) => {
+        //handle your method
+        // console.log(res);
+        this.setState({report:res.data})
+        // console.log(this.props);
+      })
+      .catch((e) => {
+        //handle your errors
+        console.log(e);
+      });
   };
-
-    
 
   // เซ็ต State ส่งค่าไปที่ Button ของ VM
   handlevm = (e) => {
@@ -134,14 +117,14 @@ class TableList extends Component {
   };
 
   // เซ็ต State สำหรับปุ่มรับค่า Customer รับค่าเข้ามาใช้หน้า Interface
-  handlecustomers = async (e) => {
+  handlecustomers = (e) => {
     var data = { customer: e.target.value };
     this.setState({ selectedCustomer: e.target.value });
-    await axios
-      .post("http://192.168.250.97:5555/api/selectCustomer", data)
+    axios
+      .post("http://203.151.34.28:5000/api/selectCustomer", data)
       .then((res) => {
         this.setState({ VMList: res.data.vmname });
-        console.log('Customer',res.data.customername);
+        console.log(res.data);
       });
   };
 
@@ -159,18 +142,17 @@ class TableList extends Component {
     this.state({ edate: event.target.value });
   };
 
-  getAllDevices= async () => {
-    await axios.get("http://203.151.34.28:5000/api/getAllDevices").then((res) => {
+  getAllDevices() {
+    axios.get("http://203.151.34.28:5000/api/getAllDevices").then((res) => {
       var result = res.data;
-      // console.log(result);
+      console.log(result);
     });
   }
 
-  getCustomers = async () => {
-    await axios.post("http://192.168.250.97:5555/api/selectCustomer").then((res) => {
+  getCustomers() {
+    axios.post("http://203.151.34.28:5000/api/selectCustomer").then((res) => {
       // เซ็ต State ให้เก็บ data ที่ respone แล้วไว้ในตัวแปร customerList
       this.setState({ customerList: res.data.customername });
-      console.log(res.data);
     });
   }
 
@@ -179,6 +161,10 @@ class TableList extends Component {
     this.getAllDevices();
     this.getCustomers();
 
+    // axios.post("http://203.151.34.28:5000/api/selectVM")
+    // .then((res) => {
+    //   console.log(res);
+    // })
   }
 
   render() {
@@ -194,7 +180,7 @@ class TableList extends Component {
     //     return _text.search(_searchText) !== -1
     // });
 
-    // ประกาศฟังก์ชั่น setDate เพื่อเซ็ตค่าที่เลือกส่งไปให้ State DatePicker
+    // ประกาศฟังก์ชั่น setDate เพื่อเซ็ตค่าที่เลือกส่งไปให้ Component DatePicker
     const setDate = (key, val) => {
       if (key === "sdate") {
         this.setState({ sdate: moment(val).format("yyyy-MM-DD-hh-mm-ss") });
@@ -205,155 +191,21 @@ class TableList extends Component {
     // console.log(this.state.report);
     return (
       <div className="content">
-
-      <Grid fluid>
+        <Grid fluid>
           <Row>
             <Col md={12}>
               <Card
-                title="กรุณาเลือกข้อมูลที่ต้องการ"
+                title="PRTG ตัวจริง"
                 category="ออกรายงานเพื่อดูความก้าวหน้า"
                 ctTableFullWidth
                 ctTableResponsive
                 content={
-                  <div>
-
-                  <Row>
-                    <Col md={6}>
-                      <Card
-                        category="กรุณาเลือก Customer ที่ต้องการ"
-                        ctTableFullWidth
-                        ctTableResponsive
-                        content={
-                          <div>
-                            <div
-                              className="panel panel-info"
-                              onSubmit={this.handleSubmit}
-                            >
-                              <div className="panel-heading">Customers</div>
-                              <div className="panel-body">
-                                <select id="dropdown" onChange={this.handlecustomers}>
-                                  <option value="">Select Customer</option>
-                                  {this.state.customerList
-                                    ? this.state.customerList?.map((item, key) => {
-                                        return (
-                                          <option key={key} value={item}>
-                                            {item}
-                                          </option>
-                                        );
-                                      })
-                                    : null}
-                                </select>
-                                
-                              </div>
-                            </div>
-
-                          </div>
-                        }
-                        />
-                    </Col>
-                    <Col md={6}>
-                      <Card
-                        category="กรุณาเลือก VM ที่ต้องการ"
-                        ctTableFullWidth
-                        ctTableResponsive
-                        content={
-                          <div>
-                            <div
-                              className="panel panel-info"
-                              onSubmit={this.handleSubmit}
-                            >
-                              <div className="panel-heading">VM</div>
-                              <div className="panel-body">
-                              <select id="dropdown" onChange={this.handlevm}>
-                                  <option value="">Select VM</option>
-                                  {this.state.VMList
-                                    ? this.state.VMList?.map((item, key) => {
-                                        return (
-                                          <option key={key} value={item}>
-                                            {item}
-                                          </option>
-                                        );
-                                      })
-                                    : null}
-                                </select>
-                                
-                              </div>
-                            </div>
-
-                          </div>
-                        }
-                        />
-                    </Col>
-                  </Row>
-
-                  <Row>
-                    <Col md={12}>
-                      <Card
-                        category="กรุณาเลือกช่องเวลาที่ต้องการ"
-                        ctTableFullWidth
-                        ctTableResponsive
-                        content={
-                          <div>
-
-                            <div
-                              className="panel panel-info"
-                              onSubmit={this.handleSubmit}
-                            >
-                              <div className="panel-heading">Date Time</div>
-                              <div className="panel-body">
-                        {/* ส่วนของตัวเลือกเวลา */}
-                        <Datepicker
-                          setDate={setDate}
-                          edate={this.state.edate}
-                        />
-                              </div>
-                            </div>
-
-                          </div>
-                        }
-                        />
-                    </Col>
-                  </Row>
-
-                        <Col md={1}>
-                          <button onClick={(event) => this.handleSubmit(event)}>
-                            Preview
-                          </button>
-                        </Col>
-
-                        <Col md={2}>
-                          <PDFexport />
-                        </Col>
-
-
-                    <Chartlist report={this.state.report}/>
-
-                  </div>
-                }
-                />
-              </Col>
-  
-            </Row>
-          </Grid>
-
-
-
-        {/* <Grid fluid>
-          <Row>
-            <Col md={12}>
-              <Card
-                title="กรุณาเลือกข้อมูลที่ต้องการ"
-                category="ออกรายงานเพื่อดูความก้าวหน้า"
-                ctTableFullWidth
-                ctTableResponsive
-                content={
-
                   <div>
                     <div
-                      className="panel panel-info"
+                      className="panel panel-primary"
                       onSubmit={this.handleSubmit}
                     >
-                      <div className="panel-heading">Customers</div>
+                      <div className="panel-heading">Group</div>
                       <div className="panel-body">
                         <select id="dropdown" onChange={this.handlecustomers}>
                           <option value="">Select Customer</option>
@@ -383,10 +235,8 @@ class TableList extends Component {
                               })
                             : null}
                         </select>
-                        
-                      </div>
-                    </div>
 
+                        {/* ส่วนของตัวเลือกเวลา */}
                         <Datepicker
                           setDate={setDate}
                           edate={this.state.edate}
@@ -396,22 +246,22 @@ class TableList extends Component {
                         <button onClick={(event) => this.handleSubmit(event)}>
                           Preview
                         </button>
+                      </div>
+                    </div>
 
+                    {/* <button onClick={this.export_pdf}>Download PDF</button> */}
 
+                    {/* ส่วนของปุ่มดาวน์โหลด PDF */}
                     <PDFexport />
+                    {/* <button onClick={this.printPDF}>Download PDF</button> */}
 
-                    <Chartlist report={this.state.report}/>
+                    {/* <Chartlist report={this.state.report}/> */}
                   </div>
                 }
               />
             </Col>
 
-          </Row>
-        </Grid> */}
-        
-      </div>
-
-        /* <Col md={12}>
+            {/* <Col md={12}>
               <Card
                 title="Striped Table with Hover"
                 category="Here is a subtitle for this table"
@@ -472,9 +322,13 @@ class TableList extends Component {
                   </Table>
                 }
               />
-            </Col> */
+            </Col> */}
+          </Row>
+        </Grid>
+      </div>
     );
   }
 }
 
-export default TableList;
+export default Domain;
+

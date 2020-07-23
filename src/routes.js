@@ -27,6 +27,7 @@ import Devices from "views/Devices.jsx";
 import Sensors from "views/Sensors.jsx";
 import Alarms from "views/Alarms.jsx";
 import Reports from "views/Reports.jsx";
+import Domain from "views/Domain.jsx";
 import Login from "Login/Login.js";
 import Signup from "Login/Signup";
 
@@ -67,6 +68,13 @@ const dashboardRoutes = [
     name: "Reports",
     icon: "pe-7s-print",
     component: Reports,
+    layout: "/admin"
+  },
+  {
+    path: "/Domain",
+    name: "Domain",
+    icon: "pe-7s-note",
+    component: Domain,
     layout: "/admin"
   },
   {

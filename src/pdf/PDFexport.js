@@ -38,8 +38,8 @@ export default function PDFexport() {
         // กำหนด URL ที่ใช้ในการรับข้อมูลเพื่อรอการส่งออก
         // https://203.151.151.186/chart.png?id=2074&avg=300&width=850&height=270&graphstyling=base&FontSize='12'&showLegend='1'&graphid=-1&username=readonly&passhash=1564011095&sdate=2020-06-20-00-00-00&edate=2020-06-22-00-00-00
         
-        // let url = "https://203.151.151.186/chart.png?id="+  +"&avg=300&width=850&height=270&graphstyling=base&FontSize='12'&showLegend='1'&graphid=-1&username=readonly&passhash=1564011095&sdate=" +  + "&edate=" + +"";
-        let url ="https://203.151.151.186/chart.png?id=2074&avg=300&width=850&height=270&graphstyling=base&FontSize='12'&showLegend='1'&graphid=-1&username=readonly&passhash=1564011095&sdate=2020-06-20-00-00-00&edate=2020-06-22-00-00-00";
+        let url = "https://203.151.151.186/chart.png?id="+  +"&avg=300&width=850&height=270&graphstyling=base&FontSize='12'&showLegend='1'&graphid=-1&username=readonly&passhash=1564011095&sdate=" +  + "&edate=" + +"";
+        // let url ="https://203.151.151.186/chart.png?id=2074&avg=300&width=850&height=270&graphstyling=base&FontSize='12'&showLegend='1'&graphid=-1&username=readonly&passhash=1564011095&sdate=2020-06-20-00-00-00&edate=2020-06-22-00-00-00";
         let result = await toDataURL(url)
         pdfMake.fonts = {
           Kanit: {
@@ -72,6 +72,9 @@ export default function PDFexport() {
               image: result,
               width: 500,
               height: 150,
+            },
+            {
+              // image:this.chart
             },
 
             // {

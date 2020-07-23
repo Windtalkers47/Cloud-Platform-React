@@ -76,6 +76,7 @@ export default function Datepicker(props) {
 
   return (
     <div>
+      <Col md={6}>
       {/* วันที่เริ่ม
           กำหนดค่าส่งไปที่ Backend 
           ยึดเอา Pattern >> year-Month-Day-Hours-Minutes-Second
@@ -83,7 +84,12 @@ export default function Datepicker(props) {
       <p>วันที่เริ่ม</p>
       <DatePicker
         selected={startDate}
-        onChange={(e) => {setStartDate(e);props.setDate("sdate", e)}}
+        onChange={
+          (e) => {
+            setStartDate(e);
+            props.setDate("sdate", e)
+          }
+        }
         selectsStart
         // startDate={startDate}
         // endDate={endDate}
@@ -93,6 +99,9 @@ export default function Datepicker(props) {
         showTimeInput
         dateFormat="yyyy-MM-dd-00-00-00 aa"
       />
+      </Col>
+
+      <Col md={6}>
       <p>วันที่สิ้นสุด</p>
       <DatePicker
         // วันที่สิ้นสุด
@@ -106,8 +115,11 @@ export default function Datepicker(props) {
         showYearDropdown
         timeInputLabel="Time"
         showTimeInput
-        dateFormat="yyyy-MM-dd-hh-mm-ss aa"
+        dateFormat="yyyy-MM-dd-00-00-00 aa"
+        // dateFormat="yyyy-MM-dd-hh-mm-ss aa"
       />
+      </Col>
+
     </div>
   );
 }

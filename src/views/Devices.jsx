@@ -33,22 +33,8 @@ function Devices() {
             ctTableResponsive
             content={
               <div>
-              <h2>Date Picker</h2>
-              <DatePicker
-              selected={startDate}
-              onChange={date => setStartDate(date)}
-              selectsStart
-              startDate={startDate}
-              endDate={endDate}
-            />
-            <DatePicker
-              selected={endDate}
-              onChange={date => setEndDate(date)}
-              selectsEnd
-              startDate={startDate}
-              endDate={endDate}
-              minDate={startDate}
-            />
+              <h2>Devices Page...</h2>
+
 
               </div>
 
