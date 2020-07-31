@@ -33,14 +33,20 @@ ReactDOM.render(
 
   <BrowserRouter history={ history } >
   <Switch>
-
-    {/* <Route path="/pdf" component={chartlist}/> */}
+    {/* <Redirect exact from="/" to="/login"/> */}
 
     <Route exact path="/" component={Login}  />
-    
-    <Route path="/admin" render={props => <AdminLayout {...props} />} />
-    <Redirect from="/" to="/admin/dashboard" />
-    <Route path="/signup" component={Signup}/>
+    <Route exact path="/signup" component={Signup}/>
+      
+    <Route exact path="/admin/dashboard" render={props => <AdminLayout {...props} />} />
+    {/* <Redirect from="/admin" to="/admin/dashboard" /> */}
+    <Route exact path="/admin/devices" render={props => <AdminLayout {...props} />} />
+    <Route exact path="/admin/sensors" render={props => <AdminLayout {...props} />} />
+    <Route exact path="/admin/alarms" render={props => <AdminLayout {...props} />} />
+    <Route exact path="/admin/reports" render={props => <AdminLayout {...props} />} />
+    <Route exact path="/admin/domain" render={props => <AdminLayout {...props} />} />
+    <Route exact path="/admin/map" render={props => <AdminLayout {...props} />} />
+    <Route exact path="/admin/user" render={props => <AdminLayout {...props} />} />
 
 
 

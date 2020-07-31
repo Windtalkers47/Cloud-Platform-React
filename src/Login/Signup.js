@@ -119,13 +119,13 @@ export default class signup extends Component {
         this.setState({passwordCheck: event.target.value});
     }
     
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
     
         e.preventDefault();
     
-        const url = 'http://192.168.250.35:5000/user/register';
+        const url = process.env.REACT_APP_API_SIGNUP;
+        console.log(url)
         const user = {
-    
             username: this.state.username,
             email: this.state.email,
             password: this.state.password,
@@ -134,19 +134,17 @@ export default class signup extends Component {
     
         console.log(user);
 
-        axios.post(url, user).then((res) => {
+        await axios.post(url, user).then((res) => {
     
             //handle your login 
             console.log(res);
             
     
         })
-        // .catch((e) => {
+        .catch((e) => {
     
-        //     //handle your errors
-        //     console.log(e);
-            
-        // });
+            console.log({...e})
+        });
     
     }
     render() {
@@ -186,7 +184,7 @@ export default class signup extends Component {
 
                 <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
                 <p className="forgot-password text-right">
-                    Already registered <a href="#">sign in?</a>
+                    Already registered <a href="/">sign in?</a>
                 </p>
             </form>
                               }

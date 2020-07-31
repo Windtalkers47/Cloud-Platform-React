@@ -1,20 +1,4 @@
-/*!
 
-=========================================================
-* Light Bootstrap Dashboard React - v1.3.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import NotificationSystem from "react-notification-system";
@@ -41,6 +25,7 @@ class Admin extends Component {
       fixedClasses: "dropdown show-dropdown open"
     };
   }
+  // สุ่มสีที่เอาไว้แสดงผล ====================================
   handleNotificationClick = position => {
     var color = Math.floor(Math.random() * 4 + 1);
     var level;
@@ -60,6 +45,7 @@ class Admin extends Component {
       default:
         break;
     }
+
     this.state._notificationSystem.addNotification({
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
@@ -72,6 +58,8 @@ class Admin extends Component {
       autoDismiss: 15
     });
   };
+
+  // route ที่ใช้แสดงผล =====================================
   getRoutes = routes => {
     return routes.map((prop, key) => {
       if (prop.layout === "/admin") {
@@ -91,7 +79,10 @@ class Admin extends Component {
         return null;
       }
     });
+    
   };
+
+  // function เอาไว้ใช้แสดง route ตามจำนวนที่มี ===================
   getBrandText = path => {
     for (let i = 0; i < routes.length; i++) {
       if (
@@ -120,6 +111,8 @@ class Admin extends Component {
       this.setState({ fixedClasses: "dropdown" });
     }
   };
+
+  // สุ่มสีแสดงผล ==========================================
   componentDidMount() {
     this.setState({ _notificationSystem: this.refs.notificationSystem });
     var _notificationSystem = this.refs.notificationSystem;
@@ -141,6 +134,7 @@ class Admin extends Component {
       default:
         break;
     }
+
     _notificationSystem.addNotification({
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
@@ -153,6 +147,7 @@ class Admin extends Component {
       autoDismiss: 15
     });
   }
+
   componentDidUpdate(e) {
     if (
       window.innerWidth < 993 &&
@@ -176,7 +171,7 @@ class Admin extends Component {
         hasImage={this.state.hasImage}/>
         <div id="main-panel" className="main-panel" ref="mainPanel">
           <AdminNavbar
-            {...this.props}
+            props={this.props}
             brandText={this.getBrandText(this.props.location.pathname)}
           />
           <Switch>{this.getRoutes(routes)}</Switch>

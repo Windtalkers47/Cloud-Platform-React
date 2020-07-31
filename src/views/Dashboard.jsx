@@ -1,20 +1,4 @@
-/*!
 
-=========================================================
-* Light Bootstrap Dashboard React - v1.3.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React, { Component } from "react";
 import ChartistGraph from "react-chartist";
 import { Grid, Row, Col, Badge, Form } from "react-bootstrap";
@@ -44,7 +28,9 @@ class Dashboard extends Component {
   constructor(props){
     super(props)
     this.state = {
-      myChart:[]
+      myChart:[],
+      access_token: localStorage.getItem("access_token"),
+
     }
   }
   createLegend(json) {
@@ -58,30 +44,24 @@ class Dashboard extends Component {
     return legend;
   }
 
-chart=()=> {
-  axios.get('http://203.151.34.28:5000/api/getAllDevices')
-  // http://192.168.250.53:5000/api/getAllDevices
-  // 192.168.250.53:5000/api/getHistoricData
-  .then(res=>{
-    let sensors = res.data.result
-    console.log(sensors)
-
-    // myChart = res.data;
-    // this.setState({myChart: res });
-
-    // sensors.map(sensor =>{
-    //   console.log(sensor);
-    //   // this.setState({myChart:sensor})
-    // })
-    // return res
+// chart = async () => {
+//   await axios.get('http://203.151.34.28:5000/api/getAllDevices')
+//   .then(res=>{
+//     let sensors = res.data.result
+//     console.log(sensors)
     
-  })
-}
+//   })
+// }
+
 componentDidMount(){
   // console.log(this.chart);
-  this.chart()
+  // this.chart()
   this.setState({myChart: this.chart });
   console.log(this.state.myChart)
+
+  // if (this.state.access_token === null  ){
+  //   return this.props.history.push("/login");
+  //   }
 }
 
   render() {

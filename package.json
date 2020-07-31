@@ -9,6 +9,7 @@
     "bootstrap": "^3.4.1",
     "chart.js": "^2.9.3",
     "chartist": "0.10.1",
+    "dotenv": "^8.2.0",
     "gulp": "^4.0.2",
     "image-to-base64": "^2.1.0",
     "moment": "^2.27.0",

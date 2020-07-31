@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import Chart from "chart.js";
 import axios from 'axios';
 
-const url ='http://203.151.34.28:5000/api/getAllDevices';
-const vm = 'http://192.168.250.104:5000/api/selectVM';
+// const url ='http://203.151.34.28:5000/api/getAllDevices';
+const vm = process.env.REACT_APP_API_VM;
 
 // ทำ UserLogin ตัวส่งออกไปยัง api จำลองดูก่อน
 export const UserLogin = (user) => {
@@ -32,7 +32,7 @@ export const getAllUser = () => {
     })
 }
 
-export const selectVM = ()
+// export const selectVM = ()
 
 // export default class api extends Component {
 //     render() {

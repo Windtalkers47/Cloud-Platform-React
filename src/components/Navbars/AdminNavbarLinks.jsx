@@ -1,24 +1,32 @@
-/*!
 
-=========================================================
-* Light Bootstrap Dashboard React - v1.3.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React, { Component } from "react";
 import { NavItem, Nav, NavDropdown, MenuItem } from "react-bootstrap";
+import history from "../../helper/history";
+import {Redirect} from 'react-router-dom'
 
 class AdminNavbarLinks extends Component {
+constructor(props) {
+  super(props)
+  this.state = {
+    access_token: localStorage.getItem("access_token"),
+    isLogout:false
+  };
+}
+
+
+  logoutHandler = () => {
+        //handle your logout 
+    console.log('Logout props',this.props)
+    localStorage.clear('access_token');
+    this.setState({isLogout:true})
+    console.log(this.state.status);
+    // this.props.history.push("/login");
+    
+    // window.location.reload()
+    // this.props.history.push('/')
+
+  }
+
   render() {
     const notification = (
       <div>
@@ -69,10 +77,15 @@ class AdminNavbarLinks extends Component {
             <MenuItem divider />
             <MenuItem eventKey={2.5}>Separated link</MenuItem>
           </NavDropdown>
-          <NavItem eventKey={3} href="#">
-            Log out
+
+          <NavItem eventKey={3} href="#" >
+            <div onClick={() => this.logoutHandler()}>
+              Log out
+            </div>
           </NavItem>
+
         </Nav>
+        {this.state.isLogout === true && <Redirect to="/" push={true}/>}
       </div>
     );
   }
