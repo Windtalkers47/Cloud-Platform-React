@@ -28,33 +28,33 @@ getCustomers = async () =>  {
 //     await axios.get('http://192.168.253.217/ci_api/api/selectVM2')
 //     .then(res => {
 //       this.setState ({data: res.data})
-//       console.log(this.state.total.length);
-//       console.log(res.data.cpu_data.raw_data);
-//       console.log(res.data.cpu_data.raw_data.map((item)=>{return item.Total}));
+//       // console.log(this.state.total.length);
+//       // console.log(res.data.cpu_data.raw_data);
+//       // console.log(res.data.cpu_data.raw_data.map((item)=>{return item.Total}));
 //       this.setState ({total:res.data.cpu_data.raw_data.map((item)=>{return item.Total})})
-//  console.log(this.state.total);
+//  // console.log(this.state.total);
 //     })
 //   }
 
 componentDidMount(){
     // this.getData();
-console.log(this.props.total);
+// console.log(this.props.total);
 
 }
 
 
 chart(cpu_total,cpu_datetime,cpu_downtime){
 
-    cpu_datetime.map(item=>{
-        if(item.moment().format() ==="12:00:00"){
-            return item.moment().format()
-        }else{
-            return ""
-        }
-    })
+    // cpu_datetime.map(item=>{
+    //     if(item.moment().format() ==="12:00:00"){
+    //         return item.moment().format()
+    //     }else{
+    //         return ""
+    //     }
+    // })
 
-//    console.log("datetime", datetime);
-//    console.log("total", total);
+//    // console.log("datetime", datetime);
+//    // console.log("total", total);
     let chart = {
             labels:cpu_datetime, // X
             datasets:[ // Y
@@ -127,7 +127,7 @@ chart(cpu_total,cpu_datetime,cpu_downtime){
 //     axios.post("http://203.151.34.28:5000/api/selectVM")
 //     .then((res) => {
 //         let DataVM = res.data;
-//         console.log(DataVM);
+//         // console.log(DataVM);
 //     })
 // }
 

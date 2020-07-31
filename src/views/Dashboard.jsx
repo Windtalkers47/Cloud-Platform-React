@@ -48,7 +48,7 @@ class Dashboard extends Component {
 //   await axios.get('http://203.151.34.28:5000/api/getAllDevices')
 //   .then(res=>{
 //     let sensors = res.data.result
-//     console.log(sensors)
+//     // console.log(sensors)
     
 //   })
 // }
@@ -57,7 +57,7 @@ componentDidMount(){
   // console.log(this.chart);
   // this.chart()
   this.setState({myChart: this.chart });
-  console.log(this.state.myChart)
+  // console.log(this.state.myChart)
 
   // if (this.state.access_token === null  ){
   //   return this.props.history.push("/login");

@@ -19,13 +19,13 @@ import axios from 'axios';
 //         // 192.168.250.53:5000/api/getHistoricData
 //         .then(res=>{
 //           let users = res.data.result
-//           console.log(users)
+//           // console.log(users)
       
 //           // myUsers = res.data;
 //           // this.setState({myUsers: res });
       
 //           // sensors.map(sensor =>{
-//           //   console.log(sensor);
+//           //   // console.log(sensor);
 //           //   // this.setState({myUsers:sensor})
 //           // })
 //           // return res
@@ -36,7 +36,7 @@ import axios from 'axios';
 //         // console.log(this.chart);
 //         this.loginauth()
 //         this.setState({myUsers: this.chart });
-//         console.log(this.state.myUsers)
+//         // console.log(this.state.myUsers)
 //       }
 
 
@@ -124,7 +124,7 @@ export default class signup extends Component {
         e.preventDefault();
     
         const url = process.env.REACT_APP_API_SIGNUP;
-        console.log(url)
+        // console.log(url)
         const user = {
             username: this.state.username,
             email: this.state.email,
@@ -132,18 +132,18 @@ export default class signup extends Component {
             passwordCheck: this.state.passwordCheck
         }
     
-        console.log(user);
+        // console.log(user);
 
         await axios.post(url, user).then((res) => {
     
             //handle your login 
-            console.log(res);
+            // console.log(res);
             
     
         })
         .catch((e) => {
     
-            console.log({...e})
+            // console.log({...e})
         });
     
     }

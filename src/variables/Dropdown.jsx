@@ -23,7 +23,7 @@
 //     axios
 //       .post("http://203.151.34.28:5000/api/selectCustomer", datavm)
 //       .then((res) => {
-//           console.log(res);
+//           // console.log(res);
           
 //         // this.setState({ vm: res.data });
 //       });
@@ -48,11 +48,11 @@
 //       let selectcustomer = res.data;
 //       // console.log(res);
 
-//       console.log(selectcustomer);
+//       // console.log(selectcustomer);
 //       this.setState({ vm: selectcustomer });
 
 //       let selectvm = res.data.result;
-//       console.log(res);
+//       // console.log(res);
 
 //       let customers = [];
 //       let vm = [];

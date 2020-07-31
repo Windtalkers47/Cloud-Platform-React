@@ -81,15 +81,15 @@ export default class Login extends React.Component {
         localStorage.setItem('access_token', res.data.result.data.token);
           //handle your login 
           this.props.history.push('/admin/dashboard')
-          console.log(res);
-          console.log(this.props);
+          // console.log(res);
+          // console.log(this.props);
 
 
       })
       .catch((e) => {
 
           //handle your errors
-          console.log({...e});
+          // console.log({...e});
 
       });
 

@@ -16,10 +16,10 @@ constructor(props) {
 
   logoutHandler = () => {
         //handle your logout 
-    console.log('Logout props',this.props)
+    // console.log('Logout props',this.props)
     localStorage.clear('access_token');
     this.setState({isLogout:true})
-    console.log(this.state.status);
+    // console.log(this.state.status);
     // this.props.history.push("/login");
     
     // window.location.reload()

@@ -102,16 +102,17 @@ class TableList extends Component {
           authorization: `Bearer ${this.state.access_token}`
         }
       });
-      console.log('Response Preview',res);
+      // console.log('Response Preview',res);
+      // console.log('Time',objid);
       
 
 
       // ใช้ if ดัก data ให้มันรอและเซ็ต report ให้เก็บ res.data
       if (res.data) {
         this.setState({ DateReport: res.data });
-        console.log('Data Report',res.data);
-        console.log('Data CPU' , res.data.cpu_data);
-        console.log( );
+        // console.log('Data Report',res.data);
+        // console.log('Data CPU' , res.data.cpu_data);
+        // console.log( );
         this.setState({ 
           cpu_total: res.data.cpu_data[0].raw_data.map((item)=>{
             return item.Total
@@ -168,7 +169,7 @@ class TableList extends Component {
 
       }
     } catch (e) {
-      console.log({...e});
+      // console.log({...e});
       return null;
     }
   };
@@ -238,7 +239,7 @@ class TableList extends Component {
         // console.log(res.data);
       })
       .catch((err) => {
-        console.log("AXIOS ERROR: ", err);
+        // console.log("AXIOS ERROR: ", err);
       });
   };
 
@@ -249,7 +250,7 @@ class TableList extends Component {
       // console.log('res',res);
       // console.log(res.data.cpu_data.raw_data);
 
-      console.log(this.state.total);
+      // console.log(this.state.total);
     });
   };
 
