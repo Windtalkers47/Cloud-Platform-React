@@ -40,26 +40,26 @@ class TableList extends Component {
       .get("http://202.183.198.6/ci_api/api/selectCustomer")
       .then((res) => {
         this.setState({ name: res.data });
-        console.log(res.data);
+        // console.log(res.data);
       });
   };
 
   handleVM = () => {
     axios.get("http://202.183.198.6/ci_api/api/selectVM").then((res) => {
       this.setState({ vm: res.data });
-      console.log(res.data);
+      // console.log(res.data);
     });
   };
 
   handleData = () => {
     axios.get("http://202.183.198.6/ci_api/api/selectVM2").then((res) => {
       this.setState({ data: res.data });
-      console.log(res.data.cpu_data.raw_data);
-      console.log(
-        res.data.cpu_data.raw_data.map((item) => {
-          return item.Total;
-        })
-      );
+      // console.log(res.data.cpu_data.raw_data);
+      // console.log(
+      //   // res.data.cpu_data.raw_data.map((item) => {
+      //   //   return item.Total;
+      //   // })
+      // );
       this.setState({
         total: res.data.cpu_data.raw_data.map((item) => {
           return item.Total;
@@ -70,7 +70,7 @@ class TableList extends Component {
           return item.datetime;
         }),
       });
-      console.log(this.state.total);
+      // console.log(this.state.total);
     });
   };
 

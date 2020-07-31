@@ -12,7 +12,6 @@ export default class Chartlist extends Component {
         this.state = {
             total:[],
         }
-        // console.log(this.props);
     }
 
 
@@ -21,7 +20,6 @@ getCustomers = async () =>  {
     .then((res) => {
       // เซ็ต State ให้เก็บ data ที่ respone แล้วไว้ในตัวแปร customerList
       this.setState({ customerList: res.data.customername });
-      console.log(res);
     });
   }
 
@@ -45,16 +43,46 @@ console.log(this.props.total);
 }
 
 
-chart(total,datetime){
-   console.log("datetime", datetime);
-   console.log("total", total);
+chart(cpu_total,cpu_datetime,cpu_downtime){
+
+    cpu_datetime.map(item=>{
+        if(item.moment().format() ==="12:00:00"){
+            return item.moment().format()
+        }else{
+            return ""
+        }
+    })
+
+//    console.log("datetime", datetime);
+//    console.log("total", total);
     let chart = {
-            labels:datetime, // X
+            labels:cpu_datetime, // X
             datasets:[ // Y
                 {
                     label:'Number',
                     responsive: true,
-                    data:total,
+                    data:cpu_total,
+
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 10)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                    ],
+                    borderWidth: 2,
+                },
+                {
+                    label:'Number2',
+                    responsive: true,
+                    data:cpu_downtime,
+
+                    backgroundColor: [
+                        'rgba(255, 99, 12, 10)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 12, 1)',
+                    ],
+                    borderWidth: 2,
                 },
                 // {
                 //     label:'Number',
@@ -71,13 +99,16 @@ chart(total,datetime){
     render() {
         return (
             <div className="chart">
+                            <span>555</span>
+
                 <Line
-                data={this.chart(this.props.total,this.props.dateTimeData)}
+                data={this.chart(this.props.cpu_total,this.props.cpu_datetime,this.props.cpu_downtime)}
                 options={{
                     responsive:true,
-                    title:{text: "Hello There",
-                    display: true,
-                    fontsize: 48,
+                    title:{
+                        text: "Hello There",
+                        display: true,
+                        fontsize: 48,
                     },
 
                 }}

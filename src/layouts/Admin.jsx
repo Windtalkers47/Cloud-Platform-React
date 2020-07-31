@@ -144,7 +144,7 @@ class Admin extends Component {
       ),
       level: level,
       position: "tr",
-      autoDismiss: 15
+      autoDismiss: 15,
     });
   }
 

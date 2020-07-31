@@ -45,7 +45,7 @@ ReactDOM.render(
     <Route exact path="/admin/alarms" render={props => <AdminLayout {...props} />} />
     <Route exact path="/admin/reports" render={props => <AdminLayout {...props} />} />
     <Route exact path="/admin/domain" render={props => <AdminLayout {...props} />} />
-    <Route exact path="/admin/map" render={props => <AdminLayout {...props} />} />
+    <Route exact path="/admin/maps" render={props => <AdminLayout {...props} />} />
     <Route exact path="/admin/user" render={props => <AdminLayout {...props} />} />
 
 

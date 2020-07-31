@@ -51,10 +51,26 @@ class TableList extends Component {
       selectedVM: [],
       sdate: "",
       edate: "",
-      report: [],
       access_token: localStorage.getItem("access_token"),
-      total: [],
-      dateTimeData: [],
+
+      // State ไว้เก็บข้อมูลของ CPU
+      cpu_total: [],
+      cpu_datetime: [],
+      cpu_downtime:[],
+
+      // State ไว้เก็บข้อมูลของ Disk อาจมีหลาย Disk
+      disk_FreeSpace:[],
+      disk_datatime:[],
+      disk_downtime:[],
+
+      // State ไว้เก็บข้อมูลของ Memory
+      memory_percent:[],
+      memory_datetime:[],
+      memory_downtime:[],
+      
+      // เผื่อเอาไว้รวม State จากทั้งหมด 9 State
+      DateReport:[], 
+      
     };
   }
 
@@ -86,14 +102,70 @@ class TableList extends Component {
           authorization: `Bearer ${this.state.access_token}`
         }
       });
-      console.log(res);
+      console.log('Response Preview',res);
       
 
 
       // ใช้ if ดัก data ให้มันรอและเซ็ต report ให้เก็บ res.data
       if (res.data) {
-        this.setState({ report: res.data });
-        console.log(this.state);
+        this.setState({ DateReport: res.data });
+        console.log('Data Report',res.data);
+        console.log('Data CPU' , res.data.cpu_data);
+        console.log( );
+        this.setState({ 
+          cpu_total: res.data.cpu_data[0].raw_data.map((item)=>{
+            return item.Total
+          })
+      });
+
+      this.setState({ 
+        cpu_datetime: res.data.cpu_data[0].raw_data.map((item)=>{
+          return item.datetime
+        })
+    });
+
+    this.setState({ 
+      cpu_downtime: res.data.cpu_data[0].raw_data.map((item)=>{
+        return item.downtime
+      })
+  });
+
+      this.setState({
+        cpu_downtime: res.data.cpu_data.map((item1) => {
+          item1.raw_data.map((item2) => {
+            return item2.downtime;
+          })
+        })
+      })
+
+      // this.setState({
+      //   cpu_downtime: res.data.cpu_data.map((item1) => {
+      //     item1.raw_data.map((item2) => {
+      //       return item2.downtime;
+      //     })
+      //   })
+      // })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       }
     } catch (e) {
       console.log({...e});
@@ -122,7 +194,7 @@ class TableList extends Component {
       })
       .then((res) => {
         this.setState({ VMList: res.data.vmname });
-        console.log("Customer", res.data.customername);
+        // console.log("Customer", res.data.customername);
       });
   };
 
@@ -174,23 +246,9 @@ class TableList extends Component {
   handleData = () => {
     axios.get(process.env.REACT_APP_API_VM).then((res) => {
       this.setState({ data: res.data });
-      console.log('res',res);
-      console.log(res.data.cpu_data.raw_data);
-      console.log(
-        res.data.cpu_data.raw_data.map((item) => {
-          return item.Total;
-        })
-      );
-      this.setState({
-        total: res.data.cpu_data.raw_data.map((item) => {
-          return item.Total;
-        }),
-      });
-      this.setState({
-        dateTimeData: res.data.cpu_data.raw_data.map((item) => {
-          return item.datetime;
-        }),
-      });
+      // console.log('res',res);
+      // console.log(res.data.cpu_data.raw_data);
+
       console.log(this.state.total);
     });
   };
@@ -202,7 +260,7 @@ class TableList extends Component {
     // this.getAllDevices();
     this.getCustomers();
 
-    console.log("token", this.state.access_token);
+    // console.log("token", this.state.access_token);
   }
 
   render() {
@@ -349,7 +407,48 @@ class TableList extends Component {
                       <PDFexport />
                     </Col>
 
-                    <Chartlist report={this.state.report} />
+
+                    {this.state.cpu_total.length > 0 &&
+                      this.state.cpu_datetime.length > 0 &&
+                      this.state.cpu_downtime.length > 0 &&
+
+                      // this.state.disk_FreeSpace.length > 0 &&
+                      // this.state.disk_datatime.length > 0 &&
+                      // this.state.disk_downtime.length > 0 &&
+
+                      // this.state.memory_percent.length > 0 &&
+                      // this.state.memory_datetime.length > 0 &&
+                      // this.state.memory_downtime.length > 0 &&
+                      (
+                      <Chartlist
+
+                        cpu_total={this.state.cpu_total}
+                        cpu_datetime={this.state.cpu_datetime}
+                        cpu_downtime={this.state.cpu_downtime}
+
+                        disk_FreeSpace={this.state.disk_FreeSpace}
+                        disk_datatime={this.state.disk_datatime}
+                        disk_downtime={this.state.disk_downtime}
+
+                        memory_percent={this.state.memory_percent}
+                        memory_datetime={this.state.memory_datetime}
+                        memory_downtime={this.state.memory_downtime}
+
+                        Datareport={this.state.Datareport}
+                        />
+
+                     
+                      )}
+
+                    {/* {this.state.total.length > 0 &&
+                      this.state.dateTimeData.length > 0 && (
+                        <Chartlist
+                          total={this.state.total}
+                          dateTimeData={this.state.dateTimeData}
+                          Datareport={this.state.Datareport}
+                        />
+                      )} */}
+
                   </div>
                 }
               />
