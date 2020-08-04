@@ -8,7 +8,7 @@ import {Router, Route, Link, RouteHandler} from 'react-router';
 import history from "../helper/history";
 
 import "./Login.css";
-require('dotenv').config()
+// require('dotenv').config()
 
 
 // import { UserLogin } from "../API/api.jsx";

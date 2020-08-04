@@ -2,8 +2,9 @@
 import React, { Component } from "react";
 import { NavItem, Nav, NavDropdown, MenuItem } from "react-bootstrap";
 import history from "../../helper/history";
-import {Redirect} from 'react-router-dom'
-
+import {Redirect} from 'react-router-dom';
+import axios from "axios";
+// require('dotenv').config()
 class AdminNavbarLinks extends Component {
 constructor(props) {
   super(props)
@@ -14,11 +15,35 @@ constructor(props) {
 }
 
 
-  logoutHandler = () => {
+  logoutHandler = async () => {
         //handle your logout 
-    // console.log('Logout props',this.props)
-    localStorage.clear('access_token');
+    console.log('Logout props',process.env.REACT_APP_API_USERLOGOUT)
+    try {
+      const { data } = await axios.post("http://192.168.250.200:3000/user/logout",null,
+      {
+        headers: {
+          authorization: `Bearer ${this.state.access_token}`
+        }
+      }
+      )
+
+      // วิธีเขียนอีกแบบ
+      // axios.post('http://192.168.250.200:3000/user/logout', {},
+      // { headers: {'Authorization': `Bearer ${this.state.access_token}`}})
+      //   .then((response) => {
+      //     console.log(response)
+      //   })
+      //   .catch((error) => {
+      //     console.log(error)
+      //   });
+
+      localStorage.removeItem('access_token');
+    } catch (error) {
+      console.log(error);
+    }
+
     this.setState({isLogout:true})
+    console.log();
     // console.log(this.state.status);
     // this.props.history.push("/login");
     

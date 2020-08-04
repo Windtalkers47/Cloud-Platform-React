@@ -20,8 +20,7 @@ import PrivateRoute from "./helper/PrivateRoute.js";
 import history from "./helper/history.js";
 import  Dashboard from "./views/Dashboard"
 import TableList from "./views/Reports";
-
-
+require('dotenv').config()
 ReactDOM.render(
   // Backup Code เผื่อพัง
   // <BrowserRouter>
