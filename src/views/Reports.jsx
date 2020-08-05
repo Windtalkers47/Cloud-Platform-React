@@ -17,7 +17,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import Dropdown from "../variables/Dropdown";
 import Chartlist from "../pdf/chart";
-require('dotenv').config()
+// require('dotenv').config()
 
 
 // function getBase64FromImageUrl(url) {
@@ -110,35 +110,41 @@ class TableList extends Component {
       // ใช้ if ดัก data ให้มันรอและเซ็ต report ให้เก็บ res.data
       if (res.data) {
         this.setState({ DateReport: res.data });
-        // console.log('Data Report',res.data);
-        // console.log('Data CPU' , res.data.cpu_data);
+        console.log('Data Report', res.data); // เอาไว้ดูข้อมูลทั้ง 3 ส่วน
+        console.log('CPU Data' , res.data.cpu_data); // เอาไว้ดูข้อมูลของ CPU
+        console.log('Disk Data', res.data.disk_data); // เอาไว้ดูข้อมูลของ Disk
+        console.log('Memory Data', res.data.memory_data);
+
+        // console.log('Disk datatime',res.data.disk_data.map((item1) => {
+        //   item1.raw_data.map((item2) => {
+        //     return item2.downtime;
+        //   })
+        // }));
+
         // console.log( );
+
+        // State เก็บค่า CPU Total
         this.setState({ 
           cpu_total: res.data.cpu_data[0].raw_data.map((item)=>{
             return item.Total
           })
       });
 
+      // State เก็บค่า CPU Datetime
       this.setState({ 
-        cpu_datetime: res.data.cpu_data[0].raw_data.map((item)=>{
+        cpu_datetime: res.data.cpu_data[0].raw_data.map((item) => {
           return item.datetime
         })
     });
 
-    this.setState({ 
-      cpu_downtime: res.data.cpu_data[0].raw_data.map((item)=>{
+    // State เก็บค่า CPU Downtime
+    this.setState({
+      cpu_downtime: res.data.cpu_data[0].raw_data.map((item) => {
         return item.downtime
       })
   });
 
-      this.setState({
-        cpu_downtime: res.data.cpu_data.map((item1) => {
-          item1.raw_data.map((item2) => {
-            return item2.downtime;
-          })
-        })
-      })
-
+  // อันนี้คือลอง map 2 ชั้น
       // this.setState({
       //   cpu_downtime: res.data.cpu_data.map((item1) => {
       //     item1.raw_data.map((item2) => {
@@ -147,23 +153,36 @@ class TableList extends Component {
       //   })
       // })
 
+      // State เก็บค่า Disk Free Space
+      this.setState({
+        disk_FreeSpace: res.data.disk_data.map((item1) => {
+          item1.raw_data.map((item2) => {
+            var item2 = [];
+            item1[0].map((temp) =>{
+              item2[0]=temp
+            })
+          })
+        })
+      })
 
+      console.log(this.state.disk_FreeSpace);
 
+      // State เก็บค่า Disk datetime
+      this.setState({
+        disk_datatime : res.data.disk_data.map((item1) => {
+          item1.raw_data.map((item2) => {
+            return item2.datetime;
+          })
+        })
+      })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      this.setState({
+        disk_downtime : res.data.disk_data.map((item1) => {
+          item1.raw_data.map((item2) => {
+            return item2.downtime;
+          })
+        })
+      })
 
 
 

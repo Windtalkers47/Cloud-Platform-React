@@ -59,7 +59,7 @@ chart(cpu_total,cpu_datetime,cpu_downtime){
             labels:cpu_datetime, // X
             datasets:[ // Y
                 {
-                    label:'Number',
+                    label:'Total',
                     responsive: true,
                     data:cpu_total,
 
@@ -67,20 +67,20 @@ chart(cpu_total,cpu_datetime,cpu_downtime){
                         'rgba(255, 99, 132, 10)',
                     ],
                     borderColor: [
-                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 99, 132, 10)',
                     ],
                     borderWidth: 2,
                 },
                 {
-                    label:'Number2',
+                    label:'Downtime',
                     responsive: true,
                     data:cpu_downtime,
 
                     backgroundColor: [
-                        'rgba(255, 99, 12, 10)',
+                        'rgba(255, 99, 255, 10)',
                     ],
                     borderColor: [
-                        'rgba(255, 99, 12, 1)',
+                        'rgba(255, 99, 255, 10)',
                     ],
                     borderWidth: 2,
                 },
@@ -98,24 +98,59 @@ chart(cpu_total,cpu_datetime,cpu_downtime){
 
     render() {
         return (
-            <div className="chart">
-                            <span>555</span>
+            <div className="container">
+                <div className="chart">
 
-                <Line
-                data={this.chart(this.props.cpu_total,this.props.cpu_datetime,this.props.cpu_downtime)}
-                options={{
-                    responsive:true,
-                    title:{
-                        text: "Hello There",
-                        display: true,
-                        fontsize: 48,
-                    },
+                    <Line
+                    data={this.chart(this.props.cpu_total,this.props.cpu_datetime,this.props.cpu_downtime)}
+                    options={{
+                        responsive:true,
+                        title:{
+                            text: "รายงานความก้าวหน้าของ CPU",
+                            display: true,
+                            fontsize: 60,
+                        },
 
-                }}
+                    }}
 
-                />
+                    />
 
+                </div>
+
+                <div className="chart">
+
+                    <Line
+                    data={this.chart(this.props.cpu_total,this.props.cpu_datetime,this.props.cpu_downtime)}
+                    options={{
+                        responsive:true,
+                        title:{
+                            text: "รายงานความก้าวหน้าของ Disk",
+                            display: true,
+                            fontsize: 60,
+                        },
+
+                    }}
+
+                    />
+
+                </div>
+
+                <div className="chart">
+                    <Line
+                        data={this.chart(this.props.cpu_total,this.props.cpu_datetime,this.props.cpu_downtime)}
+                        options={{
+                            responsive:true,
+                            title:{
+                                text: "รายงานความก้าวหน้าของ Memory",
+                                display: true,
+                                fontsize: 60,
+                            },
+                        }}
+                    />
+                </div>
             </div>
+
+            
         )
     }
 }
