@@ -45,3 +45,12 @@
  .react-datepicker__input-time-container .react-datepicker-time__input-container .react-datepicker-time__input input {
   width: auto;
 }
+
+
+select#dropdown {
+  width: 320px;
+}
+
+input[type="text"] {
+  width: 180px;
+}

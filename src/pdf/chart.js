@@ -12,6 +12,7 @@ export default class Chartlist extends Component {
         this.state = {
             total:[],
         }
+        this.chartRef = React.createRef()
     }
 
 
@@ -24,26 +25,19 @@ getCustomers = async () =>  {
   }
 
 
-//   handleData = async() => {
-//     await axios.get('http://192.168.253.217/ci_api/api/selectVM2')
-//     .then(res => {
-//       this.setState ({data: res.data})
-//       // console.log(this.state.total.length);
-//       // console.log(res.data.cpu_data.raw_data);
-//       // console.log(res.data.cpu_data.raw_data.map((item)=>{return item.Total}));
-//       this.setState ({total:res.data.cpu_data.raw_data.map((item)=>{return item.Total})})
-//  // console.log(this.state.total);
-//     })
-//   }
-
 componentDidMount(){
+    console.log( this.chartRef.current.chartInstance.toBase64Image(), 'chart')
     // this.getData();
 // console.log(this.props.total);
 
 }
 
 
-chart(cpu_total,cpu_datetime,cpu_downtime){
+
+CPU_chart(cpu_total,
+    cpu_datetime,
+    cpu_downtime, 
+    ){
 
     // cpu_datetime.map(item=>{
     //     if(item.moment().format() ==="12:00:00"){
@@ -53,9 +47,7 @@ chart(cpu_total,cpu_datetime,cpu_downtime){
     //     }
     // })
 
-//    // console.log("datetime", datetime);
-//    // console.log("total", total);
-    let chart = {
+    let CPU_chart = {
             labels:cpu_datetime, // X
             datasets:[ // Y
                 {
@@ -92,9 +84,92 @@ chart(cpu_total,cpu_datetime,cpu_downtime){
             ]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
     }
 
-    return chart
+    return CPU_chart
 }
 
+Disk_chart( 
+    disk_FreeSpace,
+    disk_datetime,
+    disk_downtime,
+    ){
+
+
+    let Disk_chart = {
+            labels:disk_datetime, // X
+            datasets:[ // Y
+                {
+                    label:'Free Space',
+                    responsive: true,
+                    data:disk_FreeSpace,
+
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 10)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 10)',
+                    ],
+                    borderWidth: 2,
+                },
+                {
+                    label:'Downtime',
+                    responsive: true,
+                    data:disk_downtime,
+
+                    backgroundColor: [
+                        'rgba(255, 99, 255, 10)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 255, 10)',
+                    ],
+                    borderWidth: 2,
+                },
+
+            ]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+    }
+
+    return Disk_chart
+}
+
+Memory_chart( 
+    memory_datetime,
+    memory_downtime,
+    memory_percent,){
+
+
+    let Memory_chart = {
+            labels:memory_datetime, // X
+            datasets:[ // Y
+                {
+                    label:'Percent Available Memory',
+                    responsive: true,
+                    data:memory_percent,
+
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 10)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 10)',
+                    ],
+                    borderWidth: 2,
+                },
+                {
+                    label:'Downtime',
+                    responsive: true,
+                    data:memory_downtime,
+
+                    backgroundColor: [
+                        'rgba(255, 99, 255, 10)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 255, 10)',
+                    ],
+                    borderWidth: 2,
+                },
+            ]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+    }
+
+    return Memory_chart
+}
 
     render() {
         return (
@@ -102,7 +177,8 @@ chart(cpu_total,cpu_datetime,cpu_downtime){
                 <div className="chart">
 
                     <Line
-                    data={this.chart(this.props.cpu_total,this.props.cpu_datetime,this.props.cpu_downtime)}
+                    ref={this.chartRef}
+                    data={this.CPU_chart(this.props.cpu_total,this.props.cpu_datetime,this.props.cpu_downtime)}
                     options={{
                         responsive:true,
                         title:{
@@ -120,7 +196,7 @@ chart(cpu_total,cpu_datetime,cpu_downtime){
                 <div className="chart">
 
                     <Line
-                    data={this.chart(this.props.cpu_total,this.props.cpu_datetime,this.props.cpu_downtime)}
+                    data={this.Disk_chart(this.props.disk_datetime,this.props.disk_downtime,this.props.disk_FreeSpace)}
                     options={{
                         responsive:true,
                         title:{
@@ -132,22 +208,25 @@ chart(cpu_total,cpu_datetime,cpu_downtime){
                     }}
 
                     />
-
                 </div>
 
                 <div className="chart">
+
                     <Line
-                        data={this.chart(this.props.cpu_total,this.props.cpu_datetime,this.props.cpu_downtime)}
-                        options={{
-                            responsive:true,
-                            title:{
-                                text: "รายงานความก้าวหน้าของ Memory",
-                                display: true,
-                                fontsize: 60,
-                            },
-                        }}
+                    data={this.Memory_chart(this.props.memory_datetime,this.props.memory_downtime,this.props.memory_percent)}
+                    options={{
+                        responsive:true,
+                        title:{
+                            text: "รายงานความก้าวหน้าของ Disk",
+                            display: true,
+                            fontsize: 60,
+                        },
+
+                    }}
+
                     />
                 </div>
+
             </div>
 
             

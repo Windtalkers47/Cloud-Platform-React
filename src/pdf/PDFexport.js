@@ -13,7 +13,7 @@ var pdfMake = require("pdfmake/build/pdfmake.js");
 var pdfFonts = require("pdfmake/build/vfs_fonts.js");
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-export default function PDFexport() {
+export default function PDFexport({ chartReference }) {
     const toDataURL = (url, callback) => {
         // console.log(url);
         
@@ -32,6 +32,9 @@ export default function PDFexport() {
         })
       }
 
+      const printtest = async () => {
+        console.log('finish : ', chartReference)
+      }
 
     
     const  printPDF = async () => {
@@ -76,7 +79,7 @@ export default function PDFexport() {
               height: 150,
             },
             {
-              // image:this.chart
+              
             },
 
             // {
@@ -104,7 +107,7 @@ export default function PDFexport() {
     
     return (
         <div>
-            <button onClick={printPDF}>Download PDF</button>      
+            <button onClick={printtest}>Download PDF</button>      
         </div>
     )
 }

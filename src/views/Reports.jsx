@@ -70,7 +70,7 @@ class TableList extends Component {
       
       // เผื่อเอาไว้รวม State จากทั้งหมด 9 State
       DateReport:[], 
-      
+      chartData: React.createRef()
     };
   }
 
@@ -115,6 +115,7 @@ class TableList extends Component {
         console.log('Disk Data', res.data.disk_data); // เอาไว้ดูข้อมูลของ Disk
         console.log('Memory Data', res.data.memory_data);
 
+
         // console.log('Disk datatime',res.data.disk_data.map((item1) => {
         //   item1.raw_data.map((item2) => {
         //     return item2.downtime;
@@ -144,7 +145,9 @@ class TableList extends Component {
       })
   });
 
-  // อันนี้คือลอง map 2 ชั้น
+      // State เก็บค่า Disk Free Space
+      // อันนี้คือลอง map 2 ชั้น
+
       // this.setState({
       //   cpu_downtime: res.data.cpu_data.map((item1) => {
       //     item1.raw_data.map((item2) => {
@@ -153,37 +156,78 @@ class TableList extends Component {
       //   })
       // })
 
+      // this.setState({
+      //   disk_FreeSpace: res.data.disk_data.map((item1) => {
+      //     item1.raw_data.map((item2) => {
+      //       var item2 = [];
+      //       item1[0].map((temp) =>{
+      //         item2[0]=temp
+      //         console.log(item2);
+      //       })
+      //     })
+      //   })
+      // })
+
       // State เก็บค่า Disk Free Space
       this.setState({
-        disk_FreeSpace: res.data.disk_data.map((item1) => {
-          item1.raw_data.map((item2) => {
-            var item2 = [];
-            item1[0].map((temp) =>{
-              item2[0]=temp
-            })
+        disk_FreeSpace : res.data.disk_data.map((item1) => {  
+          return item1.raw_data.map((item2) => {
+            return item2.free_space
           })
+
+          // console.log(item1);
+          // item1.raw_data.map((item2) => {
+          //   return item2['Free Space'];
+          // })
+
         })
       })
 
-      console.log(this.state.disk_FreeSpace);
 
       // State เก็บค่า Disk datetime
       this.setState({
         disk_datatime : res.data.disk_data.map((item1) => {
-          item1.raw_data.map((item2) => {
+          return item1.raw_data.map((item2) => {
             return item2.datetime;
           })
         })
       })
 
+      // State เอาไว้เก็บค่า downtime ของ disk
       this.setState({
         disk_downtime : res.data.disk_data.map((item1) => {
-          item1.raw_data.map((item2) => {
+          return item1.raw_data.map((item2) => {
             return item2.downtime;
           })
         })
       })
 
+      // State เอาไว้เก็บค่า Datetime ของ Memory
+      this.setState({
+        memory_datetime : res.data.memory_data.map((item1) => {
+          return item1.raw_data.map((item2) => {
+            return item2.datetime;
+          })
+        })
+      })
+
+      // State เอาไว้เก็บค่า Downtime ของ Memory
+      this.setState({
+        memory_downtime : res.data.memory_data.map((item1) => {
+          return item1.raw_data.map((item2) => {
+            return item2.downtime;
+          })
+        })
+      })
+
+      // State เอาไว้เก็บค่า Percent_Available_Memory ของ Memory
+      this.setState({
+        memory_percent : res.data.memory_data.map((item1) => {
+          return item1.raw_data.map((item2) => {
+            return item2.percent_available_memory;
+          })
+        })
+      })
 
 
       }
@@ -221,10 +265,6 @@ class TableList extends Component {
   // เซ็ต State สำหรับวันที่เริ่มต้นการแสดงเวลา (sdate)
   handlesdate = (event) => {
     this.setState({ sdate: event.target.value });
-    // this.state({
-    //   sdate: event.target.value,
-    // });
-    // console.log(event);
   };
 
   // เซ็ต State สำหรับวันที่เริ่มต้นการแสดงเวลา (edate)
@@ -232,15 +272,6 @@ class TableList extends Component {
     this.state({ edate: event.target.value });
   };
 
-  // getAllDevices = async () => {
-  //   await axios
-  //     // .get(process.env.API_GETALLDEVICES)
-  //     .get("http://192.168.250.134:5555/api/getAllDevices")
-  //     .then((res) => {
-  //       var result = res.data;
-  //       // console.log(result);
-  //     });
-  // };
 
   getCustomers = () => {
    axios
@@ -277,10 +308,16 @@ class TableList extends Component {
 
   // Life Cycle ที่ใช้เรียกข้อมูลออกมาดู
   componentDidMount() {
-    // this.getAllDevices();
     this.getCustomers();
 
     // console.log("token", this.state.access_token);
+  }
+
+  chartReference(ref) {
+    console.log(ref)
+    // this.setState({
+    //   chartData: ref
+    // })
   }
 
   render() {
@@ -424,24 +461,24 @@ class TableList extends Component {
                     </Col>
 
                     <Col md={2}>
-                      <PDFexport />
+                      <PDFexport component={Chartlist} chartReference={this.state.chartData}/>
                     </Col>
 
-
+                          {/* เงื่อนไขเช็คข้อมูล */}
                     {this.state.cpu_total.length > 0 &&
                       this.state.cpu_datetime.length > 0 &&
                       this.state.cpu_downtime.length > 0 &&
 
-                      // this.state.disk_FreeSpace.length > 0 &&
-                      // this.state.disk_datatime.length > 0 &&
-                      // this.state.disk_downtime.length > 0 &&
+                      this.state.disk_FreeSpace.length > 0 &&
+                      this.state.disk_datatime.length > 0 &&
+                      this.state.disk_downtime.length > 0 &&
 
-                      // this.state.memory_percent.length > 0 &&
-                      // this.state.memory_datetime.length > 0 &&
-                      // this.state.memory_downtime.length > 0 &&
+                      this.state.memory_percent.length > 0 &&
+                      this.state.memory_datetime.length > 0 &&
+                      this.state.memory_downtime.length > 0 &&
                       (
                       <Chartlist
-
+                      chartReference={this.chartReference}
                         cpu_total={this.state.cpu_total}
                         cpu_datetime={this.state.cpu_datetime}
                         cpu_downtime={this.state.cpu_downtime}
