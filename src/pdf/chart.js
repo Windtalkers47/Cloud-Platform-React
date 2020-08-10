@@ -26,9 +26,8 @@ getCustomers = async () =>  {
 
 
 componentDidMount(){
-    console.log( this.chartRef.current.chartInstance.toBase64Image(), 'chart')
-    // this.getData();
-// console.log(this.props.total);
+    // console.log(this.chartRef)
+    console.log(this.chartRef.current.chartInstance.toBase64Image(), 'chart')
 
 }
 
@@ -174,10 +173,9 @@ Memory_chart(
     render() {
         return (
             <div className="container">
-                <div className="chart">
+                <div className="chart" id="chart" ref={this.chartRef}>
 
                     <Line
-                    ref={this.chartRef}
                     data={this.CPU_chart(this.props.cpu_total,this.props.cpu_datetime,this.props.cpu_downtime)}
                     options={{
                         responsive:true,
@@ -213,6 +211,7 @@ Memory_chart(
                 <div className="chart">
 
                     <Line
+                    ref={this.chartRef}
                     data={this.Memory_chart(this.props.memory_datetime,this.props.memory_downtime,this.props.memory_percent)}
                     options={{
                         responsive:true,

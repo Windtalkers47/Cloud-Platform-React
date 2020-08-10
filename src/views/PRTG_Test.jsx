@@ -17,34 +17,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import Dropdown from "../variables/Dropdown";
 import Chartlist from "../pdf/chart";
-// require('dotenv').config()
 
+require("dotenv").config();
 
-// function getBase64FromImageUrl(url) {
-//   var img = new Image();
-
-//   img.setAttribute('crossOrigin', 'anonymous');
-
-//   img.onload = function () {
-//       var canvas = document.createElement("canvas");
-//       canvas.width =this.width;
-//       canvas.height =this.height;
-
-//       var ctx = canvas.getContext("2d");
-//       ctx.drawImage(this, 0, 0);
-
-//       var dataURL = canvas.toDataURL("image/png");
-
-//       alert(dataURL.replace(/^data:image\/(png|jpg);base64,/, ""));
-//   };
-
-//   img.src = 'https://203.151.151.186/chart.png?id=2014&avg=15&sdate=2020-05-06-00-00-00&edate=2020-05-07-00-00-00&width=850&height=270&graphstyling=baseFontSize=12%20showLegend=1&graphid=-1&username=readonly&password=mis@Pass01;
-// }
-
-class TableList extends Component {
+class PRTG_Test extends Component {
   constructor(props) {
     super(props);
     this.state = {
+
       customerList: [], // เอาไว้เก็บ res.data ของ api selectCustomer ที่ Post ไว้
       VMList: [],
       selectedCustomer: [], // state ส่ง cus
@@ -68,25 +48,14 @@ class TableList extends Component {
       memory_datetime:[],
       memory_downtime:[],
       
-      // เผื่อเอาไว้รวม State จากทั้งหมด 9 State
-      DateReport:[], 
-      chartData: React.createRef()
     };
   }
-
-  // console.log(new Date(this.state.sdate).toString())
-  // console.log(moment(this.state.sdate).format('yyyy-MM-DD-hh-mm-ss'))
-
-
-  // เซ็ต State สำหรับส่งค่าทั้งกล่องเพื่อ post ไปที่ Backend
-  // โดยอ้างอิงข้อมูลจาก url ที่กำหนดถ้าข้อมูลไม่มาให้ดูตรงนี้ก่อน <<<<<
   handleSubmit = async (e) => {
     e.preventDefault();
 
-    // url ที่กำหนด
-    // const url = "http://192.168.250.134:5555/api/selectVm";
-    const url = process.env.REACT_APP_API_VM;
-    // const qs = require("querystring");
+    // url API ที่กำหนดของ Cloud Platform PRTG-Test
+    const url = process.env.REACT_APP_API_PRTG_TEST;
+
     // Object Identify ที่ใช้ในการเรียกใช้ State
     const objid = {
       customer: this.state.selectedCustomer,
@@ -321,17 +290,6 @@ class TableList extends Component {
   }
 
   render() {
-    // let array = [{name: "g1"}]
-
-    // let array = [{ name: "TestCloud" }, { name: "Test Com 7" }];
-    // let VMname = [{ VM: "" }];
-
-    // การ Filter ข้อมูลจากๅ text
-    //   data.filter((text) => {
-    //     const _searchText = category.toString().toLowerCase()
-    //     const _text = text.category_id == null ? '' : text.category_id.toString().toLowerCase()
-    //     return _text.search(_searchText) !== -1
-    // });
 
     // ประกาศฟังก์ชั่น setDate เพื่อเซ็ตค่าที่เลือกส่งไปให้ State DatePicker
     const setDate = (key, val) => {
@@ -341,14 +299,14 @@ class TableList extends Component {
         this.setState({ edate: moment(val).format("yyyy-MM-DD-hh-mm-ss") });
       }
     };
-    // console.log(this.state.report);
+
     return (
       <div className="content">
         <Grid fluid>
           <Row>
             <Col md={12}>
               <Card
-                title="กรุณาเลือกข้อมูลที่ต้องการ"
+                title="กรุณาเลือกข้อมูลที่ต้องการของ PRTG-Test"
                 category="ออกรายงานเพื่อดูความก้าวหน้า"
                 ctTableFullWidth
                 ctTableResponsive
@@ -495,18 +453,9 @@ class TableList extends Component {
 
                         Datareport={this.state.Datareport}
                         />
-
                      
                       )}
 
-                    {/* {this.state.total.length > 0 &&
-                      this.state.dateTimeData.length > 0 && (
-                        <Chartlist
-                          total={this.state.total}
-                          dateTimeData={this.state.dateTimeData}
-                          Datareport={this.state.Datareport}
-                        />
-                      )} */}
 
                   </div>
                 }
@@ -515,142 +464,9 @@ class TableList extends Component {
           </Row>
         </Grid>
 
-        {/* <Grid fluid>
-          <Row>
-            <Col md={12}>
-              <Card
-                title="กรุณาเลือกข้อมูลที่ต้องการ"
-                category="ออกรายงานเพื่อดูความก้าวหน้า"
-                ctTableFullWidth
-                ctTableResponsive
-                content={
-
-                  <div>
-                    <div
-                      className="panel panel-info"
-                      onSubmit={this.handleSubmit}
-                    >
-                      <div className="panel-heading">Customers</div>
-                      <div className="panel-body">
-                        <select id="dropdown" onChange={this.handlecustomers}>
-                          <option value="">Select Customer</option>
-                          {this.state.customerList
-                            ? this.state.customerList?.map((item, key) => {
-                                return (
-                                  <option key={key} value={item}>
-                                    {item}
-                                  </option>
-                                );
-                              })
-                            : null}
-                        </select>
-
-                        <br></br>
-                        <br></br>
-
-                        <select id="dropdown" onChange={this.handlevm}>
-                          <option value="">Select VM</option>
-                          {this.state.VMList
-                            ? this.state.VMList?.map((item, key) => {
-                                return (
-                                  <option key={key} value={item}>
-                                    {item}
-                                  </option>
-                                );
-                              })
-                            : null}
-                        </select>
-                        
-                      </div>
-                    </div>
-
-                        <Datepicker
-                          setDate={setDate}
-                          edate={this.state.edate}
-                        />
-
-                        <br></br>
-                        <button onClick={(event) => this.handleSubmit(event)}>
-                          Preview
-                        </button>
-
-
-                    <PDFexport />
-
-                    <Chartlist report={this.state.report}/>
-                  </div>
-                }
-              />
-            </Col>
-
-          </Row>
-        </Grid> */}
       </div>
-
-      /* <Col md={12}>
-              <Card
-                title="Striped Table with Hover"
-                category="Here is a subtitle for this table"
-                ctTableFullWidth
-                ctTableResponsive
-                content={
-                  <Table striped hover>
-                    <thead>
-                      <tr>
-                        {thArray.map((prop, key) => {
-                          return <th key={key}>{prop}</th>;
-                        })}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {tdArray.map((prop, key) => {
-                        return (
-                          <tr key={key}>
-                            {prop.map((prop, key) => {
-                              return <td key={key}>{prop}</td>;
-                            })}
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
-                }
-              />
-            </Col>
-
-            <Col md={12}>
-              <Card
-                plain
-                title="Striped Table with Hover"
-                category="Here is a subtitle for this table"
-                ctTableFullWidth
-                ctTableResponsive
-                content={
-                  <Table hover>
-                    <thead>
-                      <tr>
-                        {thArray.map((prop, key) => {
-                          return <th key={key}>{prop}</th>;
-                        })}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {tdArray.map((prop, key) => {
-                        return (
-                          <tr key={key}>
-                            {prop.map((prop, key) => {
-                              return <td key={key}>{prop}</td>;
-                            })}
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </Table>
-                }
-              />
-            </Col> */
     );
   }
 }
 
-export default TableList;
+export default PRTG_Test;

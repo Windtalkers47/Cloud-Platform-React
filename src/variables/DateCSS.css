@@ -47,10 +47,11 @@
 }
 
 
+/* กำหนดความยาวของปุ่มเลือกข้อมูล */
 select#dropdown {
   width: 320px;
 }
 
-input[type="text"] {
+div.panel-body input{
   width: 180px;
 }
