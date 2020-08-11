@@ -15,9 +15,10 @@ import Devices from "views/Devices.jsx";
 import Sensors from "views/Sensors.jsx";
 import Alarms from "views/Alarms.jsx";
 import Reports from "views/Reports.jsx";
-import Domain from "views/Domain.jsx";
 import Login from "Login/Login.js";
 import Signup from "Login/Signup";
+import PRTG_Test from "views/PRTG_Test.jsx";
+import PRTG_NX_Cloud from "views/PRTG_NX_Cloud.jsx";
 
 
 
@@ -30,27 +31,27 @@ const dashboardRoutes = [
     component: Dashboard,
     layout: "/admin"
   },
-  {
-    path: "/Devices",
-    name: "Devices",
-    icon: "pe-7s-server",
-    component: Devices,
-    layout: "/admin"
-  },
-  {
-    path: "/Sensors",
-    name: "Sensors",
-    icon: "pe-7s-signal",
-    component: Sensors,
-    layout: "/admin"
-  },
-  {
-    path: "/Alarms",
-    name: "Alarms",
-    icon: "pe-7s-bell",
-    component: Alarms,
-    layout: "/admin"
-  },
+  // {
+  //   path: "/Devices",
+  //   name: "Devices",
+  //   icon: "pe-7s-server",
+  //   component: Devices,
+  //   layout: "/admin"
+  // },
+  // {
+  //   path: "/Sensors",
+  //   name: "Sensors",
+  //   icon: "pe-7s-signal",
+  //   component: Sensors,
+  //   layout: "/admin"
+  // },
+  // {
+  //   path: "/Alarms",
+  //   name: "Alarms",
+  //   icon: "pe-7s-bell",
+  //   component: Alarms,
+  //   layout: "/admin"
+  // },
   {
     path: "/Reports",
     name: "Reports",
@@ -59,19 +60,26 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/Domain",
-    name: "Domain",
-    icon: "pe-7s-note",
-    component: Domain,
+    path: "/prtg-test",
+    name: "PRTG-Test",
+    icon: "pe-7s-graph2",
+    component: PRTG_Test,
     layout: "/admin"
   },
   {
-    path: "/maps",
-    name: "Maps",
-    icon: "pe-7s-map-marker",
-    component: Maps,
+    path: "/prtg-nx-cloud",
+    name: "PRTG-NX-Cloud",
+    icon: "pe-7s-cloud-download",
+    component: PRTG_NX_Cloud,
     layout: "/admin"
   },
+  // {
+  //   path: "/maps",
+  //   name: "Maps",
+  //   icon: "pe-7s-map-marker",
+  //   component: Maps,
+  //   layout: "/admin"
+  // },
 
   // {
   //   path: "/Login",
@@ -89,13 +97,13 @@ const dashboardRoutes = [
   //   layout: "/admin"
   // },
 
-  {
-    path: "/user",
-    name: "User Profile",
-    icon: "pe-7s-user",
-    component: UserProfile,
-    layout: "/admin"
-  },
+  // {
+  //   path: "/user",
+  //   name: "User Profile",
+  //   icon: "pe-7s-user",
+  //   component: UserProfile,
+  //   layout: "/admin"
+  // },
   // {
   //   path: "/table",
   //   name: "Table List",

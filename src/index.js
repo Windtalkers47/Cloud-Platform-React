@@ -20,6 +20,9 @@ import PrivateRoute from "./helper/PrivateRoute.js";
 import history from "./helper/history.js";
 import  Dashboard from "./views/Dashboard"
 import TableList from "./views/Reports";
+import PRTG_Test from "./views/PRTG_Test.jsx";
+import PRTG_NX_Cloud from "./views/PRTG_NX_Cloud.jsx";
+
 require('dotenv').config()
 ReactDOM.render(
   // Backup Code เผื่อพัง
@@ -43,7 +46,8 @@ ReactDOM.render(
     <Route exact path="/admin/sensors" render={props => <AdminLayout {...props} />} />
     <Route exact path="/admin/alarms" render={props => <AdminLayout {...props} />} />
     <Route exact path="/admin/reports" render={props => <AdminLayout {...props} />} />
-    <Route exact path="/admin/domain" render={props => <AdminLayout {...props} />} />
+    <Route exact path="/admin/prtg-test" render={props => <AdminLayout {...props} />} />
+    <Route exact path="/admin/prtg-nx-cloud" render={props => <AdminLayout {...props} />} />
     <Route exact path="/admin/maps" render={props => <AdminLayout {...props} />} />
     <Route exact path="/admin/user" render={props => <AdminLayout {...props} />} />
 

@@ -45,3 +45,13 @@
  .react-datepicker__input-time-container .react-datepicker-time__input-container .react-datepicker-time__input input {
   width: auto;
 }
+
+
+/* กำหนดความยาวของปุ่มเลือกข้อมูล */
+select#dropdown {
+  width: 320px;
+}
+
+div.panel-body input{
+  width: 180px;
+}
