@@ -4,8 +4,8 @@ import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
 import { thArray, tdArray } from "variables/Variables.jsx";
 
-import { Line, Area } from "chart.js";
-import { HorizontalBar, Bar } from "react-chartjs-2";
+import { Area } from "chart.js";
+import { HorizontalBar, Bar, Line } from "react-chartjs-2";
 import PDFexport, { toDataURL } from "../pdf/PDFexport";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
@@ -303,7 +303,7 @@ class TableList extends Component {
     };
 
     var data = {
-      labels: ["Downtime", "Total", "AVG"],
+      labels: ["Downtime", "AVG", "Total"],
       datasets: [
         {
           label: "CPU",
@@ -410,6 +410,7 @@ class TableList extends Component {
     function handlePDF() {
 
       "#downloadPdf".click(function (event) {
+        
         // get size of report page
         var reportPageHeight = "#reportPage".innerHeight();
         var reportPageWidth = "#reportPage".innerWidth();
@@ -630,7 +631,7 @@ class TableList extends Component {
 
                     <Col md={12}>
                       <div id="reportPage">
-                        <Bar data={data} width={100} height={50} />
+                        <Line data={data} width={100} height={50} />
 
                         <div style={{ width: "40%", float: "left" }}>
                           <canvas id="myChart2"></canvas>
