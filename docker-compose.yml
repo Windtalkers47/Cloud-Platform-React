@@ -4,7 +4,7 @@ services:
     image: "nginx:1.15.8-alpine"
     restart: "always"
     networks: 
-      - "mongodb_dbnetwork"
+      - "web"
     ports: 
       - "80:80"
     volumes: 
