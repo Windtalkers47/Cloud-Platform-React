@@ -4,8 +4,8 @@ import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
 import { thArray, tdArray } from "variables/Variables.jsx";
 
-import { Bar, Line, Area } from "chart.js";
-import { Chart } from "react-chartjs-2";
+import { Line, Area } from "chart.js";
+import { HorizontalBar, Bar } from "react-chartjs-2";
 import PDFexport, { toDataURL } from "../pdf/PDFexport";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
@@ -17,8 +17,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import Dropdown from "../variables/Dropdown";
 import Chartlist from "../pdf/chart";
+import jsPDF from "jspdf";
 // require('dotenv').config()
-
 
 // function getBase64FromImageUrl(url) {
 //   var img = new Image();
@@ -56,21 +56,21 @@ class TableList extends Component {
       // State ไว้เก็บข้อมูลของ CPU
       cpu_total: [],
       cpu_datetime: [],
-      cpu_downtime:[],
+      cpu_downtime: [],
 
       // State ไว้เก็บข้อมูลของ Disk อาจมีหลาย Disk
-      disk_FreeSpace:[],
-      disk_datatime:[],
-      disk_downtime:[],
+      disk_FreeSpace: [],
+      disk_datatime: [],
+      disk_downtime: [],
 
       // State ไว้เก็บข้อมูลของ Memory
-      memory_percent:[],
-      memory_datetime:[],
-      memory_downtime:[],
-      
+      memory_percent: [],
+      memory_datetime: [],
+      memory_downtime: [],
+
       // เผื่อเอาไว้รวม State จากทั้งหมด 9 State
-      DateReport:[], 
-      chartData: React.createRef()
+      DateReport: [],
+      chartData: React.createRef(),
     };
   }
 
@@ -93,28 +93,25 @@ class TableList extends Component {
       device: this.state.selectedVM,
       sdate: this.state.sdate,
       edate: this.state.edate,
-      token:localStorage.getItem('access_token')
+      token: localStorage.getItem("access_token"),
     };
 
     try {
-      const res = await axios.post(url, objid,{
+      const res = await axios.post(url, objid, {
         headers: {
-          authorization: `Bearer ${this.state.access_token}`
-        }
+          authorization: `Bearer ${this.state.access_token}`,
+        },
       });
-      // console.log('Response Preview',res);
-      // console.log('Time',objid);
-      
-
+      console.log("Response Preview", res);
+      console.log("Time", objid);
 
       // ใช้ if ดัก data ให้มันรอและเซ็ต report ให้เก็บ res.data
       if (res.data) {
         this.setState({ DateReport: res.data });
-        console.log('Data Report', res.data); // เอาไว้ดูข้อมูลทั้ง 3 ส่วน
+        console.log("Data Report", res.data); // เอาไว้ดูข้อมูลทั้ง 3 ส่วน
         // console.log('CPU Data' , res.data.cpu_data); // เอาไว้ดูข้อมูลของ CPU
         // console.log('Disk Data', res.data.disk_data); // เอาไว้ดูข้อมูลของ Disk
         // console.log('Memory Data', res.data.memory_data);
-
 
         // console.log('Disk datatime',res.data.disk_data.map((item1) => {
         //   item1.raw_data.map((item2) => {
@@ -125,111 +122,80 @@ class TableList extends Component {
         // console.log( );
 
         // State เก็บค่า CPU Total
-        this.setState({ 
-          cpu_total: res.data.cpu_data[0].raw_data.map((item)=>{
-            return item.Total
-          })
-      });
+        this.setState({
+          cpu_total: res.data.cpu_data[0].raw_data.map((item) => {
+            return item.Total;
+          }),
+        });
 
-      // State เก็บค่า CPU Datetime
-      this.setState({ 
-        cpu_datetime: res.data.cpu_data[0].raw_data.map((item) => {
-          return item.datetime
-        })
-    });
+        // State เก็บค่า CPU Datetime
+        this.setState({
+          cpu_datetime: res.data.cpu_data[0].raw_data.map((item) => {
+            return item.datetime;
+          }),
+        });
 
-    // State เก็บค่า CPU Downtime
-    this.setState({
-      cpu_downtime: res.data.cpu_data[0].raw_data.map((item) => {
-        return item.downtime
-      })
-  });
+        // State เก็บค่า CPU Downtime
+        this.setState({
+          cpu_downtime: res.data.cpu_data[0].raw_data.map((item) => {
+            return item.downtime;
+          }),
+        });
 
-      // State เก็บค่า Disk Free Space
-      // อันนี้คือลอง map 2 ชั้น
+        // อันนี้คือลอง map 2 ชั้น
+        // State เก็บค่า Disk Free Space
+        this.setState({
+          disk_FreeSpace: res.data.disk_data.map((item1) => {
+            return item1.raw_data.map((item2) => {
+              return item2.free_space;
+            });
+          }),
+        });
 
-      // this.setState({
-      //   cpu_downtime: res.data.cpu_data.map((item1) => {
-      //     item1.raw_data.map((item2) => {
-      //       return item2.downtime;
-      //     })
-      //   })
-      // })
+        // State เก็บค่า Disk datetime
+        this.setState({
+          disk_datatime: res.data.disk_data.map((item1) => {
+            return item1.raw_data.map((item2) => {
+              return item2.datetime;
+            });
+          }),
+        });
 
-      // this.setState({
-      //   disk_FreeSpace: res.data.disk_data.map((item1) => {
-      //     item1.raw_data.map((item2) => {
-      //       var item2 = [];
-      //       item1[0].map((temp) =>{
-      //         item2[0]=temp
-      //         console.log(item2);
-      //       })
-      //     })
-      //   })
-      // })
+        // State เอาไว้เก็บค่า downtime ของ disk
+        this.setState({
+          disk_downtime: res.data.disk_data.map((item1) => {
+            return item1.raw_data.map((item2) => {
+              return item2.downtime;
+            });
+          }),
+        });
 
-      // State เก็บค่า Disk Free Space
-      this.setState({
-        disk_FreeSpace : res.data.disk_data.map((item1) => {  
-          return item1.raw_data.map((item2) => {
-            return item2.free_space
-          })
+        // State เอาไว้เก็บค่า Datetime ของ Memory
+        this.setState({
+          memory_datetime: res.data.memory_data.map((item1) => {
+            return item1.raw_data.map((item2) => {
+              return item2.datetime;
+            });
+          }),
+        });
 
-          // console.log(item1);
-          // item1.raw_data.map((item2) => {
-          //   return item2['Free Space'];
-          // })
+        // State เอาไว้เก็บค่า Downtime ของ Memory
+        this.setState({
+          memory_downtime: res.data.memory_data.map((item1) => {
+            return item1.raw_data.map((item2) => {
+              return item2.downtime;
+            });
+          }),
+        });
 
-        })
-      })
-
-
-      // State เก็บค่า Disk datetime
-      this.setState({
-        disk_datatime : res.data.disk_data.map((item1) => {
-          return item1.raw_data.map((item2) => {
-            return item2.datetime;
-          })
-        })
-      })
-
-      // State เอาไว้เก็บค่า downtime ของ disk
-      this.setState({
-        disk_downtime : res.data.disk_data.map((item1) => {
-          return item1.raw_data.map((item2) => {
-            return item2.downtime;
-          })
-        })
-      })
-
-      // State เอาไว้เก็บค่า Datetime ของ Memory
-      this.setState({
-        memory_datetime : res.data.memory_data.map((item1) => {
-          return item1.raw_data.map((item2) => {
-            return item2.datetime;
-          })
-        })
-      })
-
-      // State เอาไว้เก็บค่า Downtime ของ Memory
-      this.setState({
-        memory_downtime : res.data.memory_data.map((item1) => {
-          return item1.raw_data.map((item2) => {
-            return item2.downtime;
-          })
-        })
-      })
-
-      // State เอาไว้เก็บค่า Percent_Available_Memory ของ Memory
-      this.setState({
-        memory_percent : res.data.memory_data.map((item1) => {
-          return item1.raw_data.map((item2) => {
-            return item2.percent_available_memory;
-          })
-        })
-      })
-
-
+        // State เอาไว้เก็บค่า Percent_Available_Memory ของ Memory
+        this.setState({
+          memory_percent: res.data.memory_data.map((item1) => {
+            return item1.raw_data.map((item2) => {
+              return item2.percent_available_memory;
+            });
+          }),
+        });
       }
     } catch (e) {
       // console.log({...e});
@@ -245,16 +211,16 @@ class TableList extends Component {
 
   // เซ็ต State สำหรับปุ่มรับค่า Customer รับค่าเข้ามาใช้หน้า Interface
   handlecustomers = (e) => {
-    var data = { 
+    var data = {
       customer: e.target.value,
       // access_token:  this.state.access_token
     };
     this.setState({ selectedCustomer: e.target.value });
     axios
-      .post(process.env.REACT_APP_API_CUSTOMER, data,{
+      .post(process.env.REACT_APP_API_CUSTOMER, data, {
         headers: {
-          authorization: `Bearer ${this.state.access_token}`
-        }
+          authorization: `Bearer ${this.state.access_token}`,
+        },
       })
       .then((res) => {
         this.setState({ VMList: res.data.vmname });
@@ -272,27 +238,28 @@ class TableList extends Component {
     this.state({ edate: event.target.value });
   };
 
-
   getCustomers = () => {
-   axios
-      .post(process.env.REACT_APP_API_CUSTOMER,{}, {
-        headers: {
-          authorization: `Bearer ${this.state.access_token}`
+    axios
+      .post(
+        process.env.REACT_APP_API_CUSTOMER,
+        {},
+        {
+          headers: {
+            authorization: `Bearer ${this.state.access_token}`,
+          },
         }
-      })
+      )
       .then((res) => {
         // เซ็ต State ให้เก็บ data ที่ respone แล้วไว้ในตัวแปร customerList
-        this.setState({ 
+        this.setState({
           customerList: res.data.customername,
-          
-         });
+        });
         // console.log(res.data);
       })
       .catch((err) => {
         // console.log("AXIOS ERROR: ", err);
       });
   };
-
 
   handleData = () => {
     axios.get(process.env.REACT_APP_API_VM).then((res) => {
@@ -304,8 +271,6 @@ class TableList extends Component {
     });
   };
 
-
-
   // Life Cycle ที่ใช้เรียกข้อมูลออกมาดู
   componentDidMount() {
     this.getCustomers();
@@ -314,13 +279,180 @@ class TableList extends Component {
   }
 
   chartReference(ref) {
-    console.log(ref)
+    console.log(ref);
     // this.setState({
     //   chartData: ref
     // })
   }
 
   render() {
+    var chartColors = {
+      red: "rgb(255, 99, 132)",
+      orange: "rgb(255, 159, 64)",
+      yellow: "rgb(255, 205, 86)",
+      green: "rgb(75, 192, 192)",
+      blue: "rgb(54, 162, 235)",
+      purple: "rgb(153, 102, 255)",
+      grey: "rgb(231,233,237)",
+    };
+
+    var randomScalingFactor = function () {
+      return (
+        (Math.random() > 0.5 ? 1.0 : 1.0) * Math.round(Math.random() * 100)
+      );
+    };
+
+    var data = {
+      labels: ["Downtime", "Total", "AVG"],
+      datasets: [
+        {
+          label: "CPU",
+          backgroundColor: [
+            chartColors.red,
+            chartColors.blue,
+            chartColors.yellow,
+          ],
+          data: [
+            1,
+            randomScalingFactor(),
+            randomScalingFactor(),
+          ],
+        },
+      ],
+    };
+
+    // var myBar = new Chart(document.getElementById("myChart"), {
+    //   type: "horizontalBar",
+    //   data: data,
+    //   options: {
+    //     responsive: true,
+    //     title: {
+    //       display: true,
+    //       text: "กราฟ CPU",
+    //     },
+    //     tooltips: {
+    //       mode: "index",
+    //       intersect: false,
+    //     },
+    //     legend: {
+    //       display: false,
+    //     },
+    //     scales: {
+    //       xAxes: [
+    //         {
+    //           ticks: {
+    //             beginAtZero: true,
+    //           },
+    //         },
+    //       ],
+    //     },
+    //   },
+    // });
+
+    // var myBar2 = new Chart(document.getElementById("myChart2"), {
+    //   type: "horizontalBar",
+    //   data: data,
+    //   options: {
+    //     responsive: true,
+    //     title: {
+    //       display: true,
+    //       text: "กราฟ Disk",
+    //     },
+    //     tooltips: {
+    //       mode: "index",
+    //       intersect: false,
+    //     },
+    //     legend: {
+    //       display: false,
+    //     },
+    //     scales: {
+    //       xAxes: [
+    //         {
+    //           ticks: {
+    //             beginAtZero: true,
+    //             stepSize: 2,
+    //           },
+    //         },
+    //       ],
+    //     },
+    //   },
+    // });
+
+    // var myBar3 = new Chart(document.getElementById("myChart3"), {
+    //   type: "horizontalBar",
+    //   data: data,
+    //   options: {
+    //     responsive: true,
+    //     maintainAspectRatio: false,
+    //     title: {
+    //       display: true,
+    //       text: "กราฟ Memory",
+    //     },
+    //     tooltips: {
+    //       mode: "index",
+    //       intersect: false,
+    //     },
+    //     legend: {
+    //       display: false,
+    //     },
+    //     scales: {
+    //       xAxes: [
+    //         {
+    //           ticks: {
+    //             beginAtZero: true,
+    //           },
+    //         },
+    //       ],
+    //     },
+    //   },
+    // });
+
+    function handlePDF() {
+
+      "#downloadPdf".click(function (event) {
+        // get size of report page
+        var reportPageHeight = "#reportPage".innerHeight();
+        var reportPageWidth = "#reportPage".innerWidth();
+  
+        // create a new canvas object that we will populate with all other canvas objects
+        var pdfCanvas = "<canvas />".attr({
+          id: "canvaspdf",
+          width: reportPageWidth,
+          height: reportPageHeight,
+        });
+  
+        // keep track canvas position
+        var pdfctx = pdfCanvas[0].getContext("2d");
+        var pdfctxX = 0;
+        var pdfctxY = 0;
+        var buffer = 100;
+  
+        // for each chart.js chart
+        "canvas".each(function (index) {
+          // get the chart height/width
+          var canvasHeight = this.innerHeight();
+          var canvasWidth = this.innerWidth();
+  
+          // draw the chart into the new canvas
+          pdfctx.drawImage(this[0], pdfctxX, pdfctxY, canvasWidth, canvasHeight);
+          pdfctxX += canvasWidth + buffer;
+  
+          // our report page is in a grid pattern so replicate that in the new canvas
+          if (index % 2 === 1) {
+            pdfctxX = 0;
+            pdfctxY += canvasHeight + buffer;
+          }
+        });
+  
+        // create new pdf and add our new canvas as an image
+        var pdf = new jsPDF("l", "pt", [reportPageWidth, reportPageHeight]);
+        pdf.addImage(pdfCanvas[0], "PNG", 0, 0);
+  
+        // download the pdf
+        pdf.save("filename.pdf");
+      });
+    }
+
     // let array = [{name: "g1"}]
 
     // let array = [{ name: "TestCloud" }, { name: "Test Com 7" }];
@@ -341,7 +473,7 @@ class TableList extends Component {
         this.setState({ edate: moment(val).format("yyyy-MM-DD-hh-mm-ss") });
       }
     };
-    // console.log(this.state.report);
+
     return (
       <div className="content">
         <Grid fluid>
@@ -455,59 +587,73 @@ class TableList extends Component {
                     </Row>
 
                     <Col md={1}>
+                      <button id="downloadPdf">Download As PDF</button>
+                    </Col>
+
+                    <Col md={1}>
                       <button onClick={(event) => this.handleSubmit(event)}>
                         Preview
                       </button>
                     </Col>
 
-                    <Col md={2}>
-                      <PDFexport component={Chartlist} 
-                                chartReference={this.state.chartData}
+                    {/* <Col md={2}>
+                      <PDFexport
+                        component={Chartlist}
+                        chartReference={this.state.chartData}
                       />
-                    </Col>
+                    </Col> */}
 
-                          {/* เงื่อนไขเช็คข้อมูล */}
+                    {/* เงื่อนไขเช็คข้อมูลก่อนแสดงผลกราฟ */}
                     {this.state.cpu_total.length > 0 &&
                       this.state.cpu_datetime.length > 0 &&
                       this.state.cpu_downtime.length > 0 &&
-
                       this.state.disk_FreeSpace.length > 0 &&
                       this.state.disk_datatime.length > 0 &&
                       this.state.disk_downtime.length > 0 &&
-
                       this.state.memory_percent.length > 0 &&
                       this.state.memory_datetime.length > 0 &&
-                      this.state.memory_downtime.length > 0 &&
-                      (
-                      <Chartlist
-                      chartReference={this.chartReference}
-                        cpu_total={this.state.cpu_total}
-                        cpu_datetime={this.state.cpu_datetime}
-                        cpu_downtime={this.state.cpu_downtime}
-
-                        disk_FreeSpace={this.state.disk_FreeSpace}
-                        disk_datatime={this.state.disk_datatime}
-                        disk_downtime={this.state.disk_downtime}
-
-                        memory_percent={this.state.memory_percent}
-                        memory_datetime={this.state.memory_datetime}
-                        memory_downtime={this.state.memory_downtime}
-
-                        Datareport={this.state.Datareport}
-                        />
-
-                     
-                      )}
-
-                    {/* {this.state.total.length > 0 &&
-                      this.state.dateTimeData.length > 0 && (
+                      this.state.memory_downtime.length > 0 && (
                         <Chartlist
-                          total={this.state.total}
-                          dateTimeData={this.state.dateTimeData}
+                          chartReference={this.chartReference}
+                          cpu_total={this.state.cpu_total}
+                          cpu_datetime={this.state.cpu_datetime}
+                          cpu_downtime={this.state.cpu_downtime}
+                          disk_FreeSpace={this.state.disk_FreeSpace}
+                          disk_datatime={this.state.disk_datatime}
+                          disk_downtime={this.state.disk_downtime}
+                          memory_percent={this.state.memory_percent}
+                          memory_datetime={this.state.memory_datetime}
+                          memory_downtime={this.state.memory_downtime}
                           Datareport={this.state.Datareport}
                         />
-                      )} */}
+                      )}
 
+                    <Col md={12}>
+                      <div id="reportPage">
+                        <Bar data={data} width={100} height={50} />
+
+                        <div style={{ width: "40%", float: "left" }}>
+                          <canvas id="myChart2"></canvas>
+                        </div>
+
+                        <br />
+                        <br />
+                        <br />
+
+                        <div
+                          style={{
+                            width: "40%",
+                            height: "400px",
+                            clear: "both",
+                          }}
+                        >
+                          <canvas
+                            id="myChart3"
+                            style={{ width: "40%" }}
+                          ></canvas>
+                        </div>
+                      </div>
+                    </Col>
                   </div>
                 }
               />

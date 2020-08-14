@@ -74,24 +74,10 @@ class PRTG_Test extends Component {
       // console.log('Response Preview',res);
       // console.log('Time',objid);
       
-
-
       // ใช้ if ดัก data ให้มันรอและเซ็ต report ให้เก็บ res.data
       if (res.data) {
         this.setState({ DateReport: res.data });
         console.log('Data Report', res.data); // เอาไว้ดูข้อมูลทั้ง 3 ส่วน
-        // console.log('CPU Data' , res.data.cpu_data); // เอาไว้ดูข้อมูลของ CPU
-        // console.log('Disk Data', res.data.disk_data); // เอาไว้ดูข้อมูลของ Disk
-        // console.log('Memory Data', res.data.memory_data);
-
-
-        // console.log('Disk datatime',res.data.disk_data.map((item1) => {
-        //   item1.raw_data.map((item2) => {
-        //     return item2.downtime;
-        //   })
-        // }));
-
-        // console.log( );
 
         // State เก็บค่า CPU Total
         this.setState({ 
@@ -114,28 +100,6 @@ class PRTG_Test extends Component {
       })
   });
 
-      // State เก็บค่า Disk Free Space
-      // อันนี้คือลอง map 2 ชั้น
-
-      // this.setState({
-      //   cpu_downtime: res.data.cpu_data.map((item1) => {
-      //     item1.raw_data.map((item2) => {
-      //       return item2.downtime;
-      //     })
-      //   })
-      // })
-
-      // this.setState({
-      //   disk_FreeSpace: res.data.disk_data.map((item1) => {
-      //     item1.raw_data.map((item2) => {
-      //       var item2 = [];
-      //       item1[0].map((temp) =>{
-      //         item2[0]=temp
-      //         console.log(item2);
-      //       })
-      //     })
-      //   })
-      // })
 
       // State เก็บค่า Disk Free Space
       this.setState({

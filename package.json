@@ -12,6 +12,7 @@
     "dotenv": "^8.2.0",
     "gulp": "^4.0.2",
     "image-to-base64": "^2.1.0",
+    "jspdf": "^2.0.0",
     "moment": "^2.27.0",
     "node-sass": "^4.14.1",
     "pdfmake": "^0.1.65",
@@ -26,7 +27,7 @@
     "react-pdfmake": "^0.2.0",
     "react-router": "5.0.0",
     "react-router-dom": "5.0.0",
-    "react-scripts": "^3.4.1",
+    "react-scripts": "^3.4.3",
     "react-toggle": "4.0.2"
   },
   "devDependencies": {
