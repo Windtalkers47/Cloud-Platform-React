@@ -71,6 +71,8 @@ export default class PRTG_NX_Cloud extends Component {
             }
           });
     
+          console.log('PRTG NX Cloud',res.data);
+
           // ใช้ if ดัก data ให้มันรอและเซ็ต report ให้เก็บ res.data
           if (res.data) {
             this.setState({ DateReport: res.data });

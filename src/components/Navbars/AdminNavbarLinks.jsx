@@ -19,7 +19,7 @@ constructor(props) {
         //handle your logout 
     console.log('Logout props',process.env.REACT_APP_API_USERLOGOUT)
     try {
-      const { data } = await axios.post("http://192.168.250.200:3000/user/logout",null,
+      const { data } = await axios.post("http://203.151.34.28:3000/user/logout",null,
       {
         headers: {
           authorization: `Bearer ${this.state.access_token}`
@@ -64,7 +64,7 @@ constructor(props) {
     return (
       <div>
         <Nav>
-          <NavItem eventKey={1} href="/dashboard">
+          <NavItem eventKey={1} href="/admin/dashboard">
             <i className="fa fa-dashboard" />
             <p className="hidden-lg hidden-md">Dashboard</p>
           </NavItem>
@@ -74,11 +74,11 @@ constructor(props) {
             noCaret
             id="basic-nav-dropdown"
           >
-            <MenuItem eventKey={2.1}>Notification 1</MenuItem>
-            <MenuItem eventKey={2.2}>Notification 2</MenuItem>
-            <MenuItem eventKey={2.3}>Notification 3</MenuItem>
-            <MenuItem eventKey={2.4}>Notification 4</MenuItem>
-            <MenuItem eventKey={2.5}>Another notifications</MenuItem>
+            <MenuItem eventKey={2.1}>1</MenuItem>
+            <MenuItem eventKey={2.2}>2</MenuItem>
+            <MenuItem eventKey={2.3}>3</MenuItem>
+            <MenuItem eventKey={2.4}>4</MenuItem>
+            <MenuItem eventKey={2.5}>null</MenuItem>
           </NavDropdown>
           <NavItem eventKey={3} href="#">
             <i className="fa fa-search" />
@@ -94,13 +94,13 @@ constructor(props) {
             title="Dropdown"
             id="basic-nav-dropdown-right"
           >
-            <MenuItem eventKey={2.1}>Action</MenuItem>
-            <MenuItem eventKey={2.2}>Another action</MenuItem>
-            <MenuItem eventKey={2.3}>Something</MenuItem>
-            <MenuItem eventKey={2.4}>Another action</MenuItem>
-            <MenuItem eventKey={2.5}>Something</MenuItem>
+            <MenuItem eventKey={2.1}>1</MenuItem>
+            <MenuItem eventKey={2.2}>2</MenuItem>
+            <MenuItem eventKey={2.3}>3</MenuItem>
+            <MenuItem eventKey={2.4}>4</MenuItem>
+            <MenuItem eventKey={2.5}>5</MenuItem>
             <MenuItem divider />
-            <MenuItem eventKey={2.5}>Separated link</MenuItem>
+            <MenuItem eventKey={2.5}>link</MenuItem>
           </NavDropdown>
 
           <NavItem eventKey={3} href="#" >

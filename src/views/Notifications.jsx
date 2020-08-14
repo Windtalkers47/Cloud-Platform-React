@@ -1,14 +1,8 @@
 /*!
 
 =========================================================
-* Light Bootstrap Dashboard React - v1.3.0
-=========================================================
-
-* Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md)
 
 =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
 import React, { Component } from "react";

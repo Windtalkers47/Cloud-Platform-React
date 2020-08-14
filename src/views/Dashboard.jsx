@@ -146,7 +146,7 @@ componentDidMount(){
           </Row>
 
       {/* ส่วนของกราฟแสดงผล */}
-
+            {/* Dashboard */}
           <Row>
           <Col md={8}>
               <Card
@@ -226,7 +226,7 @@ componentDidMount(){
           </Row>
 
                 {/* การแสดงผลแบบกราฟแท่งและ Task */}
-          <Row>
+          {/* <Row>
             <Col md={6}>
               <Card
                 id="chartActivity"
@@ -265,7 +265,7 @@ componentDidMount(){
                 }
               />
             </Col>
-          </Row>
+          </Row> */}
 
         </Grid>
       </div>
