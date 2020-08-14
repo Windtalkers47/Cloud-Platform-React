@@ -6,10 +6,10 @@ services:
     networks: 
       - "web"
     ports: 
-      - "80:80"
+      - "5000:5000"
     volumes: 
       - "./build/:/var/www/html/web"
       - "./nginx/nginx.conf:/etc/nginx/nginx.conf"
 networks: 
-  mongodb_dbnetwork: 
+  web: 
     external: true
