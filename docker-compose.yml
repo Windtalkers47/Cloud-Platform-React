@@ -1,0 +1,15 @@
+version: "2"
+services: 
+  app: 
+    image: "nginx:1.15.8-alpine"
+    restart: "always"
+    networks: 
+      - "mongodb_dbnetwork"
+    ports: 
+      - "80:80"
+    volumes: 
+      - "./build/:/var/www/html/web"
+      - "./nginx/nginx.conf:/etc/nginx/nginx.conf"
+networks: 
+  mongodb_dbnetwork: 
+    external: true
