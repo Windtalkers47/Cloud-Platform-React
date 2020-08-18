@@ -260,6 +260,19 @@ export default class PRTG_NX_Cloud extends Component {
             this.setState({ edate: moment(val).format("yyyy-MM-DD-hh-mm-ss") });
           }
         };
+
+    // let array = [{name: "g1"}]
+
+    // let array = [{ name: "TestCloud" }, { name: "Test Com 7" }];
+    // let VMname = [{ VM: "" }];
+
+    // การ Filter ข้อมูลจากๅ text
+    //   data.filter((text) => {
+    //     const _searchText = category.toString().toLowerCase()
+    //     const _text = text.category_id == null ? '' : text.category_id.toString().toLowerCase()
+    //     return _text.search(_searchText) !== -1
+    // });
+
         return (
         <div className="content">
         <Grid fluid>
