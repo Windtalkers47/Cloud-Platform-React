@@ -27,7 +27,7 @@ getCustomers = async () =>  {
 
 componentDidMount(){
     // console.log(this.chartRef)
-    console.log(this.chartRef.current.chartInstance.toBase64Image(), 'chart')
+    // console.log(this.chartRef.current.chartInstance.toBase64Image(), 'chart')
 
 }
 
@@ -234,35 +234,4 @@ Memory_chart(
 }
 
 
-// export default function Chartlist() {
 
-// const DataAPI = () => {
-//     axios.post("http://203.151.34.28:5000/api/selectVM")
-//     .then((res) => {
-//         let DataVM = res.data;
-//         // console.log(DataVM);
-//     })
-// }
-
-// const setData = () => {
-    
-// }
-
-//     return (
-//         <div>
-//             <Bar
-//                 data={DataAPI}
-//                 options={{
-//                     responsive:true,
-//                     title:{text: "Hello There",
-//                     display: true,
-//                     fontsize: 48,
-//                     },
-
-//                 }}
-//                 ref={this.chart}
-
-//                 />
-//         </div>
-//     )
-// }

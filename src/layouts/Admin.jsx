@@ -50,7 +50,7 @@ class Admin extends Component {
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
         <div>
-          ยินดีต้อนรับสู่ <b>Cloud Platform Dashboard</b> - คุณสามารถเลือกรายการได้ที่แทบเมนูค่ะ.
+          ยินดีต้อนรับสู่ <b>Cloud Platform Dashboard</b> ค่ะ.
         </div>
       ),
       level: level,
@@ -139,7 +139,7 @@ class Admin extends Component {
       title: <span data-notify="icon" className="pe-7s-gift" />,
       message: (
         <div>
-          ยินดีต้อนรับสู่ <b>Cloud Platform Dashboard</b> - คุณสามารถเลือกรายการได้ที่แทบเมนูค่ะ.
+          ยินดีต้อนรับสู่ <b>Cloud Platform Dashboard</b> - ค่ะ.
         </div>
       ),
       level: level,

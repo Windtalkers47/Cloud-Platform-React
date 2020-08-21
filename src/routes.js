@@ -59,13 +59,13 @@ const dashboardRoutes = [
     component: Reports,
     layout: "/admin"
   },
-  {
-    path: "/prtg-test",
-    name: "PRTG-Test",
-    icon: "pe-7s-graph2",
-    component: PRTG_Test,
-    layout: "/admin"
-  },
+  // {
+  //   path: "/prtg-test",
+  //   name: "PRTG-Test",
+  //   icon: "pe-7s-graph2",
+  //   component: PRTG_Test,
+  //   layout: "/admin"
+  // },
   {
     path: "/prtg-nx-cloud",
     name: "PRTG-NX-Cloud",

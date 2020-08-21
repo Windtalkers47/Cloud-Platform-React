@@ -20,6 +20,8 @@ class AdminNavbarLinks extends Component {
       await axios.post(url, null, {
         headers: {
           authorization: `Bearer ${this.state.access_token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json', 
         }
       });
 
