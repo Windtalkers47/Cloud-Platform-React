@@ -4,6 +4,7 @@ import { Card } from "components/Card/Card.jsx";
 import "./Login.css";
 import axios from 'axios';
 
+import bg_fog from "../assets/img/bg_fog.jpg";
 
 // export default class Signup extends Component {
 //     constructor(props){
@@ -151,9 +152,9 @@ export default class signup extends Component {
         return (
             <div className="content">
                 <Grid fluid>
-                    <Col md={12}>
-                        <Card title="Cloud Platform"
-                            content={
+                    <Col md={12} className="mainlogin" style={{ backgroundImage: `url(${bg_fog})` }}>
+                        {/* <Card title="Cloud Platform"
+                            content={ */}
             <form onSubmit={this.handleSubmit}>
                 <h3>Register form</h3>
 
@@ -182,14 +183,14 @@ export default class signup extends Component {
                     <input type="password" name = "passwordCheck" onChange={this.handlePasswordCheck} className="form-control" placeholder="Confirm password" />
                 </div>
 
-                <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
+                <button type="submit" className="btn btn-lg btn-block">Sign Up</button>
                 <p className="forgot-password text-right">
                     Already registered <a href="/">sign in?</a>
                 </p>
             </form>
-                              }
+                              {/* }
                               >
-                          </Card>
+                          </Card> */}
                       </Col>
                   </Grid>
               </div>

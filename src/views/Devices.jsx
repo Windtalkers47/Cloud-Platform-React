@@ -1,16 +1,4 @@
-/*!
 
-=========================================================
-* Thank you to Mr.Tim for awesome template
-=========================================================
-
-* Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md)
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React, { Component, useState } from "react";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 

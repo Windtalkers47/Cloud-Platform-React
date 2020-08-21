@@ -46,6 +46,9 @@ export default class PRTG_NX_Cloud extends Component {
           memory_percent:[],
           memory_datetime:[],
           memory_downtime:[],
+
+          // State ไว้เก็บ Link PDF ของลูกค้า
+          Link_NX_Cloud:"",
           
         };
       }
@@ -64,14 +67,19 @@ export default class PRTG_NX_Cloud extends Component {
           token:localStorage.getItem('access_token')
         };
     
+        // กำหนด Auth ให้ Headers ส่งไป
         try {
           const res = await axios.post(url, objid,{
             headers: {
-              authorization: `Bearer ${this.state.access_token}`
+              authorization: `Bearer ${this.state.access_token}`,
+              'Content-Type': 'application/json',
+              'Accept': 'application/json', 
             }
           });
     
           console.log('PRTG NX Cloud',res.data);
+          this.setState({Link_NX_Cloud : res.data.result});
+          console.log('Link_NX_Cloud',this.state.Link_NX_Cloud);
 
           // ใช้ if ดัก data ให้มันรอและเซ็ต report ให้เก็บ res.data
           if (res.data) {
@@ -162,7 +170,7 @@ export default class PRTG_NX_Cloud extends Component {
     
           }
         } catch (e) {
-          // console.log({...e});
+            // console.log({...e});
           return null;
         }
       };
@@ -227,19 +235,17 @@ export default class PRTG_NX_Cloud extends Component {
       handleData = () => {
         axios.get(process.env.REACT_APP_API_VM).then((res) => {
           this.setState({ data: res.data });
-          // console.log('res',res);
+          console.log('Response',res.data);
           // console.log(res.data.cpu_data.raw_data);
     
           // console.log(this.state.total);
         });
       };
     
-    
-    
       // Life Cycle ที่ใช้เรียกข้อมูลออกมาดู
       componentDidMount() {
         this.getCustomers();
-    
+
         // console.log("token", this.state.access_token);
       }
     
@@ -249,7 +255,7 @@ export default class PRTG_NX_Cloud extends Component {
         //   chartData: ref
         // })
       }
-    
+
       render() {
     
         // ประกาศฟังก์ชั่น setDate เพื่อเซ็ตค่าที่เลือกส่งไปให้ State DatePicker
@@ -385,17 +391,12 @@ export default class PRTG_NX_Cloud extends Component {
                       </Col>
                     </Row>
 
-                    <Col md={1}>
-                      <button onClick={(event) => this.handleSubmit(event)}>
-                        Preview
+                    <Col md={2}>
+                      <button onClick={(event) => this.handleSubmit(event) && window.open(this.state.Link_NX_Cloud)}>
+                        Download PDF
                       </button>
                     </Col>
 
-                    <Col md={2}>
-                      <PDFexport component={Chartlist} 
-                                chartReference={this.state.chartData}
-                      />
-                    </Col>
 
                           {/* เงื่อนไขเช็คข้อมูล */}
                     {this.state.cpu_total.length > 0 &&

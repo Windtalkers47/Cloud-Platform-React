@@ -7,6 +7,9 @@ import { BrowserRouter} from "react-router-dom";
 import {Router, Route, Link, RouteHandler} from 'react-router';
 import history from "../helper/history";
 
+import bg_fog from "../assets/img/bg_fog.jpg";
+
+
 import "./Login.css";
 
 
@@ -84,7 +87,6 @@ export default class Login extends React.Component {
           //handle your errors
           console.log({...e});
         let response = e.response
-        // console.log(e.response.status);
         if (response.status === 400) {
             alert('ข้อมูลผู้ใช้ไม่ถูกต้อง กรุณากรอกใหม่อีกครั้งค่ะ')
             // console.log(this.state.status);
@@ -100,11 +102,11 @@ export default class Login extends React.Component {
 
     render() {
       return (
-          <div className="content">
-                  <Grid fluid>
-                      <Col md={12}>
-                          <Card title="Cloud Platform"
-                              content={
+          <div className="contentHome" >
+                  <Grid fluid className="mainHome" >
+                      <Col md={12} className="mainlogin" style={{ backgroundImage: `url(${bg_fog})` }}>
+                          {/* <Card title="Cloud Platform"
+                              content={ */}
 
               <form onSubmit={this.handleSubmit}>
 
@@ -129,7 +131,7 @@ export default class Login extends React.Component {
                   </input>
                   <br></br>
                   <br></br>
-                  <button type="submit" className="btn btn-primary btn-block">Login</button>
+                  <button type="submit" className="btn btn-lg btn-block">Login</button>
                   
                   {/* <br></br> */}
                   {/* <button type="button" onClick={this.handleSignup} className="btn btn-primary btn-block">Sign up</button> */}
@@ -137,9 +139,9 @@ export default class Login extends React.Component {
                   </div>
 
               </form>
-                              }
+                              {/* }
                           >
-                      </Card>
+                      </Card> */}
                   </Col>
               </Grid>
           </div>

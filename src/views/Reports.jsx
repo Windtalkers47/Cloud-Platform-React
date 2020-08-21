@@ -1,4 +1,5 @@
 import React, { Component, useState } from "react";
+import ReactDOM from "react-dom";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 
 import Card from "components/Card/Card.jsx";
@@ -17,6 +18,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import Dropdown from "../variables/Dropdown";
 import Chartlist from "../pdf/chart";
+import Exportpdf from "../pdf/Exportpdf";
 import jsPDF from "jspdf";
 // require('dotenv').config()
 
@@ -77,7 +79,6 @@ class TableList extends Component {
   // console.log(new Date(this.state.sdate).toString())
   // console.log(moment(this.state.sdate).format('yyyy-MM-DD-hh-mm-ss'))
 
-
   // เซ็ต State สำหรับส่งค่าทั้งกล่องเพื่อ post ไปที่ Backend
   // โดยอ้างอิงข้อมูลจาก url ที่กำหนดถ้าข้อมูลไม่มาให้ดูตรงนี้ก่อน <<<<<
   handleSubmit = async (e) => {
@@ -102,7 +103,7 @@ class TableList extends Component {
           authorization: `Bearer ${this.state.access_token}`,
         },
       });
-      // console.log("Response Preview", res);
+      console.log("Response Preview", res);
       // console.log("Time", objid);
 
       // ใช้ if ดัก data ให้มันรอและเซ็ต report ให้เก็บ res.data
@@ -119,7 +120,6 @@ class TableList extends Component {
         //   })
         // }));
 
-        // console.log( );
 
         // State เก็บค่า CPU Total
         this.setState({
@@ -286,128 +286,6 @@ class TableList extends Component {
   // }
 
   render() {
-    var chartColors = {
-      red: "rgb(255, 99, 132)",
-      orange: "rgb(255, 159, 64)",
-      yellow: "rgb(255, 205, 86)",
-      green: "rgb(75, 192, 192)",
-      blue: "rgb(54, 162, 235)",
-      purple: "rgb(153, 102, 255)",
-      grey: "rgb(231,233,237)",
-    };
-
-    var randomScalingFactor = function () {
-      return (
-        (Math.random() > 0.5 ? 1.0 : 1.0) * Math.round(Math.random() * 100)
-      );
-    };
-
-    var data = {
-      labels: ["Downtime", "AVG", "Total"],
-      datasets: [
-        {
-          label: "CPU",
-          backgroundColor: [
-            chartColors.red,
-            chartColors.blue,
-            chartColors.yellow,
-          ],
-          data: [
-            1,
-            randomScalingFactor(),
-            randomScalingFactor(),
-          ],
-        },
-      ],
-    };
-
-    // var myBar = new Chart(document.getElementById("myChart"), {
-    //   type: "horizontalBar",
-    //   data: data,
-    //   options: {
-    //     responsive: true,
-    //     title: {
-    //       display: true,
-    //       text: "กราฟ CPU",
-    //     },
-    //     tooltips: {
-    //       mode: "index",
-    //       intersect: false,
-    //     },
-    //     legend: {
-    //       display: false,
-    //     },
-    //     scales: {
-    //       xAxes: [
-    //         {
-    //           ticks: {
-    //             beginAtZero: true,
-    //           },
-    //         },
-    //       ],
-    //     },
-    //   },
-    // });
-
-    // var myBar2 = new Chart(document.getElementById("myChart2"), {
-    //   type: "horizontalBar",
-    //   data: data,
-    //   options: {
-    //     responsive: true,
-    //     title: {
-    //       display: true,
-    //       text: "กราฟ Disk",
-    //     },
-    //     tooltips: {
-    //       mode: "index",
-    //       intersect: false,
-    //     },
-    //     legend: {
-    //       display: false,
-    //     },
-    //     scales: {
-    //       xAxes: [
-    //         {
-    //           ticks: {
-    //             beginAtZero: true,
-    //             stepSize: 2,
-    //           },
-    //         },
-    //       ],
-    //     },
-    //   },
-    // });
-
-    // var myBar3 = new Chart(document.getElementById("myChart3"), {
-    //   type: "horizontalBar",
-    //   data: data,
-    //   options: {
-    //     responsive: true,
-    //     maintainAspectRatio: false,
-    //     title: {
-    //       display: true,
-    //       text: "กราฟ Memory",
-    //     },
-    //     tooltips: {
-    //       mode: "index",
-    //       intersect: false,
-    //     },
-    //     legend: {
-    //       display: false,
-    //     },
-    //     scales: {
-    //       xAxes: [
-    //         {
-    //           ticks: {
-    //             beginAtZero: true,
-    //           },
-    //         },
-    //       ],
-    //     },
-    //   },
-    // });
-
-
     // ประกาศฟังก์ชั่น setDate เพื่อเซ็ตค่าที่เลือกส่งไปให้ State DatePicker
     const setDate = (key, val) => {
       if (key === "sdate") {
@@ -530,14 +408,14 @@ class TableList extends Component {
                     </Row>
 
                     <Col md={1}>
-                      <button id="downloadPdf" >Download As PDF</button>
-                    </Col>
-
-                    <Col md={1}>
                       <button onClick={(event) => this.handleSubmit(event)}>
                         Preview
                       </button>
                     </Col>
+
+                    {/* <Col md={2}>
+                      <Exportpdf />
+                    </Col> */}
 
                     {/* <Col md={2}>
                       <PDFexport
@@ -570,33 +448,6 @@ class TableList extends Component {
                           Datareport={this.state.Datareport}
                         />
                       )}
-
-                    <Col md={12}>
-                      <div id="reportPage">
-                        <Line data={data} width={100} height={50} />
-
-                        <div style={{ width: "40%", float: "left" }}>
-                          <canvas id="myChart2"></canvas>
-                        </div>
-
-                        <br />
-                        <br />
-                        <br />
-
-                        <div
-                          style={{
-                            width: "40%",
-                            height: "400px",
-                            clear: "both",
-                          }}
-                        >
-                          <canvas
-                            id="myChart3"
-                            style={{ width: "40%" }}
-                          ></canvas>
-                        </div>
-                      </div>
-                    </Col>
                   </div>
                 }
               />
