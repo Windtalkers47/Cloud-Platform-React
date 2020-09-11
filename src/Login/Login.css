@@ -50,16 +50,41 @@ body .mainpage {
   font-family: 'Fira Sans', sans-serif;
 }
 
+
 div#root,
 h1,h2,h3,h4,h5,h6,label,span {
   font-weight: 500;
   font-family: 'Fira Sans', sans-serif;
 }
 
-div#root{
-  padding-left: 2em;
-  padding-right: 2em;
+div#root .contentHome{
+  height: 100%;
+  width:100%;
+  
+  padding: 5% ;
+
+  background-image: url("../assets/img/bg_fog.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+  align-items: center;
+
+
+  
 }
+
+div#root .mainlogin{
+  width: 50%;
+  height: auto;
+  margin: auto;
+  z-index: 2;
+
+
+}
+
+
+
 
 body, html, .App, #root, .auth-wrapper {
   width: 100%;
@@ -172,6 +197,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
 
 
 

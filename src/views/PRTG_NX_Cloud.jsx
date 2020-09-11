@@ -18,11 +18,15 @@ import moment from "moment";
 import Dropdown from "../variables/Dropdown";
 import Chartlist from "../pdf/chart";
 
+
 require("dotenv").config();
+
 export default class PRTG_NX_Cloud extends Component {
     constructor(props) {
         super(props);
         this.state = {
+
+          timePassed: false,
     
           customerList: [], // เอาไว้เก็บ res.data ของ api selectCustomer ที่ Post ไว้
           VMList: [],
@@ -52,6 +56,7 @@ export default class PRTG_NX_Cloud extends Component {
           
         };
       }
+
       handleSubmit = async (e) => {
         e.preventDefault();
     
@@ -75,10 +80,18 @@ export default class PRTG_NX_Cloud extends Component {
               'Content-Type': 'application/json',
               'Accept': 'application/json', 
             }
-          });
+          }).then((result)=>{
+            console.log('result', result)
+            this.setState({Link_NX_Cloud : result.data.result});
+            window.open(this.state.Link_NX_Cloud)
+
+          })
     
-          console.log('PRTG NX Cloud',res.data);
-          this.setState({Link_NX_Cloud : res.data.result});
+          // setTimeout(() => this.setState({timePassed: true,
+          //   Link_NX_Cloud : res.data.result
+          // }), 3000)
+
+          // console.log('PRTG NX Cloud',res.data);
           console.log('Link_NX_Cloud',this.state.Link_NX_Cloud);
 
           // ใช้ if ดัก data ให้มันรอและเซ็ต report ให้เก็บ res.data
@@ -392,7 +405,7 @@ export default class PRTG_NX_Cloud extends Component {
                     </Row>
 
                     <Col md={2}>
-                      <button onClick={(event) => this.handleSubmit(event) && window.open(this.state.Link_NX_Cloud)}>
+                      <button onClick={(event) => this.handleSubmit(event)}>
                         Download PDF
                       </button>
                     </Col>

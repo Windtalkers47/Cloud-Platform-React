@@ -19,7 +19,8 @@ import Login from "Login/Login.js";
 import Signup from "Login/Signup";
 import PRTG_Test from "views/PRTG_Test.jsx";
 import PRTG_NX_Cloud from "views/PRTG_NX_Cloud.jsx";
-
+import Report_Modal from "views/Report_Modal.jsx";
+import Chartlist from "./pdf/chart.js";
 
 
 // ส่วนของ List รายการเมนู
@@ -59,6 +60,14 @@ const dashboardRoutes = [
     component: Reports,
     layout: "/admin"
   },
+
+  // {
+  //   path: "/Chart",
+  //   name: "Chart",
+  //   icon: "pe-7s-file",
+  //   component: Chartlist,
+  //   layout: "/admin"
+  // },
   // {
   //   path: "/prtg-test",
   //   name: "PRTG-Test",

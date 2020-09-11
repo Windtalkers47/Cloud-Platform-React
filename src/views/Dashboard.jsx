@@ -59,9 +59,9 @@ componentDidMount(){
   this.setState({myChart: this.chart });
   // console.log(this.state.myChart)
 
-  // if (this.state.access_token === null  ){
-  //   return this.props.history.push("/login");
-  //   }
+  if (this.state.access_token === null  ){
+    return this.props.history.push("/login");
+    }
 }
 
   render() {

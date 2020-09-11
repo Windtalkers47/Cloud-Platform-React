@@ -63,7 +63,7 @@ class Sidebar extends Component {
         {/* ทำการห่อเมนูเอาไว้สำหรับขนาดหน้าจอ */}
         <div className="sidebar-wrapper">
           <ul className="nav">
-            {this.state.width <= 991 ? <AdminNavbarLinks /> : null}
+
             {this.props.routes.map((prop, key) => {
               if (!prop.redirect)
                 return (
@@ -94,6 +94,10 @@ class Sidebar extends Component {
                 );
               return null;
             })}
+
+            {this.state.width <= 991 ? <AdminNavbarLinks /> : null}
+
+
           </ul>
         </div>
       </div>

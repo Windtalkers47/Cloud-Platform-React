@@ -8,45 +8,18 @@ import {Router, Route, Link, RouteHandler} from 'react-router';
 import history from "../helper/history";
 
 import bg_fog from "../assets/img/bg_fog.jpg";
-
-
 import "./Login.css";
 
-
-// import { UserLogin } from "../API/api.jsx";
-// import SignUp from "./Signup.js";
-// import { registerUser } from 'API/api';
-
-
-//  ระบบ Login ที่ควรมี
-// Signing &signing out
-// Password reset
-//  Profile page
-
-// export function Register(props) {
-//     const [username, setUsername] = useState('')
-//     const [password, setPassword] = useState('')
-//     const [name, setName] = useState('')
-
-//     const insertUser = async (e) => {
-//       e.preventDefault();
-//       let user = {
-//         username: username,
-//         password: password,
-//         name: name
-//       }
-
-//     }
-  
-// }
 
 
 export default class Login extends React.Component {  
     constructor(props) {
       super(props);
+      let loggedIn = false
       this.state = {
           username: '',
           password: '',
+          loggedIn ,
           loader : 0,
       };
   }
@@ -103,10 +76,9 @@ export default class Login extends React.Component {
     render() {
       return (
           <div className="contentHome" >
-                  <Grid fluid className="mainHome" >
-                      <Col md={12} className="mainlogin" style={{ backgroundImage: `url(${bg_fog})` }}>
-                          {/* <Card title="Cloud Platform"
-                              content={ */}
+                  {/* <Grid fluid className="mainHome" > */}
+                      <div className="mainlogin" style={{ backgroundImage: `url(${bg_fog})` }} >
+                         
 
               <form onSubmit={this.handleSubmit}>
 
@@ -139,11 +111,9 @@ export default class Login extends React.Component {
                   </div>
 
               </form>
-                              {/* }
-                          >
-                      </Card> */}
-                  </Col>
-              </Grid>
+                            
+                  </div>
+              {/* </Grid> */}
           </div>
   
       )

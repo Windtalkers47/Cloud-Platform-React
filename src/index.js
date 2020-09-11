@@ -22,6 +22,12 @@ import  Dashboard from "./views/Dashboard"
 import TableList from "./views/Reports";
 import PRTG_Test from "./views/PRTG_Test.jsx";
 import PRTG_NX_Cloud from "./views/PRTG_NX_Cloud.jsx";
+import Report_Modal from "./views/Report_Modal.jsx";
+import Chartlist from "./pdf/chart.js";
+
+import { Area, Line, Bar } from "chart.js";
+
+
 
 require('dotenv').config()
 ReactDOM.render(
@@ -35,17 +41,15 @@ ReactDOM.render(
 
   <BrowserRouter history={ history } >
   <Switch>
-    {/* <Redirect exact from="/" to="/login"/> */}
-
     <Route exact path="/" component={Login}  />
     <Route exact path="/signup" component={Signup}/>
       
     <Route exact path="/admin/dashboard" render={props => <AdminLayout {...props} />} />
-    {/* <Redirect from="/admin" to="/admin/dashboard" /> */}
     <Route exact path="/admin/devices" render={props => <AdminLayout {...props} />} />
     <Route exact path="/admin/sensors" render={props => <AdminLayout {...props} />} />
     <Route exact path="/admin/alarms" render={props => <AdminLayout {...props} />} />
     <Route exact path="/admin/reports" render={props => <AdminLayout {...props} />} />
+    <Route exact path="/admin/chart" component={Chartlist}/>
     <Route exact path="/admin/prtg-test" render={props => <AdminLayout {...props} />} />
     <Route exact path="/admin/prtg-nx-cloud" render={props => <AdminLayout {...props} />} />
     <Route exact path="/admin/maps" render={props => <AdminLayout {...props} />} />

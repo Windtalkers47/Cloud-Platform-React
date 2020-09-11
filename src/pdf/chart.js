@@ -15,7 +15,6 @@ export default class Chartlist extends Component {
         this.chartRef = React.createRef()
     }
 
-
 getCustomers = async () =>  {
     await axios.post(process.env.API_GETCUSTOMER)
     .then((res) => {
@@ -26,9 +25,11 @@ getCustomers = async () =>  {
 
 
 componentDidMount(){
-    // console.log(this.chartRef)
-    // console.log(this.chartRef.current.chartInstance.toBase64Image(), 'chart')
-
+    // console.log(this.chartRef1.current.Instance.toBase64Image())
+    // console.log(this.chartRef2.current.Instance.toBase64Image())
+    // console.log(this.chartRef3.current.Instance.toBase64Image())
+    // console.log(this.chartRef.current.chartInstance.chart.toBase64Image(), 'รูปภาพที่อ้างว้าง')
+    console.log(this.chartRef.current.chartInstance.chart,'ChartRef');
 }
 
 
@@ -171,11 +172,12 @@ Memory_chart(
 }
 
     render() {
+        window.print()
         return (
             <div className="container">
-                <div className="chart" id="chart" ref={this.chartRef}>
+                <div className="chart" id="chart">
 
-                    <Line
+                    <Line ref={this.chartRef}
                     data={this.CPU_chart(this.props.cpu_total,this.props.cpu_datetime,this.props.cpu_downtime)}
                     options={{
                         responsive:true,
@@ -194,6 +196,7 @@ Memory_chart(
                 <div className="chart">
 
                     <Line
+                    ref={el => this.chartRef2 = el}
                     data={this.Disk_chart(this.props.disk_datetime,this.props.disk_downtime,this.props.disk_FreeSpace)}
                     options={{
                         responsive:true,
@@ -211,12 +214,12 @@ Memory_chart(
                 <div className="chart">
 
                     <Line
-                    ref={this.chartRef}
+                    ref={el => this.chartRef3 = el}
                     data={this.Memory_chart(this.props.memory_datetime,this.props.memory_downtime,this.props.memory_percent)}
                     options={{
                         responsive:true,
                         title:{
-                            text: "รายงานความก้าวหน้าของ Disk",
+                            text: "รายงานความก้าวหน้าของ memory",
                             display: true,
                             fontsize: 60,
                         },

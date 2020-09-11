@@ -49,7 +49,7 @@
 
 /* กำหนดความยาวของปุ่มเลือกข้อมูล */
 select#dropdown {
-  width: 320px;
+  width: 90%;
 }
 
 div.panel-body input{
