@@ -20,6 +20,8 @@ import Dropdown from "../variables/Dropdown";
 import Chartlist from "../pdf/chart";
 import JsPDF from "pdf/JsPDF";
 
+import PDF from "../pdf/PDF.js";
+import RenderPDF from "../pdf/chart";
 
 // require('dotenv').config()
 
@@ -264,10 +266,6 @@ class TableList extends Component {
   handleData = () => {
     axios.get(process.env.REACT_APP_API_VM).then((res) => {
       this.setState({ data: res.data });
-      // console.log('res',res);
-      // console.log(res.data.cpu_data.raw_data);
-
-      // console.log(this.state.total);
     });
   };
 
@@ -408,40 +406,34 @@ class TableList extends Component {
                     </Row>
 
                     <Col md={2}>
-                      <button onClick={(event) => this.handleSubmit(event) }
-                      
-                      // cpu_total={this.state.cpu_total}
-                      // cpu_datetime={this.state.cpu_datetime}
-                      // cpu_downtime={this.state.cpu_downtime}
-                      // disk_FreeSpace={this.state.disk_FreeSpace}
-                      // disk_datatime={this.state.disk_datatime}
-                      // disk_downtime={this.state.disk_downtime}
-                      // memory_percent={this.state.memory_percent}
-                      // memory_datetime={this.state.memory_datetime}
-                      // memory_downtime={this.state.memory_downtime}
-                      // Datareport={this.state.Datareport}
-                      
-                      >
+                      <button onClick={(event) => this.handleSubmit(event) }>
                         Proceed
-                        {/* {this.state.redirect === true && <Redirect to="/admin/chart" push={true} />} */}
-
-                          {/* chartReference={this.chartReference}
+                      </button>
+                    </Col>
+                    
+                    {this.state.cpu_total.length > 0 &&
+                      this.state.cpu_datetime.length > 0 &&
+                      this.state.cpu_downtime.length > 0 &&
+                      this.state.disk_FreeSpace.length > 0 &&
+                      this.state.disk_datatime.length > 0 &&
+                      this.state.disk_downtime.length > 0 &&
+                      this.state.memory_percent.length > 0 &&
+                      this.state.memory_datetime.length > 0 &&
+                      this.state.memory_downtime.length > 0 && (
+                        <PDF
+                          chartReference={this.chartReference}
                           cpu_total={this.state.cpu_total}
                           cpu_datetime={this.state.cpu_datetime}
                           cpu_downtime={this.state.cpu_downtime}
                           disk_FreeSpace={this.state.disk_FreeSpace}
-                          disk_datatime={this.state.disk_datatime}
+                          disk_datetime={this.state.disk_datatime}
                           disk_downtime={this.state.disk_downtime}
                           memory_percent={this.state.memory_percent}
                           memory_datetime={this.state.memory_datetime}
                           memory_downtime={this.state.memory_downtime}
-                          Datareport={this.state.Datareport} */}
-                      </button>
-                    </Col>
-
-                    {/* <Col md={2}>
-                    <button onClick={() => window.print()}>PRINT</button>
-                    </Col> */}
+                          Datareport={this.state.Datareport}
+                        />
+                      )}
 
 
                     {/* <Col md={3}>
@@ -451,8 +443,9 @@ class TableList extends Component {
                       />
                     </Col> */}
 
+
                     {/* เงื่อนไขเช็คข้อมูลก่อนแสดงผลกราฟ */}
-                    {this.state.cpu_total.length > 0 &&
+                    {/* {this.state.cpu_total.length > 0 &&
                       this.state.cpu_datetime.length > 0 &&
                       this.state.cpu_downtime.length > 0 &&
                       this.state.disk_FreeSpace.length > 0 &&
@@ -467,14 +460,14 @@ class TableList extends Component {
                           cpu_datetime={this.state.cpu_datetime}
                           cpu_downtime={this.state.cpu_downtime}
                           disk_FreeSpace={this.state.disk_FreeSpace}
-                          disk_datatime={this.state.disk_datatime}
+                          disk_datetime={this.state.disk_datatime}
                           disk_downtime={this.state.disk_downtime}
                           memory_percent={this.state.memory_percent}
                           memory_datetime={this.state.memory_datetime}
                           memory_downtime={this.state.memory_downtime}
                           Datareport={this.state.Datareport}
                         />
-                      )}
+                      )} */}
                   </div>
                 }
               />
