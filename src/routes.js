@@ -60,7 +60,13 @@ const dashboardRoutes = [
     component: Reports,
     layout: "/admin"
   },
-
+  {
+    path: "/report_modal",
+    name: "Reports_Modal",
+    icon: "pe-7s-file",
+    component: Report_Modal,
+    layout: "/admin"
+  },
   // {
   //   path: "/Chart",
   //   name: "Chart",

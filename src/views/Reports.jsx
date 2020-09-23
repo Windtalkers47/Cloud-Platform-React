@@ -18,8 +18,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import Dropdown from "../variables/Dropdown";
 import Chartlist from "../pdf/chart";
-import Exportpdf from "../pdf/Exportpdf";
 import JsPDF from "pdf/JsPDF";
+
 
 // require('dotenv').config()
 
@@ -410,20 +410,22 @@ class TableList extends Component {
                     <Col md={2}>
                       <button onClick={(event) => this.handleSubmit(event) }
                       
-                      cpu_total={this.state.cpu_total}
-                      cpu_datetime={this.state.cpu_datetime}
-                      cpu_downtime={this.state.cpu_downtime}
-                      disk_FreeSpace={this.state.disk_FreeSpace}
-                      disk_datatime={this.state.disk_datatime}
-                      disk_downtime={this.state.disk_downtime}
-                      memory_percent={this.state.memory_percent}
-                      memory_datetime={this.state.memory_datetime}
-                      memory_downtime={this.state.memory_downtime}
-                      Datareport={this.state.Datareport}>
-                        Preview
-                        {this.state.redirect === true && <Redirect to="/admin/chart" push={true} />}
+                      // cpu_total={this.state.cpu_total}
+                      // cpu_datetime={this.state.cpu_datetime}
+                      // cpu_downtime={this.state.cpu_downtime}
+                      // disk_FreeSpace={this.state.disk_FreeSpace}
+                      // disk_datatime={this.state.disk_datatime}
+                      // disk_downtime={this.state.disk_downtime}
+                      // memory_percent={this.state.memory_percent}
+                      // memory_datetime={this.state.memory_datetime}
+                      // memory_downtime={this.state.memory_downtime}
+                      // Datareport={this.state.Datareport}
+                      
+                      >
+                        Proceed
+                        {/* {this.state.redirect === true && <Redirect to="/admin/chart" push={true} />} */}
 
-                          chartReference={this.chartReference}
+                          {/* chartReference={this.chartReference}
                           cpu_total={this.state.cpu_total}
                           cpu_datetime={this.state.cpu_datetime}
                           cpu_downtime={this.state.cpu_downtime}
@@ -433,21 +435,21 @@ class TableList extends Component {
                           memory_percent={this.state.memory_percent}
                           memory_datetime={this.state.memory_datetime}
                           memory_downtime={this.state.memory_downtime}
-                          Datareport={this.state.Datareport}
+                          Datareport={this.state.Datareport} */}
                       </button>
                     </Col>
 
-                    <Col md={2}>
+                    {/* <Col md={2}>
                     <button onClick={() => window.print()}>PRINT</button>
-                    </Col>
+                    </Col> */}
 
 
-                    <Col md={3}>
+                    {/* <Col md={3}>
                       <PDFexport
                         component={Chartlist}
                         chartReference={this.state.chartData}
                       />
-                    </Col>
+                    </Col> */}
 
                     {/* เงื่อนไขเช็คข้อมูลก่อนแสดงผลกราฟ */}
                     {this.state.cpu_total.length > 0 &&
