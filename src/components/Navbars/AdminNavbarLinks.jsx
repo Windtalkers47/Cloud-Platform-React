@@ -60,7 +60,7 @@ class AdminNavbarLinks extends Component {
     );
     return (
       <div>
-        <Nav>
+        {/* <Nav>
           <NavItem eventKey={1} href="/admin/dashboard">
             <i className="fa fa-dashboard" />
             <p className="hidden-lg hidden-md">Dashboard</p>
@@ -77,16 +77,19 @@ class AdminNavbarLinks extends Component {
             <MenuItem eventKey={2.4}>4</MenuItem>
             <MenuItem eventKey={2.5}>null</MenuItem>
           </NavDropdown>
+          
           <NavItem eventKey={3} href="#">
             <i className="fa fa-search" />
             <p className="hidden-lg hidden-md">Search</p>
           </NavItem>
-        </Nav>
+        </Nav> */}
+
         <Nav pullRight>
           <NavItem eventKey={1} href="/user">
-            Account
+            About
           </NavItem>
-          <NavDropdown
+
+          {/* <NavDropdown
             eventKey={2}
             title="Dropdown"
             id="basic-nav-dropdown-right"
@@ -98,7 +101,7 @@ class AdminNavbarLinks extends Component {
             <MenuItem eventKey={2.5}>5</MenuItem>
             <MenuItem divider />
             <MenuItem eventKey={2.5}>link</MenuItem>
-          </NavDropdown>
+          </NavDropdown> */}
 
           <NavItem eventKey={3} href="#">
             <div onClick={() => this.logoutHandler()}>Log out</div>

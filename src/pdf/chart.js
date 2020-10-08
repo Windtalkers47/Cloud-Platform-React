@@ -6,6 +6,21 @@ import Card from "components/Card/Card.jsx";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 import ReactToPrint ,{ useReactToPrint } from 'react-to-print';
 import PDF from "./PDF.js";
+import moment from "moment";
+import ChartistGraph from "react-chartist";
+import {
+    dataPie,
+    legendPie,
+    dataSales,
+    optionsSales,
+    responsiveSales,
+    legendSales,
+    dataBar,
+    optionsBar,
+    responsiveBar,
+    legendBar
+  } from "../variables/Variables.jsx";
+
 
 export default function Chartlist({
     chartReference,
@@ -35,19 +50,18 @@ const getCustomers = async () =>  {
   }
 
 
-
 const CPU_chart = (cpu_total,
     cpu_datetime,
     cpu_downtime, 
     ) => {
 
-    // cpu_datetime.map(item=>{
-    //     if(item.moment().format() ==="12:00:00"){
-    //         return item.moment().format()
-    //     }else{
-    //         return ""
-    //     }
-    // })
+//    cpu_datetime.map(item=>{
+//         if(item.moment().format() ==="12:00:00"){
+//             return item.moment().format('L');
+//         }else{
+//             return ""
+//         }
+//     })
 
         // console.log(cpu_total,'cpu_total');
 
@@ -61,10 +75,10 @@ const CPU_chart = (cpu_total,
                     data:cpu_total,
 
                     backgroundColor: [
-                        'rgba(255, 99, 132, 10)',
+                        'rgba(75,192,192,1)',
                     ],
                     borderColor: [
-                        'rgba(255, 99, 132, 10)',
+                        'rgba(0,0,0,0.7)',
                     ],
                     borderWidth: 2,
                 },
@@ -74,10 +88,10 @@ const CPU_chart = (cpu_total,
                     data:cpu_downtime,
 
                     backgroundColor: [
-                        'rgba(255, 99, 255, 10)',
+                        'rgba(255, 130, 0, 10)',
                     ],
                     borderColor: [
-                        'rgba(255, 99, 255, 10)',
+                        'rgba(0,0,0,0.7)',
                     ],
                     borderWidth: 2,
                 },
@@ -108,10 +122,10 @@ const Disk_chart = (
                     data:disk_FreeSpace,
 
                     backgroundColor: [
-                        'rgba(255, 99, 132, 10)',
+                        'rgba(255, 35, 71, 10)',
                     ],
                     borderColor: [
-                        'rgba(255, 99, 132, 10)',
+                        'rgba(0,0,0,0.7)',
                     ],
                     borderWidth: 2,
                 },
@@ -121,10 +135,10 @@ const Disk_chart = (
                     data:disk_downtime,
 
                     backgroundColor: [
-                        'rgba(255, 99, 255, 10)',
+                        'rgba(255, 130, 0, 10)',
                     ],
                     borderColor: [
-                        'rgba(255, 99, 255, 10)',
+                        'rgba(0,0,0,0.7)',
                     ],
                     borderWidth: 2,
                 },
@@ -150,10 +164,10 @@ const Memory_chart = (
                     data:memory_percent,
 
                     backgroundColor: [
-                        'rgba(255, 99, 132, 10)',
+                        'rgba(60, 179, 113, 10)',
                     ],
                     borderColor: [
-                        'rgba(255, 99, 132, 10)',
+                        'rgba(0,0,0,0.7)',
                     ],
                     borderWidth: 2,
                 },
@@ -163,10 +177,10 @@ const Memory_chart = (
                     data:memory_downtime,
 
                     backgroundColor: [
-                        'rgba(255, 99, 255, 10)',
+                        'rgba(255, 130, 0, 10)',
                     ],
                     borderColor: [
-                        'rgba(255, 99, 255, 10)',
+                        'rgba(0,0,0,0.7)',
                     ],
                     borderWidth: 2,
                 },
@@ -175,6 +189,7 @@ const Memory_chart = (
 
     return Memory_chart
 }
+
 
 useEffect( () => {
     
@@ -186,22 +201,24 @@ useEffect( () => {
 
 // if(isloading) return <div>Loading...</div>
 
-// console.log(cpu_total,'CPU Chart');
+// console.log(disk_FreeSpace,'disk Chart');
+// console.log(disk_datetime,'disk date');
+// console.log(disk_downtime,'disk down');
 
         return (
             <div className="container">
                 <div className="chart" id="chart">
-
 
                     <Line
                     // ref={el => this.chartRef = el}
                         data={CPU_chart(cpu_total,cpu_datetime,cpu_downtime)}
                         options={{
                             responsive:true,
+                            maintainAspectRatio: true,
                             title:{
                                 text: "รายงานความก้าวหน้าของ CPU",
                                 display: true,
-                                fontsize: 60,
+                                fontsize: 20,
                             },
                             scales:{
                                 yAxes:[{
@@ -225,9 +242,7 @@ useEffect( () => {
                                     }
                                 }]
                             },
-
                         }}
-
                     />
 
                 </div>
@@ -236,13 +251,14 @@ useEffect( () => {
 
                     <Line
                         // ref={el => this.chartRef2 = el}
-                        data={Disk_chart(disk_datetime,disk_downtime,disk_FreeSpace)}
+                        data={Disk_chart(disk_FreeSpace,disk_datetime,disk_downtime)}
                         options={{
                             responsive:true,
+                            maintainAspectRatio: true,
                             title:{
                                 text: "รายงานความก้าวหน้าของ Disk",
                                 display: true,
-                                fontsize: 60,
+                                fontsize: 20,
                             },
                             scales:{
                                 yAxes:[{
@@ -279,10 +295,11 @@ useEffect( () => {
                         data={Memory_chart(memory_datetime,memory_downtime,memory_percent)}
                         options={{
                             responsive:true,
+                            maintainAspectRatio: true,
                             title:{
                                 text: "รายงานความก้าวหน้าของ memory",
                                 display: true,
-                                fontsize: 60,
+                                fontsize: 20,
                             },
                             scales:{
                                 yAxes:[{

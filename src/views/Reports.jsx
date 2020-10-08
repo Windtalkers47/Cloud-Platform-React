@@ -65,7 +65,7 @@ class TableList extends Component {
 
       // State ไว้เก็บข้อมูลของ Disk อาจมีหลาย Disk
       disk_FreeSpace: [],
-      disk_datatime: [],
+      disk_datetime: [],
       disk_downtime: [],
 
       // State ไว้เก็บข้อมูลของ Memory
@@ -123,7 +123,7 @@ class TableList extends Component {
         // State เก็บค่า CPU Total
         this.setState({
           cpu_total: res.data.cpu_data[0].raw_data.map((item) => {
-            return item.Total;
+            return item.total;
           }),
         });
 
@@ -153,7 +153,7 @@ class TableList extends Component {
 
         // State เก็บค่า Disk datetime
         this.setState({
-          disk_datatime: res.data.disk_data.map((item1) => {
+          disk_datetime: res.data.disk_data.map((item1) => {
             return item1.raw_data.map((item2) => {
               return item2.datetime;
             });
@@ -282,6 +282,12 @@ class TableList extends Component {
     //   chartData: ref
     // })
   }
+
+//   data.filter((text) => {
+//     const _searchText = category.toString().toLowerCase()
+//     const _text = text.category_id == null ? '' : text.category_id.toString().toLowerCase()
+//     return _text.search(_searchText) !== -1
+// });
 
   render() {
     // ประกาศฟังก์ชั่น setDate เพื่อเซ็ตค่าที่เลือกส่งไปให้ State DatePicker
@@ -415,7 +421,7 @@ class TableList extends Component {
                       this.state.cpu_datetime.length > 0 &&
                       this.state.cpu_downtime.length > 0 &&
                       this.state.disk_FreeSpace.length > 0 &&
-                      this.state.disk_datatime.length > 0 &&
+                      this.state.disk_datetime.length > 0 &&
                       this.state.disk_downtime.length > 0 &&
                       this.state.memory_percent.length > 0 &&
                       this.state.memory_datetime.length > 0 &&
@@ -426,7 +432,7 @@ class TableList extends Component {
                           cpu_datetime={this.state.cpu_datetime}
                           cpu_downtime={this.state.cpu_downtime}
                           disk_FreeSpace={this.state.disk_FreeSpace}
-                          disk_datetime={this.state.disk_datatime}
+                          disk_datetime={this.state.disk_datetime}
                           disk_downtime={this.state.disk_downtime}
                           memory_percent={this.state.memory_percent}
                           memory_datetime={this.state.memory_datetime}
@@ -449,7 +455,7 @@ class TableList extends Component {
                       this.state.cpu_datetime.length > 0 &&
                       this.state.cpu_downtime.length > 0 &&
                       this.state.disk_FreeSpace.length > 0 &&
-                      this.state.disk_datatime.length > 0 &&
+                      this.state.disk_datetime.length > 0 &&
                       this.state.disk_downtime.length > 0 &&
                       this.state.memory_percent.length > 0 &&
                       this.state.memory_datetime.length > 0 &&
@@ -460,7 +466,7 @@ class TableList extends Component {
                           cpu_datetime={this.state.cpu_datetime}
                           cpu_downtime={this.state.cpu_downtime}
                           disk_FreeSpace={this.state.disk_FreeSpace}
-                          disk_datetime={this.state.disk_datatime}
+                          disk_datetime={this.state.disk_datetime}
                           disk_downtime={this.state.disk_downtime}
                           memory_percent={this.state.memory_percent}
                           memory_datetime={this.state.memory_datetime}

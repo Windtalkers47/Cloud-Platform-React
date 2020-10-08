@@ -44,7 +44,7 @@ class Report_Modal extends Component {
 
       // State ไว้เก็บข้อมูลของ Disk อาจมีหลาย Disk
       disk_FreeSpace: [],
-      disk_datatime: [],
+      disk_datetime: [],
       disk_downtime: [],
 
       // State ไว้เก็บข้อมูลของ Memory
@@ -56,6 +56,10 @@ class Report_Modal extends Component {
       DateReport: [],
       chartData: React.createRef(),
       redirect: false,
+
+      // เก็บชื่อบริษัทใส่หน้าปก Report
+      CompanyNameTH:"",
+      CompanyNameEN:"",
 
     };
   }
@@ -102,7 +106,7 @@ class Report_Modal extends Component {
         // State เก็บค่า CPU Total
         this.setState({
           cpu_total: res.data.cpu_data[0].raw_data.map((item) => {
-            return item.Total;
+            return item.total;
           }),
         });
 
@@ -125,19 +129,24 @@ class Report_Modal extends Component {
         this.setState({
           disk_FreeSpace: res.data.disk_data.map((item1) => {
             return item1.raw_data.map((item2) => {
-              return item2.free_space;
+              return item2.free_space
             });
           }),
         });
 
+        console.log(this.state.disk_FreeSpace,'freespace');
+
         // State เก็บค่า Disk datetime
         this.setState({
-          disk_datatime: res.data.disk_data.map((item1) => {
+          disk_datetime: res.data.disk_data.map((item1) => {
             return item1.raw_data.map((item2) => {
               return item2.datetime;
             });
           }),
         });
+
+        console.log(this.state.disk_datetime,'datetime');
+
 
         // State เอาไว้เก็บค่า downtime ของ disk
         this.setState({
@@ -148,6 +157,8 @@ class Report_Modal extends Component {
           }),
         });
 
+        console.log(this.state.disk_downtime,'downtime');
+        
         // State เอาไว้เก็บค่า Datetime ของ Memory
         this.setState({
           memory_datetime: res.data.memory_data.map((item1) => {
@@ -227,6 +238,8 @@ class Report_Modal extends Component {
         {
           headers: {
             authorization: `Bearer ${this.state.access_token}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json', 
           },
         }
       )
@@ -241,6 +254,28 @@ class Report_Modal extends Component {
         // console.log("AXIOS ERROR: ", err);
       });
   };
+
+  CNOAPI = () => {
+    // const url ="http://203.151.210.47:3306/api/v1/findcompanyname";
+    // const Companyname = this.state.CNO;
+
+    axios({
+      method: 'post',
+      url: process.env.REACT_APP_API_COMPANY_NAME,
+      data: {'cno' : 123456789},
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json', 
+      }
+    })
+    .then((res) => {
+      this.setState({
+        CompanyNameTH : res.data.companynameth, // เก็บค่าใส่ตัวแปร TH
+        CompanyNameEN : res.data.companynameen, // เก็บค่าใส่ตัวแปร EN
+      })
+      console.log(this.state.CompanyNameTH,'CNO');
+    })
+  }
 
   handleData = () => {
     axios.get(process.env.REACT_APP_API_VM).then((res) => {
@@ -384,17 +419,18 @@ class Report_Modal extends Component {
                       </Col>
                     </Row>
 
-                    <Col md={2}>
-                      <button onClick={(event) => this.handleSubmit(event) }>
+                    <Col md={1}>
+                      <button id="proceed" onClick={(event) => this.handleSubmit(event) }>
                         Proceed
                       </button>
                     </Col>
+
                     
                     {this.state.cpu_total.length > 0 &&
                       this.state.cpu_datetime.length > 0 &&
                       this.state.cpu_downtime.length > 0 &&
                       this.state.disk_FreeSpace.length > 0 &&
-                      this.state.disk_datatime.length > 0 &&
+                      this.state.disk_datetime.length > 0 &&
                       this.state.disk_downtime.length > 0 &&
                       this.state.memory_percent.length > 0 &&
                       this.state.memory_datetime.length > 0 &&
@@ -405,7 +441,7 @@ class Report_Modal extends Component {
                           cpu_datetime={this.state.cpu_datetime}
                           cpu_downtime={this.state.cpu_downtime}
                           disk_FreeSpace={this.state.disk_FreeSpace}
-                          disk_datetime={this.state.disk_datatime}
+                          disk_datetime={this.state.disk_datetime}
                           disk_downtime={this.state.disk_downtime}
                           memory_percent={this.state.memory_percent}
                           memory_datetime={this.state.memory_datetime}
@@ -428,7 +464,7 @@ class Report_Modal extends Component {
                       this.state.cpu_datetime.length > 0 &&
                       this.state.cpu_downtime.length > 0 &&
                       this.state.disk_FreeSpace.length > 0 &&
-                      this.state.disk_datatime.length > 0 &&
+                      this.state.disk_datetime.length > 0 &&
                       this.state.disk_downtime.length > 0 &&
                       this.state.memory_percent.length > 0 &&
                       this.state.memory_datetime.length > 0 &&
@@ -439,7 +475,7 @@ class Report_Modal extends Component {
                           cpu_datetime={this.state.cpu_datetime}
                           cpu_downtime={this.state.cpu_downtime}
                           disk_FreeSpace={this.state.disk_FreeSpace}
-                          disk_datetime={this.state.disk_datatime}
+                          disk_datetime={this.state.disk_datetime}
                           disk_downtime={this.state.disk_downtime}
                           memory_percent={this.state.memory_percent}
                           memory_datetime={this.state.memory_datetime}

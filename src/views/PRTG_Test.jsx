@@ -40,7 +40,7 @@ class PRTG_Test extends Component {
 
       // State ไว้เก็บข้อมูลของ Disk อาจมีหลาย Disk
       disk_FreeSpace:[],
-      disk_datatime:[],
+      disk_datetime:[],
       disk_downtime:[],
 
       // State ไว้เก็บข้อมูลของ Memory
@@ -119,7 +119,7 @@ class PRTG_Test extends Component {
 
       // State เก็บค่า Disk datetime
       this.setState({
-        disk_datatime : res.data.disk_data.map((item1) => {
+        disk_datetime : res.data.disk_data.map((item1) => {
           return item1.raw_data.map((item2) => {
             return item2.datetime;
           })
@@ -394,7 +394,7 @@ class PRTG_Test extends Component {
                       this.state.cpu_downtime.length > 0 &&
 
                       this.state.disk_FreeSpace.length > 0 &&
-                      this.state.disk_datatime.length > 0 &&
+                      this.state.disk_datetime.length > 0 &&
                       this.state.disk_downtime.length > 0 &&
 
                       this.state.memory_percent.length > 0 &&
@@ -408,7 +408,7 @@ class PRTG_Test extends Component {
                         cpu_downtime={this.state.cpu_downtime}
 
                         disk_FreeSpace={this.state.disk_FreeSpace}
-                        disk_datatime={this.state.disk_datatime}
+                        disk_datetime={this.state.disk_datetime}
                         disk_downtime={this.state.disk_downtime}
 
                         memory_percent={this.state.memory_percent}
