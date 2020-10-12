@@ -91,8 +91,7 @@ class Report_Modal extends Component {
           authorization: `Bearer ${this.state.access_token}`,
         },
       });
-      console.log("Response Preview", res);
-      // console.log("Time", objid);
+      // console.log("Response Preview", res);
 
       // ใช้ if ดัก data ให้มันรอและเซ็ต report ให้เก็บ res.data
       if (res.data) {
@@ -134,7 +133,6 @@ class Report_Modal extends Component {
           }),
         });
 
-        console.log(this.state.disk_FreeSpace,'freespace');
 
         // State เก็บค่า Disk datetime
         this.setState({
@@ -145,7 +143,6 @@ class Report_Modal extends Component {
           }),
         });
 
-        console.log(this.state.disk_datetime,'datetime');
 
 
         // State เอาไว้เก็บค่า downtime ของ disk
@@ -157,7 +154,6 @@ class Report_Modal extends Component {
           }),
         });
 
-        console.log(this.state.disk_downtime,'downtime');
         
         // State เอาไว้เก็บค่า Datetime ของ Memory
         this.setState({
@@ -307,6 +303,22 @@ class Report_Modal extends Component {
       }
     };
 
+
+    // ฟังก์ชั่นแปลงเวลาไปใส่ State DateTime ทั้ง 3 ตัว CPU,Disk,Memory
+    const setDatetime = (key, val) =>{
+      if (key === "0") {
+        this.setState({ cpu_datetime : moment().format('L')});
+      }
+      if (key === "0"){
+        this.setState({ disk_datetime : moment().format("L")});
+      }
+      if (key === "0"){
+        this.setState({ memory_datetime : moment().format("L")});
+      }
+    }
+
+
+
     return (
       <div className="content">
         <Grid fluid>
@@ -336,6 +348,7 @@ class Report_Modal extends Component {
                                   <select
                                     id="dropdown"
                                     onChange={this.handlecustomers}
+                                    className="btn btn-default dropdown-toggle"
                                   >
                                     <option value="">Select Customer</option>
                                     {this.state.customerList
@@ -372,6 +385,7 @@ class Report_Modal extends Component {
                                   <select
                                     id="dropdown"
                                     onChange={this.handlevm}
+                                    className="btn btn-default dropdown-toggle"
                                   >
                                     <option value="">Select VM</option>
                                     {this.state.VMList
@@ -420,7 +434,8 @@ class Report_Modal extends Component {
                     </Row>
 
                     <Col md={1}>
-                      <button id="proceed" onClick={(event) => this.handleSubmit(event) }>
+                      <button id="proceed" className="btn btn-primary btn-md" role="button"
+                        onClick={(event) => this.handleSubmit(event) }>
                         Proceed
                       </button>
                     </Col>

@@ -40,6 +40,16 @@ export default function Chartlist({
     const [isloading, setisloading] = useState(false)
     // const chartRef = React.createRef()
 
+    const set_datetime = () => {
+        disk_datetime.map(item=>{
+            if(item.moment().format() ==="12:00:00"){
+                return item.moment().format('L');
+            }else{
+                return ""
+            }
+        })
+    }
+        console.log(disk_datetime,'disk_datetime');
 
 const getCustomers = async () =>  {
     await axios.post(process.env.API_GETCUSTOMER)
@@ -55,7 +65,7 @@ const CPU_chart = (cpu_total,
     cpu_downtime, 
     ) => {
 
-//    cpu_datetime.map(item=>{
+//    cpu_datetime.map(item=()=>{
 //         if(item.moment().format() ==="12:00:00"){
 //             return item.moment().format('L');
 //         }else{
@@ -111,6 +121,15 @@ const Disk_chart = (
     disk_datetime,
     disk_downtime,
     ) => {
+
+
+        // disk_datetime.map(item=>{
+        //     if(item.moment().format() ==="12:00:00"){
+        //         return item.moment().format('L');
+        //     }else{
+        //         return ""
+        //     }
+        // })
 
 
     let Disk_chart = {

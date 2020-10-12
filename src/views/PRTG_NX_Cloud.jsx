@@ -321,6 +321,7 @@ export default class PRTG_NX_Cloud extends Component {
                                   <select
                                     id="dropdown"
                                     onChange={this.handlecustomers}
+                                    className="btn btn-default dropdown-toggle"
                                   >
                                     <option value="">Select Customer</option>
                                     {this.state.customerList
@@ -357,6 +358,7 @@ export default class PRTG_NX_Cloud extends Component {
                                   <select
                                     id="dropdown"
                                     onChange={this.handlevm}
+                                    className="btn btn-default dropdown-toggle"
                                   >
                                     <option value="">Select VM</option>
                                     {this.state.VMList
@@ -405,10 +407,12 @@ export default class PRTG_NX_Cloud extends Component {
                     </Row>
 
                     <Col md={2}>
-                      <button onClick={(event) => this.handleSubmit(event)}>
+                      <button className="btn btn-primary btn-md" role="button"
+                        onClick={(event) => this.handleSubmit(event)}>
                         Download PDF
                       </button>
                     </Col>
+
 
 
                           {/* เงื่อนไขเช็คข้อมูล */}

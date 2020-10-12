@@ -328,6 +328,7 @@ class TableList extends Component {
                                   <select
                                     id="dropdown"
                                     onChange={this.handlecustomers}
+                                    className="btn btn-default dropdown-toggle"
                                   >
                                     <option value="">Select Customer</option>
                                     {this.state.customerList
@@ -364,6 +365,7 @@ class TableList extends Component {
                                   <select
                                     id="dropdown"
                                     onChange={this.handlevm}
+                                    className="btn btn-default dropdown-toggle"
                                   >
                                     <option value="">Select VM</option>
                                     {this.state.VMList
@@ -411,8 +413,9 @@ class TableList extends Component {
                       </Col>
                     </Row>
 
-                    <Col md={2}>
-                      <button onClick={(event) => this.handleSubmit(event) }>
+                    <Col md={1}>
+                      <button id="proceed" className="btn btn-primary btn-md" role="button"
+                        onClick={(event) => this.handleSubmit(event) }>
                         Proceed
                       </button>
                     </Col>

@@ -6,6 +6,7 @@ import axios from 'axios';
 import { BrowserRouter} from "react-router-dom";
 import {Router, Route, Link, RouteHandler} from 'react-router';
 import history from "../helper/history";
+import NotificationSystem from "react-notification-system";
 
 import bg_fog from "../assets/img/bg_fog.jpg";
 import "./Login.css";
@@ -76,14 +77,12 @@ export default class Login extends React.Component {
     render() {
       return (
           <div className="contentHome" >
-                  {/* <Grid fluid className="mainHome" > */}
-                      <div className="mainlogin" style={{ backgroundImage: `url(${bg_fog})` }} >
+            <div className="mainlogin" style={{ backgroundImage: `url(${bg_fog})` }} >
                          
-
               <form onSubmit={this.handleSubmit}>
 
                   <div className="form-group">
-                  <h2>Login...</h2>
+                  <h2 className="Login-text">Login...</h2>
                   <br></br>
                   Username: <br></br>
                   <input required type = "text" onChange={this.handleUserName} 
@@ -109,11 +108,9 @@ export default class Login extends React.Component {
                   {/* <button type="button" onClick={this.handleSignup} className="btn btn-primary btn-block">Sign up</button> */}
                   
                   </div>
-
               </form>
                             
-                  </div>
-              {/* </Grid> */}
+            </div>
           </div>
   
       )

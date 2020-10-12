@@ -64,8 +64,9 @@ const  CNOAPI = () => {
     return (
         <div>
 
-            <Col md={2}>
-              <button onClick={handlePrint}>Print Report</button>
+            <Col md={1}>
+              <button className="btn btn-primary btn-md" role="button"
+                onClick={handlePrint}>Print Report</button>
             </Col>
             <ComponentToPrint 
               ref={componentRef} 

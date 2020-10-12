@@ -44,19 +44,19 @@ ReactDOM.render(
   <BrowserRouter history={ history } >
   <Switch>
     <Route exact path="/" component={Login}  />
-    <Route exact path="/signup" component={Signup}/>
+    <Route path="/signup" component={Signup}/>
       
-    <Route exact path="/admin/dashboard" render={props => <AdminLayout {...props} />} />
-    <Route exact path="/admin/devices" render={props => <AdminLayout {...props} />} />
-    <Route exact path="/admin/sensors" render={props => <AdminLayout {...props} />} />
-    <Route exact path="/admin/alarms" render={props => <AdminLayout {...props} />} />
-    <Route exact path="/admin/reports" render={props => <AdminLayout {...props} />} />
-    <Route exact path="/admin/report_modal" render={props => <AdminLayout {...props} />} />
-    <Route exact path="/admin/chart" component={Chartlist}/>
-    <Route exact path="/admin/prtg-test" render={props => <AdminLayout {...props} />} />
-    <Route exact path="/admin/prtg-nx-cloud" render={props => <AdminLayout {...props} />} />
-    <Route exact path="/admin/maps" render={props => <AdminLayout {...props} />} />
-    <Route exact path="/admin/user" render={props => <AdminLayout {...props} />} />
+    <Route path="/admin/dashboard" render={props => <AdminLayout {...props} />} />
+    <Route path="/admin/devices" render={props => <AdminLayout {...props} />} />
+    <Route path="/admin/sensors" render={props => <AdminLayout {...props} />} />
+    <Route path="/admin/alarms" render={props => <AdminLayout {...props} />} />
+    <Route path="/admin/reports" render={props => <AdminLayout {...props} />} />
+    <Route path="/admin/report_modal" render={props => <AdminLayout {...props} />} />
+    <Route path="/admin/chart" component={Chartlist}/>
+    <Route path="/admin/prtg-test" render={props => <AdminLayout {...props} />} />
+    <Route path="/admin/prtg-nx-cloud" render={props => <AdminLayout {...props} />} />
+    <Route path="/admin/maps" render={props => <AdminLayout {...props} />} />
+    <Route path="/admin/user" render={props => <AdminLayout {...props} />} />
 
 
 

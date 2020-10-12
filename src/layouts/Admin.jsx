@@ -18,7 +18,7 @@ class Admin extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      _notificationSystem: null,
+      // _notificationSystem: null,
       image: image,
       color: "black",
       hasImage: true,
@@ -27,6 +27,7 @@ class Admin extends Component {
   }
   // สุ่มสีที่เอาไว้แสดงผล ====================================
   handleNotificationClick = position => {
+    // var color = Math.floor(Math.random() * 4 + 1);
     var color = Math.floor(Math.random() * 4 + 1);
     var level;
     switch (color) {
@@ -46,17 +47,18 @@ class Admin extends Component {
         break;
     }
 
-    this.state._notificationSystem.addNotification({
-      title: <span data-notify="icon" className="pe-7s-gift" />,
-      message: (
-        <div>
-          ยินดีต้อนรับสู่ <b>Cloud Platform Dashboard</b> ค่ะ.
-        </div>
-      ),
-      level: level,
-      position: position,
-      autoDismiss: 15
-    });
+    // this.state._notificationSystem.addNotification({
+    //   title: <span data-notify="icon" className="pe-7s-gift" />,
+    //   message: (
+    //     <div>
+    //       ยินดีต้อนรับสู่ <b>Cloud Platform Dashboard</b> ค่ะ.
+    //     </div>
+    //   ),
+    //   level: level,
+    //   position: position,
+    //   autoDismiss: 15,
+    // });
+
   };
 
   // route ที่ใช้แสดงผล =====================================
@@ -135,17 +137,18 @@ class Admin extends Component {
         break;
     }
 
-    _notificationSystem.addNotification({
-      title: <span data-notify="icon" className="pe-7s-gift" />,
-      message: (
-        <div>
-          ยินดีต้อนรับสู่ <b>Cloud Platform Dashboard</b> - ค่ะ.
-        </div>
-      ),
-      level: level,
-      position: "tr",
-      autoDismiss: 15,
-    });
+    // _notificationSystem.addNotification({
+    //   title: <span data-notify="icon" className="pe-7s-gift" />,
+    //   message: (
+    //     <div>
+    //       ยินดีต้อนรับสู่ <b>Cloud Platform Dashboard</b> - ค่ะ.
+    //     </div>
+    //   ),
+    //   level: level,
+    //   position: "tr",
+    //   autoDismiss: 15,
+    // });
+    
   }
 
   componentDidUpdate(e) {

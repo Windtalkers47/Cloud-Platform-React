@@ -38,6 +38,8 @@ export default function Datepicker(props) {
         timeInputLabel="Time"
         showTimeInput
         dateFormat="yyyy-MM-dd-00-00-00 aa"
+        isClearable
+        selectsRange
       />
       </Col>
 
@@ -57,6 +59,8 @@ export default function Datepicker(props) {
         showTimeInput
         dateFormat="yyyy-MM-dd-00-00-00 aa"
         // dateFormat="yyyy-MM-dd-hh-mm-ss aa"
+        isClearable
+        selectsRange
       />
       </Col>
 
