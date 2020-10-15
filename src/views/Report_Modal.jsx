@@ -57,10 +57,7 @@ class Report_Modal extends Component {
       chartData: React.createRef(),
       redirect: false,
 
-      // เก็บชื่อบริษัทใส่หน้าปก Report
-      CompanyNameTH:"",
-      CompanyNameEN:"",
-
+      isLoading:false,
     };
   }
 
@@ -72,6 +69,8 @@ class Report_Modal extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
 
+    // this.setState({ isLoading: true });
+    
     // url ที่กำหนด
     // const url = "http://192.168.250.134:5555/api/selectVm";
     const url = process.env.REACT_APP_API_VM;
@@ -100,7 +99,6 @@ class Report_Modal extends Component {
         // console.log('CPU Data' , res.data.cpu_data); // เอาไว้ดูข้อมูลของ CPU
         // console.log('Disk Data', res.data.disk_data); // เอาไว้ดูข้อมูลของ Disk
         // console.log('Memory Data', res.data.memory_data);
-
 
         // State เก็บค่า CPU Total
         this.setState({
@@ -142,8 +140,6 @@ class Report_Modal extends Component {
             });
           }),
         });
-
-
 
         // State เอาไว้เก็บค่า downtime ของ disk
         this.setState({
@@ -251,27 +247,27 @@ class Report_Modal extends Component {
       });
   };
 
-  CNOAPI = () => {
-    // const url ="http://203.151.210.47:3306/api/v1/findcompanyname";
-    // const Companyname = this.state.CNO;
+  // CNOAPI = () => {
+  //   // const url ="http://203.151.210.47:3306/api/v1/findcompanyname";
+  //   // const Companyname = this.state.CNO;
 
-    axios({
-      method: 'post',
-      url: process.env.REACT_APP_API_COMPANY_NAME,
-      data: {'cno' : 123456789},
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json', 
-      }
-    })
-    .then((res) => {
-      this.setState({
-        CompanyNameTH : res.data.companynameth, // เก็บค่าใส่ตัวแปร TH
-        CompanyNameEN : res.data.companynameen, // เก็บค่าใส่ตัวแปร EN
-      })
-      console.log(this.state.CompanyNameTH,'CNO');
-    })
-  }
+  //   axios({
+  //     method: 'post',
+  //     url: process.env.REACT_APP_API_COMPANY_NAME,
+  //     data: {'cno' : 123456789},
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Accept': 'application/json', 
+  //     }
+  //   })
+  //   .then((res) => {
+  //     this.setState({
+  //       CompanyNameTH : res.data.companynameth, // เก็บค่าใส่ตัวแปร TH
+  //       CompanyNameEN : res.data.companynameen, // เก็บค่าใส่ตัวแปร EN
+  //     })
+  //     console.log(this.state.CompanyNameTH,'CNO');
+  //   })
+  // }
 
   handleData = () => {
     axios.get(process.env.REACT_APP_API_VM).then((res) => {
@@ -294,6 +290,11 @@ class Report_Modal extends Component {
   }
 
   render() {
+
+    // if (!this.state.isLoading) {
+    //   return <div>Loading...</div>
+    // }
+
     // ประกาศฟังก์ชั่น setDate เพื่อเซ็ตค่าที่เลือกส่งไปให้ State DatePicker
     const setDate = (key, val) => {
       if (key === "sdate") {
@@ -317,6 +318,15 @@ class Report_Modal extends Component {
       }
     }
 
+  //   const set_datetime = () => {
+  //     this.state.disk_datetime.map(item=>{
+  //         if(item.moment().format() >="12:00:00"){
+  //             return item.moment().format('L');
+  //         }else{
+  //             return ""
+  //         }
+  //     })
+  // }
 
 
     return (
@@ -333,14 +343,10 @@ class Report_Modal extends Component {
                   <div>
                     <Row>
                       <Col md={6}>
-                        <Card
-                          category="กรุณาเลือก Customer ที่ต้องการ"
-                          ctTableFullWidth
-                          ctTableResponsive
-                          content={
+
                             <div>
                               <div
-                                className="panel panel-info"
+                                className="panel panel-success"
                                 onSubmit={this.handleSubmit}
                               >
                                 <div className="panel-heading">Customers</div>
@@ -366,18 +372,13 @@ class Report_Modal extends Component {
                                 </div>
                               </div>
                             </div>
-                          }
-                        />
+
                       </Col>
                       <Col md={6}>
-                        <Card
-                          category="กรุณาเลือก VM ที่ต้องการ"
-                          ctTableFullWidth
-                          ctTableResponsive
-                          content={
+
                             <div>
                               <div
-                                className="panel panel-info"
+                                className="panel panel-success"
                                 onSubmit={this.handleSubmit}
                               >
                                 <div className="panel-heading">VM</div>
@@ -401,24 +402,19 @@ class Report_Modal extends Component {
                                 </div>
                               </div>
                             </div>
-                          }
-                        />
+
                       </Col>
                     </Row>
 
                     <Row>
                       <Col md={12}>
-                        <Card
-                          category="กรุณาเลือกช่องเวลาที่ต้องการ"
-                          ctTableFullWidth
-                          ctTableResponsive
-                          content={
+
                             <div>
                               <div
-                                className="panel panel-info"
+                                className="panel panel-success"
                                 onSubmit={this.handleSubmit}
                               >
-                                <div className="panel-heading">Date Time</div>
+                                <div className="panel-heading">ระยะเวลา</div>
                                 <div className="panel-body">
                                   {/* ส่วนของตัวเลือกเวลา */}
                                   <Datepicker
@@ -428,8 +424,7 @@ class Report_Modal extends Component {
                                 </div>
                               </div>
                             </div>
-                          }
-                        />
+
                       </Col>
                     </Row>
 
@@ -439,8 +434,8 @@ class Report_Modal extends Component {
                         Proceed
                       </button>
                     </Col>
-
                     
+                    {/* เงื่อนไขเช็คข้อมูลก่อนแสดงผลกราฟ */}
                     {this.state.cpu_total.length > 0 &&
                       this.state.cpu_datetime.length > 0 &&
                       this.state.cpu_downtime.length > 0 &&
@@ -474,30 +469,6 @@ class Report_Modal extends Component {
                     </Col> */}
 
 
-                    {/* เงื่อนไขเช็คข้อมูลก่อนแสดงผลกราฟ */}
-                    {/* {this.state.cpu_total.length > 0 &&
-                      this.state.cpu_datetime.length > 0 &&
-                      this.state.cpu_downtime.length > 0 &&
-                      this.state.disk_FreeSpace.length > 0 &&
-                      this.state.disk_datetime.length > 0 &&
-                      this.state.disk_downtime.length > 0 &&
-                      this.state.memory_percent.length > 0 &&
-                      this.state.memory_datetime.length > 0 &&
-                      this.state.memory_downtime.length > 0 && (
-                        <Chartlist
-                          chartReference={this.chartReference}
-                          cpu_total={this.state.cpu_total}
-                          cpu_datetime={this.state.cpu_datetime}
-                          cpu_downtime={this.state.cpu_downtime}
-                          disk_FreeSpace={this.state.disk_FreeSpace}
-                          disk_datetime={this.state.disk_datetime}
-                          disk_downtime={this.state.disk_downtime}
-                          memory_percent={this.state.memory_percent}
-                          memory_datetime={this.state.memory_datetime}
-                          memory_downtime={this.state.memory_downtime}
-                          Datareport={this.state.Datareport}
-                        />
-                      )} */}
                   </div>
                 }
               />

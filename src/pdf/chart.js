@@ -7,19 +7,7 @@ import { Grid, Row, Col, Table } from "react-bootstrap";
 import ReactToPrint ,{ useReactToPrint } from 'react-to-print';
 import PDF from "./PDF.js";
 import moment from "moment";
-import ChartistGraph from "react-chartist";
-import {
-    dataPie,
-    legendPie,
-    dataSales,
-    optionsSales,
-    responsiveSales,
-    legendSales,
-    dataBar,
-    optionsBar,
-    responsiveBar,
-    legendBar
-  } from "../variables/Variables.jsx";
+
 
 
 export default function Chartlist({
@@ -39,17 +27,6 @@ export default function Chartlist({
     const [total, setTotal] = useState([])
     const [isloading, setisloading] = useState(false)
     // const chartRef = React.createRef()
-
-    const set_datetime = () => {
-        disk_datetime.map(item=>{
-            if(item.moment().format() ==="12:00:00"){
-                return item.moment().format('L');
-            }else{
-                return ""
-            }
-        })
-    }
-        console.log(disk_datetime,'disk_datetime');
 
 const getCustomers = async () =>  {
     await axios.post(process.env.API_GETCUSTOMER)
@@ -73,11 +50,14 @@ const CPU_chart = (cpu_total,
 //         }
 //     })
 
-        // console.log(cpu_total,'cpu_total');
+
+          let _cpu_datetime = cpu_datetime?.map((item)=>{
+              return item.split(" ")[0]
+          })
 
 
     let CPU_chart = {
-            labels:cpu_datetime, // X
+            labels:_cpu_datetime, // X
             datasets:[ // Y
                 {
                     label:'Total',
@@ -110,7 +90,7 @@ const CPU_chart = (cpu_total,
                 //     responsive: true,
                 //     data:datetime,
                 // },
-            ]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+            ]                                            
     }
 
     return CPU_chart
@@ -123,17 +103,15 @@ const Disk_chart = (
     ) => {
 
 
-        // disk_datetime.map(item=>{
-        //     if(item.moment().format() ==="12:00:00"){
-        //         return item.moment().format('L');
-        //     }else{
-        //         return ""
-        //     }
-        // })
-
+        let _disk_datetime = disk_datetime ?.map((item1) => {
+            return item1 ?.map((item2) => {
+                return item2.split(" ")[0];
+            })
+        })
+        
 
     let Disk_chart = {
-            labels:disk_datetime, // X
+            labels:_disk_datetime, // X
             datasets:[ // Y
                 {
                     label:'Free Space',
@@ -162,7 +140,7 @@ const Disk_chart = (
                     borderWidth: 2,
                 },
 
-            ]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+            ]                                                
     }
 
     return Disk_chart
@@ -173,9 +151,14 @@ const Memory_chart = (
     memory_downtime,
     memory_percent,) => {
 
+        let _memory_datetime = memory_datetime ?.map((item1) => {
+            return item1 ?.map((item2) => {
+                return item2.split(" ")[0];
+            })
+        })
 
     let Memory_chart = {
-            labels:memory_datetime, // X
+            labels:_memory_datetime, // X
             datasets:[ // Y
                 {
                     label:'Percent Available Memory',
@@ -203,7 +186,7 @@ const Memory_chart = (
                     ],
                     borderWidth: 2,
                 },
-            ]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+            ]                                               
     }
 
     return Memory_chart
@@ -223,6 +206,7 @@ useEffect( () => {
 // console.log(disk_FreeSpace,'disk Chart');
 // console.log(disk_datetime,'disk date');
 // console.log(disk_downtime,'disk down');
+
 
         return (
             <div className="container">

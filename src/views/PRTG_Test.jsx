@@ -361,7 +361,7 @@ class PRTG_Test extends Component {
                                 className="panel panel-info"
                                 onSubmit={this.handleSubmit}
                               >
-                                <div className="panel-heading">Date Time</div>
+                                <div className="panel-heading">ระยะเวลา</div>
                                 <div className="panel-body">
                                   {/* ส่วนของตัวเลือกเวลา */}
                                   <Datepicker

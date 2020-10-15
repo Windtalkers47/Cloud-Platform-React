@@ -306,14 +306,10 @@ export default class PRTG_NX_Cloud extends Component {
                   <div>
                     <Row>
                       <Col md={6}>
-                        <Card
-                          category="กรุณาเลือก Customer ที่ต้องการ"
-                          ctTableFullWidth
-                          ctTableResponsive
-                          content={
+
                             <div>
                               <div
-                                className="panel panel-info"
+                                className="panel panel-success"
                                 onSubmit={this.handleSubmit}
                               >
                                 <div className="panel-heading">Customers</div>
@@ -339,18 +335,13 @@ export default class PRTG_NX_Cloud extends Component {
                                 </div>
                               </div>
                             </div>
-                          }
-                        />
+  
                       </Col>
                       <Col md={6}>
-                        <Card
-                          category="กรุณาเลือก VM ที่ต้องการ"
-                          ctTableFullWidth
-                          ctTableResponsive
-                          content={
+
                             <div>
                               <div
-                                className="panel panel-info"
+                                className="panel panel-success"
                                 onSubmit={this.handleSubmit}
                               >
                                 <div className="panel-heading">VM</div>
@@ -374,24 +365,19 @@ export default class PRTG_NX_Cloud extends Component {
                                 </div>
                               </div>
                             </div>
-                          }
-                        />
+ 
                       </Col>
                     </Row>
 
                     <Row>
                       <Col md={12}>
-                        <Card
-                          category="กรุณาเลือกช่องเวลาที่ต้องการ"
-                          ctTableFullWidth
-                          ctTableResponsive
-                          content={
+
                             <div>
                               <div
-                                className="panel panel-info"
+                                className="panel panel-success"
                                 onSubmit={this.handleSubmit}
                               >
-                                <div className="panel-heading">Date Time</div>
+                                <div className="panel-heading">ระยะเวลา</div>
                                 <div className="panel-body">
                                   {/* ส่วนของตัวเลือกเวลา */}
                                   <Datepicker
@@ -401,8 +387,7 @@ export default class PRTG_NX_Cloud extends Component {
                                 </div>
                               </div>
                             </div>
-                          }
-                        />
+     
                       </Col>
                     </Row>
 

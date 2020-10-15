@@ -16,6 +16,8 @@ export default function PDF(props) {
   // Function ดึง API Company Name
   const [CompanyNameTH, setCompanyNameTH] =  useState()
   const [CompanyNameEN, setCompanyNameEN] =  useState()
+
+  
   // const CNOAPI = () => {
 
   //   const url = process.env.REACT_APP_API_COMPANY_NAME;
@@ -42,7 +44,8 @@ export default function PDF(props) {
   //   }
   // }
 
-const  CNOAPI = () => {
+  const CNOAPI = () => {
+
     axios({
       method: 'post',
       url: process.env.REACT_APP_API_COMPANY_NAME,
@@ -57,14 +60,15 @@ const  CNOAPI = () => {
         CompanyNameTH : res.data.companynameth, // เก็บค่าใส่ตัวแปร TH
         CompanyNameEN : res.data.companynameen, // เก็บค่าใส่ตัวแปร EN
       })
-      console.log(this.state.CompanyNameTH,'CNO');
     })
   }
 
+  // console.log(CompanyNameTH,'CNO');
+
+
     return (
         <div>
-
-            <Col md={1}>
+            <Col md={2}>
               <button className="btn btn-primary btn-md" role="button"
                 onClick={handlePrint}>Print Report</button>
             </Col>
@@ -79,6 +83,7 @@ const  CNOAPI = () => {
               memory_percent={props.memory_percent}
               memory_datetime={props.memory_datetime}
               memory_downtime={props.memory_downtime}
+              set_datetime={props.set_datetime}
             />
         </div>
     )
