@@ -16,14 +16,41 @@ import Datepicker from "../variables/Datepicker";
 import "../variables/DateCSS.css";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
-import Dropdown from "../variables/Dropdown";
 import Chartlist from "../pdf/chart";
 import JsPDF from "pdf/JsPDF";
 
 import PDF from "../pdf/PDF.js";
 import RenderPDF from "../pdf/chart";
 
+import * as loadingData from "../loading.json";
+import * as successData from "../success.json";
+import FadeIn from "react-fade-in";
+import Lottie from "react-lottie";
+
+
+import "./loading.css";
+
 // require('dotenv').config()
+
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: loadingData.default,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice"
+  }
+};
+
+const defaultOptions2 = {
+  loop: true,
+  autoplay: true,
+  animationData: successData.default,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice"
+  }
+};
+
+
 
 class Report_Modal extends Component {
   constructor(props) {
@@ -57,8 +84,9 @@ class Report_Modal extends Component {
       chartData: React.createRef(),
       redirect: false,
 
-      isLoading:false,
-    };
+      loading: false, 
+      success: false,
+      };
   }
 
   // console.log(new Date(this.state.sdate).toString())
@@ -83,6 +111,9 @@ class Report_Modal extends Component {
       edate: this.state.edate,
       token: localStorage.getItem("access_token"),
     };
+
+    this.setState({loading : true})
+    this.setState({success : true})
 
     try {
       const res = await axios.post(url, objid, {
@@ -126,7 +157,7 @@ class Report_Modal extends Component {
         this.setState({
           disk_FreeSpace: res.data.disk_data.map((item1) => {
             return item1.raw_data.map((item2) => {
-              return item2.free_space
+              return item2.free_space;
             });
           }),
         });
@@ -248,8 +279,6 @@ class Report_Modal extends Component {
   };
 
   // CNOAPI = () => {
-  //   // const url ="http://203.151.210.47:3306/api/v1/findcompanyname";
-  //   // const Companyname = this.state.CNO;
 
   //   axios({
   //     method: 'post',
@@ -308,26 +337,15 @@ class Report_Modal extends Component {
     // ฟังก์ชั่นแปลงเวลาไปใส่ State DateTime ทั้ง 3 ตัว CPU,Disk,Memory
     const setDatetime = (key, val) =>{
       if (key === "0") {
-        this.setState({ cpu_datetime : moment().format('L')});
+        this.setState({ cpu_datetime : moment(val).format('L')});
       }
       if (key === "0"){
-        this.setState({ disk_datetime : moment().format("L")});
+        this.setState({ disk_datetime : moment(val).format("L")});
       }
       if (key === "0"){
-        this.setState({ memory_datetime : moment().format("L")});
+        this.setState({ memory_datetime : moment(val).format("L")});
       }
     }
-
-  //   const set_datetime = () => {
-  //     this.state.disk_datetime.map(item=>{
-  //         if(item.moment().format() >="12:00:00"){
-  //             return item.moment().format('L');
-  //         }else{
-  //             return ""
-  //         }
-  //     })
-  // }
-
 
     return (
       <div className="content">
@@ -435,6 +453,27 @@ class Report_Modal extends Component {
                       </button>
                     </Col>
                     
+                    {/* {!this.success ? (
+                    <FadeIn>
+                      <div className ="loading">
+                        {!this.loading ? (
+                          <div className ='loading_img'>
+                            <Lottie options={defaultOptions} height={200} width={200} />
+                          </div>
+                        ) : (
+                            <Lottie options={defaultOptions2} height={200} width={200} />
+                          )}
+                      </div>
+                    </FadeIn>
+                  ) : (
+                    
+                      <div>
+
+                      </div>
+                    )} */}
+
+                    <FadeIn>
+
                     {/* เงื่อนไขเช็คข้อมูลก่อนแสดงผลกราฟ */}
                     {this.state.cpu_total.length > 0 &&
                       this.state.cpu_datetime.length > 0 &&
@@ -459,6 +498,7 @@ class Report_Modal extends Component {
                           Datareport={this.state.Datareport}
                         />
                       )}
+                      </FadeIn>
 
 
                     {/* <Col md={3}>

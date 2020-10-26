@@ -8,7 +8,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import { TableList } from "../views/Reports";
 import "./DateCSS.css";
 import moment from "moment";
-import Dropdown from "./Dropdown";
 
 export default function Datepicker(props) {
   const [startDate, setStartDate] = useState(new Date());
@@ -37,7 +36,7 @@ export default function Datepicker(props) {
         showYearDropdown
         timeInputLabel="Time"
         showTimeInput
-        dateFormat="yyyy-MM-dd-00-00-00 aa"
+        dateFormat="dd/MM/yyyy"
         isClearable
         selectsRange
       />
@@ -57,7 +56,8 @@ export default function Datepicker(props) {
         showYearDropdown
         timeInputLabel="Time"
         showTimeInput
-        dateFormat="yyyy-MM-dd-00-00-00 aa"
+        dateFormat="dd/MM/yyyy"
+        // dateFormat="yyyy-MM-dd-00-00-00"
         // dateFormat="yyyy-MM-dd-hh-mm-ss aa"
         isClearable
         selectsRange

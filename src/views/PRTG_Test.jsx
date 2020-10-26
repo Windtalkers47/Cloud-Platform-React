@@ -15,7 +15,6 @@ import Datepicker from "../variables/Datepicker";
 import "../variables/DateCSS.css";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
-import Dropdown from "../variables/Dropdown";
 import Chartlist from "../pdf/chart";
 
 require("dotenv").config();

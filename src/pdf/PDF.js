@@ -16,7 +16,7 @@ export default function PDF(props) {
   // Function ดึง API Company Name
   const [CompanyNameTH, setCompanyNameTH] =  useState()
   const [CompanyNameEN, setCompanyNameEN] =  useState()
-
+  
   
   // const CNOAPI = () => {
 
@@ -72,7 +72,7 @@ export default function PDF(props) {
               <button className="btn btn-primary btn-md" role="button"
                 onClick={handlePrint}>Print Report</button>
             </Col>
-            <ComponentToPrint 
+            <ComponentToPrint  
               ref={componentRef} 
               cpu_total={props.cpu_total}
               cpu_datetime={props.cpu_datetime}
@@ -100,8 +100,18 @@ class ComponentToPrint extends React.Component {
   
   render() {
     return (
+
       <Chartlist {...this.props}
+      style={
+        {"margin  ":"0"},
+        {"padding": "0"}
+        }
+        className="print-container"
       />
+      
     );
   }
 }
+
+
+

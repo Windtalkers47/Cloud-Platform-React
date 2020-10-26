@@ -12,7 +12,6 @@ export function useLoading() {
   return [loading, setLoading];
 }
 
-
 // Set State functional Component
 export function useLoadingEffect(loading) {
   const [, setLoading] = useLoading();
@@ -30,7 +29,6 @@ export function LoadingProvider({ children }) {
     </LoadingContext.Provider>
   );
 }
-
 
 // Style Css Loading
 export function Loading() {
@@ -63,3 +61,9 @@ export function Loading() {
     )
   );
 }
+
+
+
+
+
+

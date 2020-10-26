@@ -23,12 +23,25 @@
   @media print {
     @page { size: landscape; }
   }
+
+  @media print {
+    body {margin-top: 50mm; margin-bottom: 50mm; 
+          margin-left: 0mm; margin-right: 0mm}
+    footer {page-break-after: always;}
+
+}
   
   @page {
     size: auto;
-    margin: 20mm;
+    margin-top: 5cm;
+    margin-bottom: 5cm;
   }
 
+  .page-break {
+    page-break-after: always;
+    page-break-inside: avoid;
+    clear:both;
+}
 
 
   

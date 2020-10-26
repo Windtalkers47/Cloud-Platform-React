@@ -215,7 +215,7 @@ componentDidMount(){
             </Col>
           </Row>
 
-          <Row>
+          {/* <Row>
             <Col md={12}>
                 <Card content={
                   <h3>กล่องใส่ content</h3>
@@ -223,7 +223,7 @@ componentDidMount(){
                 />
 
             </Col>
-          </Row>
+          </Row> */}
 
                 {/* การแสดงผลแบบกราฟแท่งและ Task */}
           {/* <Row>

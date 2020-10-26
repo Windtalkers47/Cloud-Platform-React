@@ -28,6 +28,10 @@ export default function Chartlist({
     const [isloading, setisloading] = useState(false)
     // const chartRef = React.createRef()
 
+    // console.log(cpu_downtime,'cpu');
+    // console.log(disk_downtime,'disk');
+    // console.log(memory_downtime,'memory');
+
 const getCustomers = async () =>  {
     await axios.post(process.env.API_GETCUSTOMER)
     .then((res) => {
@@ -50,11 +54,13 @@ const CPU_chart = (cpu_total,
 //         }
 //     })
 
+console.log(cpu_downtime,'cpu_downtime');
 
           let _cpu_datetime = cpu_datetime?.map((item)=>{
               return item.split(" ")[0]
           })
 
+          console.log(cpu_downtime,'cpu_downtime');
 
     let CPU_chart = {
             labels:_cpu_datetime, // X
@@ -109,6 +115,7 @@ const Disk_chart = (
             })
         })
         
+        console.log(disk_downtime,'disk downtime');
 
     let Disk_chart = {
             labels:_disk_datetime, // X
@@ -156,6 +163,8 @@ const Memory_chart = (
                 return item2.split(" ")[0];
             })
         })
+
+        console.log(memory_downtime,'memory downtime');
 
     let Memory_chart = {
             labels:_memory_datetime, // X
@@ -210,7 +219,7 @@ useEffect( () => {
 
         return (
             <div className="container">
-                <div className="chart" id="chart">
+                <div className="page-break" id="chart">
 
                     <Line
                     // ref={el => this.chartRef = el}
@@ -250,7 +259,7 @@ useEffect( () => {
 
                 </div>
 
-                <div className="chart">
+                <div className="page-break">
 
                     <Line
                         // ref={el => this.chartRef2 = el}
@@ -291,7 +300,7 @@ useEffect( () => {
                     />
                 </div>
 
-                <div className="chart">
+                <div className="page-break">
 
                     <Line
                         // ref={el => this.chartRef3 = el}

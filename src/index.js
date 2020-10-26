@@ -29,6 +29,10 @@ import PDF from "./pdf/PDF";
 import { Area, Line, Bar } from "chart.js";
 import { useReactToPrint } from 'react-to-print';
 
+import FadeIn from "react-fade-in";
+import Lottie from "react-lottie";
+
+
 
 
 require('dotenv').config()
