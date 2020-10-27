@@ -96,8 +96,6 @@ class Report_Modal extends Component {
   // โดยอ้างอิงข้อมูลจาก url ที่กำหนดถ้าข้อมูลไม่มาให้ดูตรงนี้ก่อน <<<<<
   handleSubmit = async (e) => {
     e.preventDefault();
-
-    // this.setState({ isLoading: true });
     
     // url ที่กำหนด
     // const url = "http://192.168.250.134:5555/api/selectVm";
@@ -112,19 +110,17 @@ class Report_Modal extends Component {
       token: localStorage.getItem("access_token"),
     };
 
-    this.setState({loading : true})
-    this.setState({success : true})
-
     try {
       const res = await axios.post(url, objid, {
         headers: {
           authorization: `Bearer ${this.state.access_token}`,
         },
       });
-      // console.log("Response Preview", res);
+      console.log("Response Preview", res);
 
       // ใช้ if ดัก data ให้มันรอและเซ็ต report ให้เก็บ res.data
       if (res.data) {
+    
         this.setState({ DateReport: res.data });
         // console.log("Data Report", res.data); // เอาไว้ดูข้อมูลทั้ง 3 ส่วน
         // console.log('CPU Data' , res.data.cpu_data); // เอาไว้ดูข้อมูลของ CPU
@@ -167,20 +163,28 @@ class Report_Modal extends Component {
         this.setState({
           disk_datetime: res.data.disk_data.map((item1) => {
             return item1.raw_data.map((item2) => {
-              return item2.datetime;
+              return item2.datetime
             });
           }),
         });
+
 
         // State เอาไว้เก็บค่า downtime ของ disk
+        const disk_downtime = []
+         res.data.disk_data.map((item1) => {
+          const raw_data = item1.raw_data.map((item2) => {
+            return item2.downtime
+          });
+          disk_downtime.push(...raw_data)
+          return raw_data
+        })
         this.setState({
-          disk_downtime: res.data.disk_data.map((item1) => {
-            return item1.raw_data.map((item2) => {
-              return item2.downtime;
-            });
-          }),
+          disk_downtime: disk_downtime
+        },() => {
+          console.log(this.state.disk_downtime,'modal');
         });
 
+       
         
         // State เอาไว้เก็บค่า Datetime ของ Memory
         this.setState({
@@ -208,6 +212,9 @@ class Report_Modal extends Component {
             });
           }),
         });
+
+        this.setState({loading : true})
+        this.setState({success : true})
       }
     } catch (e) {
       // console.log({...e});
@@ -326,6 +333,7 @@ class Report_Modal extends Component {
 
     // ประกาศฟังก์ชั่น setDate เพื่อเซ็ตค่าที่เลือกส่งไปให้ State DatePicker
     const setDate = (key, val) => {
+      moment.locale('th');
       if (key === "sdate") {
         this.setState({ sdate: moment(val).format("yyyy-MM-DD-hh-mm-ss") });
       } else {
@@ -453,10 +461,10 @@ class Report_Modal extends Component {
                       </button>
                     </Col>
                     
-                    {/* {!this.success ? (
+                    {!this.state.success ? (
                     <FadeIn>
                       <div className ="loading">
-                        {!this.loading ? (
+                        {!this.state.loading ? (
                           <div className ='loading_img'>
                             <Lottie options={defaultOptions} height={200} width={200} />
                           </div>
@@ -466,13 +474,8 @@ class Report_Modal extends Component {
                       </div>
                     </FadeIn>
                   ) : (
-                    
-                      <div>
-
-                      </div>
-                    )} */}
-
                     <FadeIn>
+                      <div>
 
                     {/* เงื่อนไขเช็คข้อมูลก่อนแสดงผลกราฟ */}
                     {this.state.cpu_total.length > 0 &&
@@ -498,8 +501,10 @@ class Report_Modal extends Component {
                           Datareport={this.state.Datareport}
                         />
                       )}
-                      </FadeIn>
 
+                      </div>
+                    </FadeIn>
+                    )}
 
                     {/* <Col md={3}>
                       <PDFexport

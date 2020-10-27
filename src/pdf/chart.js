@@ -8,6 +8,29 @@ import ReactToPrint ,{ useReactToPrint } from 'react-to-print';
 import PDF from "./PDF.js";
 import moment from "moment";
 
+import * as loadingData from ".././loading.json";
+import * as successData from ".././success.json";
+import FadeIn from "react-fade-in";
+import Lottie from "react-lottie";
+
+const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: loadingData.default,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  };
+  
+  const defaultOptions2 = {
+    loop: true,
+    autoplay: true,
+    animationData: successData.default,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  };
+  
 
 
 export default function Chartlist({
@@ -25,8 +48,9 @@ export default function Chartlist({
 }) {
 
     const [total, setTotal] = useState([])
-    const [isloading, setisloading] = useState(false)
-    // const chartRef = React.createRef()
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
+      // const chartRef = React.createRef()
 
     // console.log(cpu_downtime,'cpu');
     // console.log(disk_downtime,'disk');
@@ -54,7 +78,6 @@ const CPU_chart = (cpu_total,
 //         }
 //     })
 
-console.log(cpu_downtime,'cpu_downtime');
 
           let _cpu_datetime = cpu_datetime?.map((item)=>{
               return item.split(" ")[0]
@@ -115,10 +138,13 @@ const Disk_chart = (
             })
         })
         
+        // console.log(disk_datetime,' Original disk_datetime');
+        // console.log(disk_FreeSpace,'disk FreeSpace');
+        // console.log(_disk_datetime,'disk datetime');
         console.log(disk_downtime,'disk downtime');
 
     let Disk_chart = {
-            labels:_disk_datetime, // X
+            labels:[_disk_datetime], // X
             datasets:[ // Y
                 {
                     label:'Free Space',
@@ -136,7 +162,7 @@ const Disk_chart = (
                 {
                     label:'Downtime',
                     responsive: true,
-                    data:disk_downtime,
+                    data:[disk_downtime],
 
                     backgroundColor: [
                         'rgba(255, 130, 0, 10)',
@@ -167,7 +193,7 @@ const Memory_chart = (
         console.log(memory_downtime,'memory downtime');
 
     let Memory_chart = {
-            labels:_memory_datetime, // X
+            labels:[_memory_datetime], // X
             datasets:[ // Y
                 {
                     label:'Percent Available Memory',
@@ -185,7 +211,7 @@ const Memory_chart = (
                 {
                     label:'Downtime',
                     responsive: true,
-                    data:memory_downtime,
+                    data:[memory_downtime],
 
                     backgroundColor: [
                         'rgba(255, 130, 0, 10)',
@@ -207,6 +233,10 @@ useEffect( () => {
     CPU_chart()
     Disk_chart()
     Memory_chart()
+
+    setLoading(true);
+    setSuccess(true);
+
 
 })
 
