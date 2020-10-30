@@ -4,10 +4,16 @@ import { Grid, Row, Col, Table } from "react-bootstrap";
 import Card from "components/Card/Card.jsx";
 import { thArray, tdArray } from "variables/Variables.jsx";
 import DatePicker from "react-datepicker";
+import { registerLocale, setDefaultLocale } from  "react-datepicker";
+import th from 'date-fns/locale/th';
+
 import "react-datepicker/dist/react-datepicker.css";
 import { TableList } from "../views/Reports";
 import "./DateCSS.css";
 import moment from "moment";
+
+registerLocale('th', th)
+
 
 export default function Datepicker(props) {
   const [startDate, setStartDate] = useState(new Date());
@@ -22,6 +28,7 @@ export default function Datepicker(props) {
           */}
       <p>วันที่เริ่ม</p>
       <DatePicker
+        locale="th"
         selected={startDate}
         onChange={
           (e) => {
@@ -46,6 +53,7 @@ export default function Datepicker(props) {
       <p>วันที่สิ้นสุด</p>
       <DatePicker
         // วันที่สิ้นสุด
+        locale="th"
         selected={endDate}
         onChange={(e) => {setEndDate(e);props.setDate("edate", e)}}
         selectsEnd

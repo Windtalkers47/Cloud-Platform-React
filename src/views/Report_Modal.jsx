@@ -86,6 +86,9 @@ class Report_Modal extends Component {
 
       loading: false, 
       success: false,
+
+      fields: {},
+      errors: {},
       };
   }
 
@@ -116,7 +119,7 @@ class Report_Modal extends Component {
           authorization: `Bearer ${this.state.access_token}`,
         },
       });
-      console.log("Response Preview", res);
+      console.log("Debug Axios", res);
 
       // ใช้ if ดัก data ให้มันรอและเซ็ต report ให้เก็บ res.data
       if (res.data) {
@@ -156,6 +159,8 @@ class Report_Modal extends Component {
               return item2.free_space;
             });
           }),
+        },() => {
+          // console.log(this.state.disk_FreeSpace,'Debug ค่า Map');
         });
 
 
@@ -170,19 +175,32 @@ class Report_Modal extends Component {
 
 
         // State เอาไว้เก็บค่า downtime ของ disk
-        const disk_downtime = []
-         res.data.disk_data.map((item1) => {
+        // วิธีการเอา 2 arrays ของ axios post มารวมกัน
+        // const disk_downtime = []
+        //  res.data.disk_data.map((item1) => {
+        //   const raw_data = item1.raw_data.map((item2) => {
+        //     return item2.downtime
+        //   });
+        //   disk_downtime.push(...raw_data)
+        //   return [...raw_data]
+        // })
+        // this.setState({
+        //   disk_downtime: disk_downtime
+        // },() => {
+        //   console.log(this.state.disk_downtime,'Debug Disk Downtime');
+        // });
+
+        const _disk_downtime = res.data.disk_data.map((item1) => {
           const raw_data = item1.raw_data.map((item2) => {
             return item2.downtime
-          });
-          disk_downtime.push(...raw_data)
-          return raw_data
+          })
         })
         this.setState({
-          disk_downtime: disk_downtime
-        },() => {
-          console.log(this.state.disk_downtime,'modal');
-        });
+          disk_downtime: _disk_downtime
+        }, () => {
+          console.log(this.state.disk_downtime,'Debug Disk Downtime');
+        })
+
 
        
         
@@ -285,25 +303,26 @@ class Report_Modal extends Component {
       });
   };
 
-  // CNOAPI = () => {
+  CompanaName_API = () => {
 
-  //   axios({
-  //     method: 'post',
-  //     url: process.env.REACT_APP_API_COMPANY_NAME,
-  //     data: {'cno' : 123456789},
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'Accept': 'application/json', 
-  //     }
-  //   })
-  //   .then((res) => {
-  //     this.setState({
-  //       CompanyNameTH : res.data.companynameth, // เก็บค่าใส่ตัวแปร TH
-  //       CompanyNameEN : res.data.companynameen, // เก็บค่าใส่ตัวแปร EN
-  //     })
-  //     console.log(this.state.CompanyNameTH,'CNO');
-  //   })
-  // }
+    axios({
+      method: 'post',
+      url: process.env.REACT_APP_API_COMPANY_NAME,
+      data: {'cno' : 123456789},
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json', 
+      }
+    })
+    .then((res) => {
+      this.setState({
+        CompanyNameTH : res.data.companynameth, // เก็บค่าใส่ตัวแปร TH
+        CompanyNameEN : res.data.companynameen, // เก็บค่าใส่ตัวแปร EN
+      })
+      console.log(this.state.CompanyNameTH,'CompanyName ENG');
+      console.log(this.state.CompanyNameEN,'CompanyName TH');
+    })
+  }
 
   handleData = () => {
     axios.get(process.env.REACT_APP_API_VM).then((res) => {
@@ -335,9 +354,9 @@ class Report_Modal extends Component {
     const setDate = (key, val) => {
       moment.locale('th');
       if (key === "sdate") {
-        this.setState({ sdate: moment(val).format("yyyy-MM-DD-hh-mm-ss") });
+        this.setState({ sdate: moment(val).format("yyyy-MM-DD-HH-mm-ss") });
       } else {
-        this.setState({ edate: moment(val).format("yyyy-MM-DD-hh-mm-ss") });
+        this.setState({ edate: moment(val).format("yyyy-MM-DD-HH-mm-ss") });
       }
     };
 
@@ -454,7 +473,12 @@ class Report_Modal extends Component {
                       </Col>
                     </Row>
 
-                    <Col md={1}>
+                    {/* <Col md={2}>
+                      <button className="btn btn-primary btn-md" role="button"
+                        onClick={this.CompanaName_API}>Call Company Name</button>
+                    </Col> */}
+
+                    <Col md={2}>
                       <button id="proceed" className="btn btn-primary btn-md" role="button"
                         onClick={(event) => this.handleSubmit(event) }>
                         Proceed

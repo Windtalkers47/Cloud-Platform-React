@@ -6,7 +6,6 @@ import { Grid, Row, Col, Table } from "react-bootstrap";
 
 export default function PDF(props) {
 
-
   // Function ตัวแปรเอาไว้เก็บ componentRef ที่เอาไว้แสดงผล
     const componentRef = useRef();
     const handlePrint = useReactToPrint({
@@ -33,10 +32,9 @@ export default function PDF(props) {
   //         'Content-Type': 'application/json',
   //         'Accept': 'application/json', 
   //       },
+  //     }, () => {
+  //       console.log(res,'CNO API');
   //     });
-
-  //     console.log("CompanyName",res);
-
 
   //   } catch (e) {
   //       console.log({...e});
@@ -44,27 +42,26 @@ export default function PDF(props) {
   //   }
   // }
 
-  const CNOAPI = () => {
+  // const CNOAPI = () => {
 
-    axios({
-      method: 'post',
-      url: process.env.REACT_APP_API_COMPANY_NAME,
-      data: {'cno' : 123456789},
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json', 
-      }
-    })
-    .then((res) => {
-      this.setState({
-        CompanyNameTH : res.data.companynameth, // เก็บค่าใส่ตัวแปร TH
-        CompanyNameEN : res.data.companynameen, // เก็บค่าใส่ตัวแปร EN
-      })
-    })
-  }
-
-  // console.log(CompanyNameTH,'CNO');
-
+  //   axios({
+  //     method: 'post',
+  //     url: process.env.REACT_APP_API_COMPANY_NAME,
+  //     data: {'cno' : 123456789},
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Accept': 'application/json', 
+  //     }
+  //   }, () => {
+  //     console.log(CNOAPI,'CNOAPI');
+  //   })
+  //   .then((res) => {
+  //     this.setState({
+  //       CompanyNameTH : res.data.companynameth, // เก็บค่าใส่ตัวแปร TH
+  //       CompanyNameEN : res.data.companynameen, // เก็บค่าใส่ตัวแปร EN
+  //     })
+  //   })
+  // }
 
     return (
         <div>
@@ -72,6 +69,10 @@ export default function PDF(props) {
               <button className="btn btn-primary btn-md" role="button"
                 onClick={handlePrint}>Print Report</button>
             </Col>
+            {/* <Col md={1}>
+              <button className="btn btn-primary btn-md" role="button"
+                onClick={CNOAPI}>Call Company Name</button>
+            </Col> */}
             <ComponentToPrint  
               ref={componentRef} 
               cpu_total={props.cpu_total}

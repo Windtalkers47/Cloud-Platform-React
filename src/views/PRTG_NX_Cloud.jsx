@@ -1,24 +1,48 @@
 import React, { Component, useState } from "react";
+import ReactDOM from "react-dom";
 import { Grid, Row, Col, Table } from "react-bootstrap";
+import  { Redirect } from 'react-router-dom'
 
 import Card from "components/Card/Card.jsx";
 import { thArray, tdArray } from "variables/Variables.jsx";
 
-import { Bar, Line, Area } from "chart.js";
-import { Chart } from "react-chartjs-2";
+import { HorizontalBar, Bar, Line } from "react-chartjs-2";
 import PDFexport, { toDataURL } from "../pdf/PDFexport";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import base64Img from "base64-img";
-import ReactPDF from "@react-pdf/renderer";
 import Datepicker from "../variables/Datepicker";
 import "../variables/DateCSS.css";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import Chartlist from "../pdf/chart";
 
+import PDF from "../pdf/PDF.js";
+
+import * as loadingData from "../loading.json";
+import * as successData from "../success.json";
+import FadeIn from "react-fade-in";
+import Lottie from "react-lottie";
 
 require("dotenv").config();
+
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: loadingData.default,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice"
+  }
+};
+
+const defaultOptions2 = {
+  loop: true,
+  autoplay: true,
+  animationData: successData.default,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice"
+  }
+};
 
 export default class PRTG_NX_Cloud extends Component {
     constructor(props) {
@@ -52,7 +76,12 @@ export default class PRTG_NX_Cloud extends Component {
 
           // State ไว้เก็บ Link PDF ของลูกค้า
           Link_NX_Cloud:"",
-          
+          redirect: false,
+
+          loading: false, 
+          success: false,
+
+          CheckStatus:false,
         };
       }
 
@@ -80,10 +109,13 @@ export default class PRTG_NX_Cloud extends Component {
               'Accept': 'application/json', 
             }
           }).then((result)=>{
-            console.log('result', result)
             this.setState({Link_NX_Cloud : result.data.result});
             window.open(this.state.Link_NX_Cloud)
+            // console.log(result)
 
+          }).catch(e => {
+            console.log(e)
+            alert("ไม่สามารถส่งคำขอได้ กรุณาเลือกตัวอื่นค่ะ")
           })
     
           // setTimeout(() => this.setState({timePassed: true,
@@ -178,7 +210,9 @@ export default class PRTG_NX_Cloud extends Component {
               })
             })
           })
-    
+
+          this.setState({loading : true})
+          this.setState({success : true})
     
           }
         } catch (e) {
@@ -273,9 +307,9 @@ export default class PRTG_NX_Cloud extends Component {
         // ประกาศฟังก์ชั่น setDate เพื่อเซ็ตค่าที่เลือกส่งไปให้ State DatePicker
         const setDate = (key, val) => {
           if (key === "sdate") {
-            this.setState({ sdate: moment(val).format("yyyy-MM-DD-hh-mm-ss") });
+            this.setState({ sdate: moment(val).format("yyyy-MM-DD-HH-mm-ss") });
           } else {
-            this.setState({ edate: moment(val).format("yyyy-MM-DD-hh-mm-ss") });
+            this.setState({ edate: moment(val).format("yyyy-MM-DD-HH-mm-ss") });
           }
         };
 

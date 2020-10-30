@@ -53,7 +53,7 @@ export default function Chartlist({
       // const chartRef = React.createRef()
 
     // console.log(cpu_downtime,'cpu');
-    // console.log(disk_downtime,'disk');
+    console.log(disk_downtime,'disk_downtime props');
     // console.log(memory_downtime,'memory');
 
 const getCustomers = async () =>  {
@@ -83,7 +83,7 @@ const CPU_chart = (cpu_total,
               return item.split(" ")[0]
           })
 
-          console.log(cpu_downtime,'cpu_downtime');
+        //   console.log(cpu_downtime,'cpu_downtime');
 
     let CPU_chart = {
             labels:_cpu_datetime, // X
@@ -141,7 +141,16 @@ const Disk_chart = (
         // console.log(disk_datetime,' Original disk_datetime');
         // console.log(disk_FreeSpace,'disk FreeSpace');
         // console.log(_disk_datetime,'disk datetime');
-        console.log(disk_downtime,'disk downtime');
+        // console.log(disk_downtime,'disk downtime');
+
+        // const New_Disk_Downtime = disk_downtime[]
+        // disk_downtime.forEach(element => {
+        //     disk_downtime= element
+        //     return element
+        // }, () => {
+        //     console.log(New_Disk_Downtime,'Debug Disk_Downtime');
+        // });
+        
 
     let Disk_chart = {
             labels:[_disk_datetime], // X
@@ -190,7 +199,7 @@ const Memory_chart = (
             })
         })
 
-        console.log(memory_downtime,'memory downtime');
+        // console.log(memory_downtime,'memory downtime');
 
     let Memory_chart = {
             labels:[_memory_datetime], // X

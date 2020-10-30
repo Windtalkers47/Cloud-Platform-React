@@ -21,7 +21,30 @@ import JsPDF from "pdf/JsPDF";
 
 import PDF from "../pdf/PDF.js";
 import RenderPDF from "../pdf/chart";
+import * as loadingData from "../loading.json";
+import * as successData from "../success.json";
+import FadeIn from "react-fade-in";
+import Lottie from "react-lottie";
 
+require("dotenv").config();
+
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: loadingData.default,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice"
+  }
+};
+
+const defaultOptions2 = {
+  loop: true,
+  autoplay: true,
+  animationData: successData.default,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice"
+  }
+};
 // require('dotenv').config()
 
 // function getBase64FromImageUrl(url) {
@@ -77,6 +100,8 @@ class TableList extends Component {
       chartData: React.createRef(),
       redirect: false,
 
+      loading: false, 
+      success: false,
     };
   }
 
@@ -194,6 +219,8 @@ class TableList extends Component {
             });
           }),
         });
+        this.setState({loading : true})
+        this.setState({success : true})
       }
     } catch (e) {
       // console.log({...e});
@@ -292,9 +319,9 @@ class TableList extends Component {
     // ประกาศฟังก์ชั่น setDate เพื่อเซ็ตค่าที่เลือกส่งไปให้ State DatePicker
     const setDate = (key, val) => {
       if (key === "sdate") {
-        this.setState({ sdate: moment(val).format("yyyy-MM-DD-hh-mm-ss") });
+        this.setState({ sdate: moment(val).format("yyyy-MM-DD-HH-mm-ss") });
       } else {
-        this.setState({ edate: moment(val).format("yyyy-MM-DD-hh-mm-ss") });
+        this.setState({ edate: moment(val).format("yyyy-MM-DD-HH-mm-ss") });
       }
     };
 
@@ -404,6 +431,23 @@ class TableList extends Component {
                       </button>
                     </Col>
                     
+                    {!this.state.success ? (
+                    <FadeIn>
+                      <div className ="loading">
+                        {!this.state.loading ? (
+                          <div className ='loading_img'>
+                            <Lottie options={defaultOptions} height={200} width={200} />
+                          </div>
+                        ) : (
+                            <Lottie options={defaultOptions2} height={200} width={200} />
+                          )}
+                      </div>
+                    </FadeIn>
+                  ) : (
+                    <FadeIn>
+                      <div>
+
+                    {/* เงื่อนไขเช็คข้อมูลก่อนแสดงผลกราฟ */}
                     {this.state.cpu_total.length > 0 &&
                       this.state.cpu_datetime.length > 0 &&
                       this.state.cpu_downtime.length > 0 &&
@@ -427,6 +471,10 @@ class TableList extends Component {
                           Datareport={this.state.Datareport}
                         />
                       )}
+
+                      </div>
+                    </FadeIn>
+                    )}
 
 
                     {/* <Col md={3}>
