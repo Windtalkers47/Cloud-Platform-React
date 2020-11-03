@@ -81,7 +81,6 @@ export default class PRTG_NX_Cloud extends Component {
           loading: false, 
           success: false,
 
-          CheckStatus:false,
         };
       }
 
@@ -109,12 +108,15 @@ export default class PRTG_NX_Cloud extends Component {
               'Accept': 'application/json', 
             }
           }).then((result)=>{
+
+            this.setState({loading : true})
+            this.setState({success : true})
+
             this.setState({Link_NX_Cloud : result.data.result});
             window.open(this.state.Link_NX_Cloud)
             // console.log(result)
 
           }).catch(e => {
-            console.log(e)
             alert("ไม่สามารถส่งคำขอได้ กรุณาเลือกตัวอื่นค่ะ")
           })
     
@@ -303,7 +305,49 @@ export default class PRTG_NX_Cloud extends Component {
       }
 
       render() {
-    
+
+      if (this.state.loading) {
+        return <FadeIn>
+                  <Lottie options={defaultOptions} height={200} width={200} />
+                </FadeIn>
+      }
+      
+
+                    //   {!this.state.success ? (
+                  //   <FadeIn>
+                  //     <div className ="loading">
+                  //       {!this.state.loading ? (
+                  //         <div className ='loading_img'>
+                  //           <Lottie options={defaultOptions} height={200} width={200} />
+                  //         </div>
+                  //       ) : (
+                  //           <Lottie options={defaultOptions2} height={200} width={200} />
+                  //         )}
+                  //     </div>
+                  //   </FadeIn>
+                  // ) : (
+                  //   <FadeIn>
+                  //     <div>
+
+
+
+                  //   </div>
+                  //   </FadeIn>
+                  //   )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // ประกาศฟังก์ชั่น setDate เพื่อเซ็ตค่าที่เลือกส่งไปให้ State DatePicker
         const setDate = (key, val) => {
           if (key === "sdate") {
@@ -424,6 +468,7 @@ export default class PRTG_NX_Cloud extends Component {
                       </Col>
                     </Row>
 
+
                     <Col md={2}>
                       <button className="btn btn-primary btn-md" role="button"
                         onClick={(event) => this.handleSubmit(event)}>
@@ -431,7 +476,27 @@ export default class PRTG_NX_Cloud extends Component {
                       </button>
                     </Col>
 
+                    {/* {!this.state.success ? (
+                    <FadeIn>
+                      <div className ="loading">
+                        {!this.state.loading ? (
+                          <div className ='loading_img'>
+                            <Lottie options={defaultOptions} height={200} width={200} />
+                          </div>
+                        ) : (
+                            <Lottie options={defaultOptions2} height={200} width={200} />
+                          )}
+                      </div>
+                    </FadeIn>
+                  ) : (
+                    <FadeIn>
+                      <div>
 
+
+
+                    </div>
+                    </FadeIn>
+                    )} */}
 
                           {/* เงื่อนไขเช็คข้อมูล */}
                     {this.state.cpu_total.length > 0 &&

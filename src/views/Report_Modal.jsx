@@ -87,8 +87,6 @@ class Report_Modal extends Component {
       loading: false, 
       success: false,
 
-      fields: {},
-      errors: {},
       };
   }
 

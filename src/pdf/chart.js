@@ -8,31 +8,6 @@ import ReactToPrint ,{ useReactToPrint } from 'react-to-print';
 import PDF from "./PDF.js";
 import moment from "moment";
 
-import * as loadingData from ".././loading.json";
-import * as successData from ".././success.json";
-import FadeIn from "react-fade-in";
-import Lottie from "react-lottie";
-
-const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: loadingData.default,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
-  };
-  
-  const defaultOptions2 = {
-    loop: true,
-    autoplay: true,
-    animationData: successData.default,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice"
-    }
-  };
-  
-
-
 export default function Chartlist({
     chartReference,
     cpu_total,
