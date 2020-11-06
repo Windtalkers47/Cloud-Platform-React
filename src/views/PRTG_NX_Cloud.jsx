@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, Suspense } from "react";
 import ReactDOM from "react-dom";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 import  { Redirect } from 'react-router-dom'
@@ -305,12 +305,6 @@ export default class PRTG_NX_Cloud extends Component {
       }
 
       render() {
-
-      if (this.state.loading) {
-        return <FadeIn>
-                  <Lottie options={defaultOptions} height={200} width={200} />
-                </FadeIn>
-      }
       
 
                     //   {!this.state.success ? (
@@ -334,18 +328,6 @@ export default class PRTG_NX_Cloud extends Component {
                   //   </div>
                   //   </FadeIn>
                   //   )}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         // ประกาศฟังก์ชั่น setDate เพื่อเซ็ตค่าที่เลือกส่งไปให้ State DatePicker

@@ -11,6 +11,8 @@ import NotificationSystem from "react-notification-system";
 import bg_fog from "../assets/img/bg_fog.jpg";
 import "./Login.css";
 
+import { login } from "../API/api.jsx";
+
 
 
 export default class Login extends React.Component {  
@@ -36,6 +38,22 @@ export default class Login extends React.Component {
       this.setState({password: event.target.value});
   }
 
+  // login = async (e) => {
+  //   e.preventDefault();
+
+  //   let user = {
+  //     username: this.state.username,
+  //     password: this.state.password,
+  //   }
+  //   let result = await login(user)
+  //   console.log(result,'response login');
+
+  //   if (result.status === "200") {
+  //     window.alert("ยินดีต้อนรับเข้าสู่ระบบค่ะ")
+  //     localStorage.setItem('access_token', result.data.result.data.token)
+  //     this.props.history.push('/admin/dashboard')                
+  //   }
+  // }
 
   handleSubmit = async (e) => {
       e.preventDefault();
@@ -43,7 +61,6 @@ export default class Login extends React.Component {
       const url = process.env.REACT_APP_API_USERLOGIN;
   
       const user = {
-  
           username: this.state.username,
           password: this.state.password,
       }
@@ -75,6 +92,9 @@ export default class Login extends React.Component {
 
 
     render() {
+
+      localStorage.clear();
+
       return (
           <div className="contentHome" >
             <div className="mainlogin" style={{ backgroundImage: `url(${bg_fog})` }} >

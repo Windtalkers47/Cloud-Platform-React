@@ -234,7 +234,19 @@ class Report_Modal extends Component {
       }
     } catch (e) {
       // console.log({...e});
-      return null;
+      // return null;
+      if (this.state.selectedCustomer==="") {
+        alert("โปรดรอสักครู่เนื่องจากความล่าช้าในการโหลดข้อมูล หรือกรุณาลองใหม่อีกครั้งค่ะ");
+      }
+
+      if(this.state.sdate===""){
+        alert("ไม่สามารถส่งคำขอได้ กรุณาเลือก \"วันที่เริ่ม\" ที่ท่านต้องการค่ะ");
+      }else if(this.state.edate==="") {
+        alert("ไม่สามารถส่งคำขอได้ กรุณาเลือก \"วันที่สิ้นสุด\" ที่ท่านต้องการค่ะ");
+      } else{
+        alert("ไม่พบข้อมูลในวันที่ที่ท่านต้องการ กรุณาเลือก \"วันที่เริ่ม\" และ \"วันที่สิ้นสุด\" ใหม่อีกครั้งค่ะ")
+      }
+
     }
     
     this.setState({ redirect: true });
@@ -254,6 +266,7 @@ class Report_Modal extends Component {
       // access_token:  this.state.access_token
     };
     this.setState({ selectedCustomer: e.target.value });
+    
     axios
       .post(process.env.REACT_APP_API_CUSTOMER, data, {
         headers: {
@@ -298,6 +311,9 @@ class Report_Modal extends Component {
       })
       .catch((err) => {
         // console.log("AXIOS ERROR: ", err);
+        if(this.state.custimerList===""){
+          alert("โปรดรอสักครู่เนื่องจากความล่าช้าในการโหลดข้อมูล หรือกรุณาลองใหม่อีกครั้งค่ะ")
+        }
       });
   };
 
@@ -476,7 +492,7 @@ class Report_Modal extends Component {
                         onClick={this.CompanaName_API}>Call Company Name</button>
                     </Col> */}
 
-                    <Col md={2}>
+                    <Col md={1}>
                       <button id="proceed" className="btn btn-primary btn-md" role="button"
                         onClick={(event) => this.handleSubmit(event) }>
                         Proceed

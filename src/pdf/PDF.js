@@ -65,7 +65,7 @@ export default function PDF(props) {
 
     return (
         <div>
-            <Col md={2}>
+            <Col md={1}>
               <button className="btn btn-primary btn-md" role="button"
                 onClick={handlePrint}>Print Report</button>
             </Col>

@@ -2,6 +2,25 @@ import React, { Component } from 'react'
 import Chart from "chart.js";
 import axios from 'axios';
 
+require('dotenv').config()
+
+const url = 'http://203.151.34.28:3000'
+var config = { headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', } };
+
+
+export const login = (user) =>{
+    return new Promise ((resolve, reject) => {
+        axios.post(url + '/user/login', user).then(res => {
+            resolve(res.data)
+        })
+    })
+}
+
+
+
+
+
+
 // const url ='http://203.151.34.28:5000/api/getAllDevices';
 const vm = process.env.REACT_APP_API_VM;
 
