@@ -3,6 +3,7 @@ import { useReactToPrint } from 'react-to-print';
 import Chartlist from "./chart";
 import axios from "axios";
 import { Grid, Row, Col, Table } from "react-bootstrap";
+import chartjs from "../ChartJs/Chartjs";
 
 export default function PDF(props) {
 

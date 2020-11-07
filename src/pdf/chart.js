@@ -22,6 +22,7 @@ export default function Chartlist({
     Datareport,
 }) {
 
+    
     const [total, setTotal] = useState([])
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);

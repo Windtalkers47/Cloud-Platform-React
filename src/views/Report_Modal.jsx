@@ -22,6 +22,8 @@ import JsPDF from "pdf/JsPDF";
 import PDF from "../pdf/PDF.js";
 import RenderPDF from "../pdf/chart";
 
+import Chartjs from "../ChartJs/Chartjs.js";
+
 import * as loadingData from "../loading.json";
 import * as successData from "../success.json";
 import FadeIn from "react-fade-in";
@@ -87,6 +89,8 @@ class Report_Modal extends Component {
       loading: false, 
       success: false,
 
+      chart: '',
+
       };
   }
 
@@ -117,59 +121,95 @@ class Report_Modal extends Component {
           authorization: `Bearer ${this.state.access_token}`,
         },
       });
-      console.log("Debug Axios", res);
+      console.log(res,'res');
 
-      // ใช้ if ดัก data ให้มันรอและเซ็ต report ให้เก็บ res.data
-      if (res.data) {
+      const data = res.data;
+  
+      const cpuData = res.data.cpu_data;
+      const diskData = res.data.disk_data;
+      const memoryData = res.data.memory_data;
+
+
+      let  chartList = [];
+
+      this.chartData('cpu',cpuData,chartList)
+      this.chartData('disk',diskData,chartList)
+      this.chartData('memory',memoryData,chartList)
+
+      this.setState({
+        chart: chartList
+      })
+
+      
+      console.log(this.state.chart,'chart');
+
+      this.setState({loading : true})
+      this.setState({success : true})
     
-        this.setState({ DateReport: res.data });
-        // console.log("Data Report", res.data); // เอาไว้ดูข้อมูลทั้ง 3 ส่วน
-        // console.log('CPU Data' , res.data.cpu_data); // เอาไว้ดูข้อมูลของ CPU
-        // console.log('Disk Data', res.data.disk_data); // เอาไว้ดูข้อมูลของ Disk
-        // console.log('Memory Data', res.data.memory_data);
+    } catch (error) {
+      console.log({...error});
+      
+    }
 
-        // State เก็บค่า CPU Total
-        this.setState({
-          cpu_total: res.data.cpu_data[0].raw_data.map((item) => {
-            return item.total;
-          }),
-        });
+    // try {
+    //   const res = await axios.post(url, objid, {
+    //     headers: {
+    //       authorization: `Bearer ${this.state.access_token}`,
+    //     },
+    //   });
+    //   console.log("Debug Axios", res);
 
-        // State เก็บค่า CPU Datetime
-        this.setState({
-          cpu_datetime: res.data.cpu_data[0].raw_data.map((item) => {
-            return item.datetime;
-          }),
-        });
+    //   // ใช้ if ดัก data ให้มันรอและเซ็ต report ให้เก็บ res.data
+    //   if (res.data) {
+    
+    //     this.setState({ DateReport: res.data });
+    //     console.log("Data Report", res.data); // เอาไว้ดูข้อมูลทั้ง 3 ส่วน
+    //     // console.log('CPU Data' , res.data.cpu_data); // เอาไว้ดูข้อมูลของ CPU
+    //     // console.log('Disk Data', res.data.disk_data); // เอาไว้ดูข้อมูลของ Disk
+    //     // console.log('Memory Data', res.data.memory_data);
 
-        // State เก็บค่า CPU Downtime
-        this.setState({
-          cpu_downtime: res.data.cpu_data[0].raw_data.map((item) => {
-            return item.downtime;
-          }),
-        });
+    //     // State เก็บค่า CPU Total
+    //     this.setState({
+    //       cpu_total: res.data.cpu_data[0].raw_data.map((item) => {
+    //         return item.total;
+    //       }),
+    //     });
 
-        // อันนี้คือลอง map 2 ชั้น
-        // State เก็บค่า Disk Free Space
-        this.setState({
-          disk_FreeSpace: res.data.disk_data.map((item1) => {
-            return item1.raw_data.map((item2) => {
-              return item2.free_space;
-            });
-          }),
-        },() => {
-          // console.log(this.state.disk_FreeSpace,'Debug ค่า Map');
-        });
+    //     // State เก็บค่า CPU Datetime
+    //     this.setState({
+    //       cpu_datetime: res.data.cpu_data[0].raw_data.map((item) => {
+    //         return item.datetime;
+    //       }),
+    //     });
+
+    //     // State เก็บค่า CPU Downtime
+    //     this.setState({
+    //       cpu_downtime: res.data.cpu_data[0].raw_data.map((item) => {
+    //         return item.downtime;
+    //       }),
+    //     });
+
+    //     // อันนี้คือลอง map 2 ชั้น
+    //     // State เก็บค่า Disk Free Space
+    //     this.setState({
+    //       disk_FreeSpace: res.data.disk_data.map((item1) => {
+    //         return item1.raw_data.map((item2) => {
+    //           return item2.free_space;
+    //         });
+    //       }),
+    //     },() => {
+    //       // console.log(this.state.disk_FreeSpace,'Debug ค่า Map');
+    //     });
 
 
-        // State เก็บค่า Disk datetime
-        this.setState({
-          disk_datetime: res.data.disk_data.map((item1) => {
-            return item1.raw_data.map((item2) => {
-              return item2.datetime
-            });
-          }),
-        });
+    //     // State เก็บค่า Disk datetime
+    //     this.setState({
+    //       disk_datetime: res.data.disk_data.map((item1) => {
+    //         return item1.raw_data.map((item2) => {
+    //           return item2.datetime
+    //         });
+    //       }),
+    //     });
 
 
         // State เอาไว้เก็บค่า downtime ของ disk
@@ -188,70 +228,182 @@ class Report_Modal extends Component {
         //   console.log(this.state.disk_downtime,'Debug Disk Downtime');
         // });
 
-        const _disk_downtime = res.data.disk_data.map((item1) => {
-          const raw_data = item1.raw_data.map((item2) => {
-            return item2.downtime
-          })
-        })
-        this.setState({
-          disk_downtime: _disk_downtime
-        }, () => {
-          console.log(this.state.disk_downtime,'Debug Disk Downtime');
-        })
+    //     const _disk_downtime = res.data.disk_data.map((item1) => {
+    //       const raw_data = item1.raw_data.map((item2) => {
+    //         return item2.downtime
+    //       })
+    //     })
+    //     this.setState({
+    //       disk_downtime: _disk_downtime
+    //     }, () => {
+    //       console.log(this.state.disk_downtime,'Debug Disk Downtime');
+    //     })
 
 
        
         
-        // State เอาไว้เก็บค่า Datetime ของ Memory
-        this.setState({
-          memory_datetime: res.data.memory_data.map((item1) => {
-            return item1.raw_data.map((item2) => {
-              return item2.datetime;
-            });
-          }),
-        });
+    //     // State เอาไว้เก็บค่า Datetime ของ Memory
+    //     this.setState({
+    //       memory_datetime: res.data.memory_data.map((item1) => {
+    //         return item1.raw_data.map((item2) => {
+    //           return item2.datetime;
+    //         });
+    //       }),
+    //     });
 
-        // State เอาไว้เก็บค่า Downtime ของ Memory
-        this.setState({
-          memory_downtime: res.data.memory_data.map((item1) => {
-            return item1.raw_data.map((item2) => {
-              return item2.downtime;
-            });
-          }),
-        });
+    //     // State เอาไว้เก็บค่า Downtime ของ Memory
+    //     this.setState({
+    //       memory_downtime: res.data.memory_data.map((item1) => {
+    //         return item1.raw_data.map((item2) => {
+    //           return item2.downtime;
+    //         });
+    //       }),
+    //     });
 
-        // State เอาไว้เก็บค่า Percent_Available_Memory ของ Memory
-        this.setState({
-          memory_percent: res.data.memory_data.map((item1) => {
-            return item1.raw_data.map((item2) => {
-              return item2.percent_available_memory;
-            });
-          }),
-        });
+    //     // State เอาไว้เก็บค่า Percent_Available_Memory ของ Memory
+    //     this.setState({
+    //       memory_percent: res.data.memory_data.map((item1) => {
+    //         return item1.raw_data.map((item2) => {
+    //           return item2.percent_available_memory;
+    //         });
+    //       }),
+    //     });
 
-        this.setState({loading : true})
-        this.setState({success : true})
-      }
-    } catch (e) {
-      // console.log({...e});
-      // return null;
-      if (this.state.selectedCustomer==="") {
-        alert("โปรดรอสักครู่เนื่องจากความล่าช้าในการโหลดข้อมูล หรือกรุณาลองใหม่อีกครั้งค่ะ");
-      }
+    //     this.setState({loading : true})
+    //     this.setState({success : true})
+    //   }
+    // } catch (e) {
+    //   // console.log({...e});
+    //   // return null;
+    //   if (this.state.selectedCustomer==="") {
+    //     alert("โปรดรอสักครู่เนื่องจากความล่าช้าในการโหลดข้อมูล หรือกรุณาลองใหม่อีกครั้งค่ะ");
+    //   }
 
-      if(this.state.sdate===""){
-        alert("ไม่สามารถส่งคำขอได้ กรุณาเลือก \"วันที่เริ่ม\" ที่ท่านต้องการค่ะ");
-      }else if(this.state.edate==="") {
-        alert("ไม่สามารถส่งคำขอได้ กรุณาเลือก \"วันที่สิ้นสุด\" ที่ท่านต้องการค่ะ");
-      } else{
-        alert("ไม่พบข้อมูลในวันที่ที่ท่านต้องการ กรุณาเลือก \"วันที่เริ่ม\" และ \"วันที่สิ้นสุด\" ใหม่อีกครั้งค่ะ")
-      }
+    //   if(this.state.sdate===""){
+    //     alert("ไม่สามารถส่งคำขอได้ กรุณาเลือก \"วันที่เริ่ม\" ที่ท่านต้องการค่ะ");
+    //   }else if(this.state.edate==="") {
+    //     alert("ไม่สามารถส่งคำขอได้ กรุณาเลือก \"วันที่สิ้นสุด\" ที่ท่านต้องการค่ะ");
+    //   } else{
+    //     alert("ไม่พบข้อมูลในวันที่ที่ท่านต้องการ กรุณาเลือก \"วันที่เริ่ม\" และ \"วันที่สิ้นสุด\" ใหม่อีกครั้งค่ะ")
+    //   }
 
-    }
+    // }
     
-    this.setState({ redirect: true });
+    // this.setState({ redirect: true });
 
   };
+
+  // Function Structure Arrange for ChartJS 
+  chartData = (type,rows,chartList) => {
+    rows.forEach(item => {
+      // console.log(element,'el');
+
+      let labels = [];
+      let freeSpace = [];
+      let cpuTotal = [];
+      let percentMemory = [];
+
+      item.raw_data.map(item=>{
+          labels.push(item.datetime);
+          if(item.free_space){
+            freeSpace.push(item.free_space)
+          }
+          if(item.total){
+            cpuTotal.push(item.total)
+          }
+          if(item.percent_available_memory){
+            percentMemory.push(item.percent_available_memory)
+          }
+      })
+
+      // console.log(item,'item');
+
+      let datasets = {
+        label: item.name,
+        responsive: true,
+        data: [],
+        fill: false,
+        lineTension: 0.2,
+        borderColor:'',
+        borderWidth: 1
+      }
+
+      item.raw_data.map(item=>{
+        datasets.data.push(item.downtime);
+      })
+      datasets.borderColor = this.ramdomColor();
+
+      let data ={};
+      if(type=='disk'){
+        let datasetsFree = {
+          label: 'Free',
+          responsive: true,
+          data: [],
+          fill: false,
+          lineTension: 0.2,
+          borderColor:'',
+          borderWidth: 1
+        }
+        datasetsFree.data = freeSpace;
+        datasetsFree.borderColor = this.ramdomColor();
+        data = {
+          labels: labels,
+          datasets: [datasets,datasetsFree]
+        }
+      }
+
+      if(type =='cpu'){
+        let datasetsTotal = {
+          label: 'Total',
+          responsive: true,
+          data: [],
+          fill: false,
+          lineTension: 0.2,
+          borderColor:'',
+          borderWidth: 1
+        }
+        datasetsTotal.data = cpuTotal;
+        datasetsTotal.borderColor = this.ramdomColor();
+        data = {
+          labels: labels,
+          datasets: [datasets,datasetsTotal]
+        }
+      }
+
+      if(type =='memory'){
+        let datasetsPercent = {
+          label: 'percent',
+          responsive: true,
+          data: [],
+          fill: false,
+          lineTension: 0.2,
+          borderColor:'',
+          borderWidth: 1
+        }
+        datasetsPercent.data = percentMemory;
+        datasetsPercent.borderColor = this.ramdomColor();
+        data = {
+          labels: labels,
+          datasets: [datasets,datasetsPercent]
+        }  
+      }
+
+      
+      chartList.push(data);
+
+
+    });
+  }
+
+  
+ramdomColor() {
+  const x = Math.floor(Math.random() * 256);
+  const y = Math.floor(Math.random() * 256);
+  const z = Math.floor(Math.random() * 256);
+  return `rgb(${x},${y},${z})`;
+// alt+9+6
+//   x+""+y+""
+}
 
   // เซ็ต State ส่งค่าไปที่ Button ของ VM
   handlevm = (e) => {
@@ -373,7 +525,6 @@ class Report_Modal extends Component {
         this.setState({ edate: moment(val).format("yyyy-MM-DD-HH-mm-ss") });
       }
     };
-
 
     // ฟังก์ชั่นแปลงเวลาไปใส่ State DateTime ทั้ง 3 ตัว CPU,Disk,Memory
     const setDatetime = (key, val) =>{
@@ -514,6 +665,10 @@ class Report_Modal extends Component {
                   ) : (
                     <FadeIn>
                       <div>
+
+                      {this.state.chart.length > 0 &&
+                        <Chartjs chart={this.state.chart}/>
+                      }
 
                     {/* เงื่อนไขเช็คข้อมูลก่อนแสดงผลกราฟ */}
                     {this.state.cpu_total.length > 0 &&
