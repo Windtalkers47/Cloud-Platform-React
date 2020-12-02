@@ -19,9 +19,9 @@ import Login from "Login/Login.js";
 import Signup from "Login/Signup";
 import PRTG_Test from "views/PRTG_Test.jsx";
 import PRTG_NX_Cloud from "views/PRTG_NX_Cloud.jsx";
+import PRTG_Multi_VM from "views/PRTG_Multi_VM.jsx";
 import Report_Modal from "views/Report_Modal.jsx";
 import Chartlist from "./pdf/chart.js";
-
 
 // ส่วนของ List รายการเมนู
 const dashboardRoutes = [
@@ -54,7 +54,7 @@ const dashboardRoutes = [
   //   layout: "/admin"
   // },
   {
-    path: "/Reports",
+    path: "/reports",
     name: "Reports",
     icon: "pe-7s-print",
     component: Reports,
@@ -82,10 +82,17 @@ const dashboardRoutes = [
   //   layout: "/admin"
   // },
   {
-    path: "/prtg-nx-cloud",
+    path: "/prtg_nx_cloud",
     name: "PRTG-NX-Cloud",
     icon: "pe-7s-cloud-download",
     component: PRTG_NX_Cloud,
+    layout: "/admin"
+  },
+  {
+    path: "/prtg_multi_vm",
+    name: "PRTG_Multi_VM",
+    icon: "pe-7s-graph2",
+    component: PRTG_Multi_VM,
     layout: "/admin"
   },
   // {

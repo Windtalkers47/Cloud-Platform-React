@@ -16,9 +16,13 @@ export const login = (user) =>{
     })
 }
 
-
-
-
+export const Multi_Data = (filter) =>{
+    return new Promise ((resolve, reject) => {
+        axios.post(url + '/api/selectMultiVm', filter).then(res => {
+            resolve(res.data)
+        })
+    })
+}
 
 
 // const url ='http://203.151.34.28:5000/api/getAllDevices';

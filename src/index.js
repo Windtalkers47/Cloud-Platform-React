@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import Login from "./Login/Login.js";
 import Signup from "./Login/Signup.js";
 import axios from 'axios';
-import { jsPDF } from "jspdf";
 
 import { BrowserRouter, Route, Switch, Redirect, Router, Link } from "react-router-dom";
 
@@ -22,9 +21,9 @@ import  Dashboard from "./views/Dashboard"
 import TableList from "./views/Reports";
 import PRTG_Test from "./views/PRTG_Test.jsx";
 import PRTG_NX_Cloud from "./views/PRTG_NX_Cloud.jsx";
+import PRTG_Multi_VM_ from "./views/PRTG_Multi_VM";
 import Report_modal from "./views/Report_Modal.jsx";
-import Chartlist from "./pdf/chart.js";
-import PDF from "./pdf/PDF";
+
 
 import { Area, Line, Bar } from "chart.js";
 import { useReactToPrint } from 'react-to-print';
@@ -32,43 +31,54 @@ import { useReactToPrint } from 'react-to-print';
 import FadeIn from "react-fade-in";
 import Lottie from "react-lottie";
 
-
-
+var routes = {
+  login: "/login",
+  register: "/register",
+  dashboard: "/admin/dashboard",
+  reports: "/admin/reports",
+  report_modal: "/admin/report_modal",
+  prtg_nx_cloud: "/admin/prtg_nx_cloud",
+  prtg_multi_vm: "/admin/prtg_multi_vm",
+  maps: "/admin/maps",
+  user: "/admin/user",
+}
 
 require('dotenv').config()
-ReactDOM.render(
-  // Backup Code เผื่อพัง
-  // <BrowserRouter>
-  //   <Switch>
-  //     <Route path="/admin" render={props => <AdminLayout {...props} />} />
-  //     <Redirect from="/" to="/admin/dashboard" />
-  //   </Switch>
-  // </BrowserRouter>
-
-  <BrowserRouter history={ history } >
-  <Switch>
-    <Route exact path="/" component={Login}  />
-    <Route path="/signup" component={Signup}/>
-      
-    <Route path="/admin/dashboard" render={props => <AdminLayout {...props} />} />
-    <Route path="/admin/devices" render={props => <AdminLayout {...props} />} />
-    <Route path="/admin/sensors" render={props => <AdminLayout {...props} />} />
-    <Route path="/admin/alarms" render={props => <AdminLayout {...props} />} />
-    <Route path="/admin/reports" render={props => <AdminLayout {...props} />} />
-    <Route path="/admin/report_modal" render={props => <AdminLayout {...props} />} />
-    <Route path="/admin/chart" component={Chartlist}/>
-    <Route path="/admin/prtg-test" render={props => <AdminLayout {...props} />} />
-    <Route path="/admin/prtg-nx-cloud" render={props => <AdminLayout {...props} />} />
-    <Route path="/admin/maps" render={props => <AdminLayout {...props} />} />
-    <Route path="/admin/user" render={props => <AdminLayout {...props} />} />
 
 
+// Wrap the rendering in a function:
+const render = () => {
+  ReactDOM.render(
+    // Wrap App inside AppContainer
+    <BrowserRouter history={ history } >
+    <Switch>
+      <Redirect exact from="/" to={routes.login}/>
+      <Route exact path={routes.login} component={Login}  />
+      <Route exact path={routes.register} component={Signup}/>
+     </Switch>
+  
+     <Switch>
+      <PrivateRoute path={routes.dashboard} component={AdminLayout} render={props => <AdminLayout {...props} />} />
+      <PrivateRoute path={routes.reports} component={AdminLayout} render={props => <AdminLayout {...props} />} />
+      <PrivateRoute path={routes.report_modal} component={AdminLayout} render={props => <AdminLayout {...props} />} />
+      <PrivateRoute path={routes.prtg_nx_cloud} component={AdminLayout} render={props => <AdminLayout {...props} />} />
+      <PrivateRoute path={routes.prtg_multi_vm} component={AdminLayout} render={props => <AdminLayout {...props} />} />
+      <PrivateRoute path={routes.maps} component={AdminLayout} render={props => <AdminLayout {...props} />} />
+      <PrivateRoute path={routes.user} component={AdminLayout} render={props => <AdminLayout {...props} />} />
+     </Switch>
+  
+  
+   </BrowserRouter>
+    
+    ,
+    document.getElementById('root')
+  );
+};
 
-   </Switch>
+// Render once
+render();
 
-
- </BrowserRouter>
-
-
-  ,document.getElementById("root")
-);
+// Webpack Hot Module Replacement API
+if (module.hot) {
+  module.hot.accept();
+}

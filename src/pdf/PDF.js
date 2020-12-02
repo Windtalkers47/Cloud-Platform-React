@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import Chartlist from "./chart";
+import ChartJs from "../ChartJs/Chartjs";
 import axios from "axios";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 import chartjs from "../ChartJs/Chartjs";
@@ -17,52 +18,6 @@ export default function PDF(props) {
   const [CompanyNameTH, setCompanyNameTH] =  useState()
   const [CompanyNameEN, setCompanyNameEN] =  useState()
   
-  
-  // const CNOAPI = () => {
-
-  //   const url = process.env.REACT_APP_API_COMPANY_NAME;
-  //   const cno = {
-  //                 "cno" : "10375"
-  //               };
-
-  //   try {
-  //     const res =  axios.post(url, cno, {
-  //       headers: {
-  //         authorization: `Bearer ${this.state.access_token}`,
-  //         "Access-Control-Allow-Origin": "*",
-  //         'Content-Type': 'application/json',
-  //         'Accept': 'application/json', 
-  //       },
-  //     }, () => {
-  //       console.log(res,'CNO API');
-  //     });
-
-  //   } catch (e) {
-  //       console.log({...e});
-  //     return null;
-  //   }
-  // }
-
-  // const CNOAPI = () => {
-
-  //   axios({
-  //     method: 'post',
-  //     url: process.env.REACT_APP_API_COMPANY_NAME,
-  //     data: {'cno' : 123456789},
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'Accept': 'application/json', 
-  //     }
-  //   }, () => {
-  //     console.log(CNOAPI,'CNOAPI');
-  //   })
-  //   .then((res) => {
-  //     this.setState({
-  //       CompanyNameTH : res.data.companynameth, // เก็บค่าใส่ตัวแปร TH
-  //       CompanyNameEN : res.data.companynameen, // เก็บค่าใส่ตัวแปร EN
-  //     })
-  //   })
-  // }
 
     return (
         <div>

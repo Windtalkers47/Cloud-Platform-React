@@ -17,10 +17,8 @@ import "../variables/DateCSS.css";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import Chartlist from "../pdf/chart";
-import JsPDF from "pdf/JsPDF";
 
 import PDF from "../pdf/PDF.js";
-import RenderPDF from "../pdf/chart";
 
 import Chartjs from "../ChartJs/Chartjs.js";
 
@@ -94,9 +92,6 @@ class Report_Modal extends Component {
       };
   }
 
-  // console.log(new Date(this.state.sdate).toString())
-  // console.log(moment(this.state.sdate).format('yyyy-MM-DD-hh-mm-ss'))
-
   // เซ็ต State สำหรับส่งค่าทั้งกล่องเพื่อ post ไปที่ Backend
   // โดยอ้างอิงข้อมูลจาก url ที่กำหนดถ้าข้อมูลไม่มาให้ดูตรงนี้ก่อน <<<<<
   handleSubmit = async (e) => {
@@ -148,148 +143,29 @@ class Report_Modal extends Component {
     
     } catch (error) {
       console.log({...error});
-      
+
+      if (this.state.selectedCustomer==="") {
+        alert("ไม่พบข้อมูลที่ท่านต้องการ กรุณากรอก Customer ใหม่ด้วยค่ะ")
+      } else if(this.state.selectedVM===""){
+        alert("ไม่พบข้อมูลที่ต้องการ กรุณากรอก VM ใหม่ด้วยค่ะ")
+      }
+
+      if (this.state.sdate==="") {
+        alert("กรุณากรอก \"วันที่เริ่ม\" ใหม่ด้วยค่ะ")
+      } else if(this.state.edate===""){
+        alert("กรุณากรอก \"วันที่สิ้นสุด\" ใหม่ด้วยค่ะ")
+      } else {
+        alert("กรุณากรอกข้อมูลให้ถูกต้องค่ะ")
+      }
+
+      if(objid===""){
+        alert("ไม่พบข้อมูลที่ขอ กรุณาลองใหม่อีกครั้งค่ะ")
+      }
+      if(objid===null){
+        alert("ไม่พบข้อมูลที่ขอ กรุณาลองใหม่อีกครั้งค่ะ")
+      }
+
     }
-
-    // try {
-    //   const res = await axios.post(url, objid, {
-    //     headers: {
-    //       authorization: `Bearer ${this.state.access_token}`,
-    //     },
-    //   });
-    //   console.log("Debug Axios", res);
-
-    //   // ใช้ if ดัก data ให้มันรอและเซ็ต report ให้เก็บ res.data
-    //   if (res.data) {
-    
-    //     this.setState({ DateReport: res.data });
-    //     console.log("Data Report", res.data); // เอาไว้ดูข้อมูลทั้ง 3 ส่วน
-    //     // console.log('CPU Data' , res.data.cpu_data); // เอาไว้ดูข้อมูลของ CPU
-    //     // console.log('Disk Data', res.data.disk_data); // เอาไว้ดูข้อมูลของ Disk
-    //     // console.log('Memory Data', res.data.memory_data);
-
-    //     // State เก็บค่า CPU Total
-    //     this.setState({
-    //       cpu_total: res.data.cpu_data[0].raw_data.map((item) => {
-    //         return item.total;
-    //       }),
-    //     });
-
-    //     // State เก็บค่า CPU Datetime
-    //     this.setState({
-    //       cpu_datetime: res.data.cpu_data[0].raw_data.map((item) => {
-    //         return item.datetime;
-    //       }),
-    //     });
-
-    //     // State เก็บค่า CPU Downtime
-    //     this.setState({
-    //       cpu_downtime: res.data.cpu_data[0].raw_data.map((item) => {
-    //         return item.downtime;
-    //       }),
-    //     });
-
-    //     // อันนี้คือลอง map 2 ชั้น
-    //     // State เก็บค่า Disk Free Space
-    //     this.setState({
-    //       disk_FreeSpace: res.data.disk_data.map((item1) => {
-    //         return item1.raw_data.map((item2) => {
-    //           return item2.free_space;
-    //         });
-    //       }),
-    //     },() => {
-    //       // console.log(this.state.disk_FreeSpace,'Debug ค่า Map');
-    //     });
-
-
-    //     // State เก็บค่า Disk datetime
-    //     this.setState({
-    //       disk_datetime: res.data.disk_data.map((item1) => {
-    //         return item1.raw_data.map((item2) => {
-    //           return item2.datetime
-    //         });
-    //       }),
-    //     });
-
-
-        // State เอาไว้เก็บค่า downtime ของ disk
-        // วิธีการเอา 2 arrays ของ axios post มารวมกัน
-        // const disk_downtime = []
-        //  res.data.disk_data.map((item1) => {
-        //   const raw_data = item1.raw_data.map((item2) => {
-        //     return item2.downtime
-        //   });
-        //   disk_downtime.push(...raw_data)
-        //   return [...raw_data]
-        // })
-        // this.setState({
-        //   disk_downtime: disk_downtime
-        // },() => {
-        //   console.log(this.state.disk_downtime,'Debug Disk Downtime');
-        // });
-
-    //     const _disk_downtime = res.data.disk_data.map((item1) => {
-    //       const raw_data = item1.raw_data.map((item2) => {
-    //         return item2.downtime
-    //       })
-    //     })
-    //     this.setState({
-    //       disk_downtime: _disk_downtime
-    //     }, () => {
-    //       console.log(this.state.disk_downtime,'Debug Disk Downtime');
-    //     })
-
-
-       
-        
-    //     // State เอาไว้เก็บค่า Datetime ของ Memory
-    //     this.setState({
-    //       memory_datetime: res.data.memory_data.map((item1) => {
-    //         return item1.raw_data.map((item2) => {
-    //           return item2.datetime;
-    //         });
-    //       }),
-    //     });
-
-    //     // State เอาไว้เก็บค่า Downtime ของ Memory
-    //     this.setState({
-    //       memory_downtime: res.data.memory_data.map((item1) => {
-    //         return item1.raw_data.map((item2) => {
-    //           return item2.downtime;
-    //         });
-    //       }),
-    //     });
-
-    //     // State เอาไว้เก็บค่า Percent_Available_Memory ของ Memory
-    //     this.setState({
-    //       memory_percent: res.data.memory_data.map((item1) => {
-    //         return item1.raw_data.map((item2) => {
-    //           return item2.percent_available_memory;
-    //         });
-    //       }),
-    //     });
-
-    //     this.setState({loading : true})
-    //     this.setState({success : true})
-    //   }
-    // } catch (e) {
-    //   // console.log({...e});
-    //   // return null;
-    //   if (this.state.selectedCustomer==="") {
-    //     alert("โปรดรอสักครู่เนื่องจากความล่าช้าในการโหลดข้อมูล หรือกรุณาลองใหม่อีกครั้งค่ะ");
-    //   }
-
-    //   if(this.state.sdate===""){
-    //     alert("ไม่สามารถส่งคำขอได้ กรุณาเลือก \"วันที่เริ่ม\" ที่ท่านต้องการค่ะ");
-    //   }else if(this.state.edate==="") {
-    //     alert("ไม่สามารถส่งคำขอได้ กรุณาเลือก \"วันที่สิ้นสุด\" ที่ท่านต้องการค่ะ");
-    //   } else{
-    //     alert("ไม่พบข้อมูลในวันที่ที่ท่านต้องการ กรุณาเลือก \"วันที่เริ่ม\" และ \"วันที่สิ้นสุด\" ใหม่อีกครั้งค่ะ")
-    //   }
-
-    // }
-    
-    // this.setState({ redirect: true });
 
   };
 
@@ -396,14 +272,14 @@ class Report_Modal extends Component {
   }
 
   
-ramdomColor() {
-  const x = Math.floor(Math.random() * 256);
-  const y = Math.floor(Math.random() * 256);
-  const z = Math.floor(Math.random() * 256);
-  return `rgb(${x},${y},${z})`;
-// alt+9+6
-//   x+""+y+""
-}
+  ramdomColor() {
+    const x = Math.floor(Math.random() * 256);
+    const y = Math.floor(Math.random() * 256);
+    const z = Math.floor(Math.random() * 256);
+    return `rgb(${x},${y},${z})`;
+  // alt+9+6
+  //   x+""+y+""
+  }
 
   // เซ็ต State ส่งค่าไปที่ Button ของ VM
   handlevm = (e) => {
@@ -526,18 +402,6 @@ ramdomColor() {
       }
     };
 
-    // ฟังก์ชั่นแปลงเวลาไปใส่ State DateTime ทั้ง 3 ตัว CPU,Disk,Memory
-    const setDatetime = (key, val) =>{
-      if (key === "0") {
-        this.setState({ cpu_datetime : moment(val).format('L')});
-      }
-      if (key === "0"){
-        this.setState({ disk_datetime : moment(val).format("L")});
-      }
-      if (key === "0"){
-        this.setState({ memory_datetime : moment(val).format("L")});
-      }
-    }
 
     return (
       <div className="content">

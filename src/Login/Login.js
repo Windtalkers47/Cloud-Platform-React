@@ -38,52 +38,21 @@ export default class Login extends React.Component {
       this.setState({password: event.target.value});
   }
 
-  // login = async (e) => {
-  //   e.preventDefault();
+  login = async (e) => {
+    e.preventDefault();
 
-  //   let user = {
-  //     username: this.state.username,
-  //     password: this.state.password,
-  //   }
-  //   let result = await login(user)
-  //   console.log(result,'response login');
+    let user = {
+      username: this.state.username,
+      password: this.state.password,
+    }
+    let res = await login(user)
+    console.log(res.result,'response login');
 
-  //   if (result.status === "200") {
-  //     window.alert("ยินดีต้อนรับเข้าสู่ระบบค่ะ")
-  //     localStorage.setItem('access_token', result.data.result.data.token)
-  //     this.props.history.push('/admin/dashboard')                
-  //   }
-  // }
-
-  handleSubmit = async (e) => {
-      e.preventDefault();
-
-      const url = process.env.REACT_APP_API_USERLOGIN;
-  
-      const user = {
-          username: this.state.username,
-          password: this.state.password,
-      }
-  
-      await axios.post(url, user)
-      .then((res) => {
-
-        // handle your login 
-            localStorage.setItem('access_token', res.data.result.data.token);
-            this.props.history.push('/admin/dashboard')                
-            }
-      )
-      .catch((e) => {
-
-          //handle your errors
-          console.log({...e});
-        let response = e.response
-        if (response.status === 400) {
-            alert('ข้อมูลผู้ใช้ไม่ถูกต้อง กรุณากรอกใหม่อีกครั้งค่ะ')
-            // console.log(this.state.status);
-        }
-      });
-
+    if (res.result.status == "200") {
+      // window.alert("ยินดีต้อนรับเข้าสู่ระบบค่ะ")
+      localStorage.setItem('access_token', res.result.data.token)
+      this.props.history.push('/admin/dashboard')                
+    }
   }
 
   handleSignup = () => {
@@ -99,7 +68,7 @@ export default class Login extends React.Component {
           <div className="contentHome" >
             <div className="mainlogin" style={{ backgroundImage: `url(${bg_fog})` }} >
                          
-              <form onSubmit={this.handleSubmit}>
+              <form onSubmit={this.login}>
 
                   <div className="form-group">
                   <h2 className="Login-text">Login...</h2>

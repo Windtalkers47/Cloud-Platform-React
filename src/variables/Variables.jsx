@@ -81,7 +81,7 @@ var style = {
       width: "100%",
       cursor: "pointer",
       borderRadius: "4px",
-      fontSize: "14px",
+      fontSize: "16px",
       margin: "10px 0 0",
       padding: "10px",
       display: "block",

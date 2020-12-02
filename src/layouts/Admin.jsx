@@ -47,17 +47,17 @@ class Admin extends Component {
         break;
     }
 
-    // this.state._notificationSystem.addNotification({
-    //   title: <span data-notify="icon" className="pe-7s-gift" />,
-    //   message: (
-    //     <div>
-    //       ยินดีต้อนรับสู่ <b>Cloud Platform Dashboard</b> ค่ะ.
-    //     </div>
-    //   ),
-    //   level: level,
-    //   position: position,
-    //   autoDismiss: 15,
-    // });
+    this.state._notificationSystem.addNotification({
+      title: <span data-notify="icon" className="pe-7s-gift" />,
+      message: (
+        <div>
+          ยินดีต้อนรับสู่ <b>Cloud Platform Dashboard</b> ค่ะ.
+        </div>
+      ),
+      level: level,
+      position: position,
+      autoDismiss: 3,
+    });
 
   };
 
@@ -137,17 +137,17 @@ class Admin extends Component {
         break;
     }
 
-    // _notificationSystem.addNotification({
-    //   title: <span data-notify="icon" className="pe-7s-gift" />,
-    //   message: (
-    //     <div>
-    //       ยินดีต้อนรับสู่ <b>Cloud Platform Dashboard</b> - ค่ะ.
-    //     </div>
-    //   ),
-    //   level: level,
-    //   position: "tr",
-    //   autoDismiss: 15,
-    // });
+    _notificationSystem.addNotification({
+      title: <span data-notify="icon" className="pe-7s-gift" />,
+      message: (
+        <div>
+          ยินดีต้อนรับสู่ <b>Cloud Platform Dashboard</b> - ค่ะ.
+        </div>
+      ),
+      level: level,
+      position: "tr",
+      autoDismiss: 3,
+    });
     
   }
 
