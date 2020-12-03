@@ -198,9 +198,6 @@ class PRTG_Multi_VM extends Component {
 
       return chartList;
 
-      this.setState({loading : true})
-      this.setState({success : true})
-
   };
 
   // Function Structure Arrange for ChartJS 
@@ -374,24 +371,28 @@ class PRTG_Multi_VM extends Component {
         },
       });
 
-    
-
     var packageChart = []
+
     res.data.map(item => {
       // return this.DataFilter(item);
       console.log(this.DataFilter(item),'Data')
-      packageChart.push(this.DataFilter(item))
 
+      packageChart.push({
+        vmname:item.vmname,
+        chart: this.DataFilter(item),
+      })
+      
     })
-
-    console.log(packageChart,'packageChart');
-
 
     this.setState({
       chart: packageChart
     })
 
-    console.log(this.state.chart,'chart');
+    console.log(packageChart,' แพ็คเก็จ');
+
+
+    this.setState({loading : true})
+    this.setState({success : true})
 
 
     } catch (error) {
@@ -454,7 +455,12 @@ class PRTG_Multi_VM extends Component {
       }
     };
 
-    console.log(this.state.chart,'chart นะ');
+    // console.log(this.state.chart.map(item => {
+    //   return item.map((n,index) => {
+    //     console.log(n,'n นะจ๊ะ');
+    //     console.log(index,'index นะจ๊ะ');
+    //   })
+    // }),'chart นะ');
 
 
     return (
@@ -549,6 +555,14 @@ class PRTG_Multi_VM extends Component {
                         Proceed
                       </button>
                     </Col>
+
+                    {/* <div>
+                      {this.state.chart.map((item) => {
+                        return item.map((n,index) => {
+                          return <Line key={index} data={n} />;
+                        })
+                        })}
+                    </div> */}
                     
                     {!this.state.success ? (
                     <FadeIn>
@@ -562,6 +576,7 @@ class PRTG_Multi_VM extends Component {
                           )}
                       </div>
                     </FadeIn>
+
                   ) : (
                     <FadeIn>
                       <div>
@@ -570,8 +585,10 @@ class PRTG_Multi_VM extends Component {
                         <Chartjs chart={this.state.chart}/>
                       }
 
+
                       </div>
                     </FadeIn>
+
                     )}
 
                     {/* <Col md={3}>
