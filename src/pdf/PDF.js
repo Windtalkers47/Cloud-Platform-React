@@ -1,10 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import Chartlist from "./chart";
-import ChartJs from "../ChartJs/Chartjs";
 import axios from "axios";
 import { Grid, Row, Col, Table } from "react-bootstrap";
-import chartjs from "../ChartJs/Chartjs";
+import Chartjs from "../ChartJs/Chartjs";
 
 export default function PDF(props) {
 
@@ -17,8 +16,10 @@ export default function PDF(props) {
   // Function ดึง API Company Name
   const [CompanyNameTH, setCompanyNameTH] =  useState()
   const [CompanyNameEN, setCompanyNameEN] =  useState()
-  
 
+  const chartRender = props.chart;
+
+  
     return (
         <div>
             <Col md={1}>
@@ -29,7 +30,7 @@ export default function PDF(props) {
               <button className="btn btn-primary btn-md" role="button"
                 onClick={CNOAPI}>Call Company Name</button>
             </Col> */}
-            <ComponentToPrint  
+            {/* <ComponentToPrint  
               ref={componentRef} 
               cpu_total={props.cpu_total}
               cpu_datetime={props.cpu_datetime}
@@ -41,7 +42,7 @@ export default function PDF(props) {
               memory_datetime={props.memory_datetime}
               memory_downtime={props.memory_downtime}
               set_datetime={props.set_datetime}
-            />
+            /> */}
         </div>
     )
 }

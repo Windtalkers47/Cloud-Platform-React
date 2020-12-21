@@ -21,6 +21,7 @@ import Chartlist from "../pdf/chart";
 import PDF from "../pdf/PDF.js";
 
 import Chartjs from "../ChartJs/Chartjs.js";
+import React_PDF from "../pdf/React_PDF";
 
 import * as loadingData from "../loading.json";
 import * as successData from "../success.json";
@@ -556,13 +557,12 @@ class PRTG_Multi_VM extends Component {
                       </button>
                     </Col>
 
-                    {/* <div>
-                      {this.state.chart.map((item) => {
-                        return item.map((n,index) => {
-                          return <Line key={index} data={n} />;
-                        })
-                        })}
-                    </div> */}
+                    {/* <Col md={2}>
+                      <React_PDF chart={this.state.chart}/>
+                    </Col> */}
+
+
+
                     
                     {!this.state.success ? (
                     <FadeIn>

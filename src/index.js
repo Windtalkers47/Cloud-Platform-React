@@ -31,6 +31,9 @@ import { useReactToPrint } from 'react-to-print';
 import FadeIn from "react-fade-in";
 import Lottie from "react-lottie";
 
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
+
 var routes = {
   login: "/login",
   register: "/register",
