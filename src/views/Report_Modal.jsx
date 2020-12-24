@@ -21,11 +21,15 @@ import Chartlist from "../pdf/chart";
 import PDF from "../pdf/PDF.js";
 
 import Chartjs from "../ChartJs/Chartjs.js";
+import React_PDF from "../pdf/React_PDF";
 
 import * as loadingData from "../loading.json";
 import * as successData from "../success.json";
 import FadeIn from "react-fade-in";
 import Lottie from "react-lottie";
+
+import { Multi_Data } from "../API/api.jsx";
+import Select from 'react-select';
 
 
 import "./loading.css";
@@ -51,8 +55,7 @@ const defaultOptions2 = {
 };
 
 
-
-class Report_Modal extends Component {
+class Reports_Modal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -87,43 +90,106 @@ class Report_Modal extends Component {
       loading: false, 
       success: false,
 
-      chart: '',
+      chart: [],
+
+      selectOptionsCustomer : [],
+      selectOptionVM:[],
+      value:[]
+
 
       };
   }
 
-  // เซ็ต State สำหรับส่งค่าทั้งกล่องเพื่อ post ไปที่ Backend
-  // โดยอ้างอิงข้อมูลจาก url ที่กำหนดถ้าข้อมูลไม่มาให้ดูตรงนี้ก่อน <<<<<
-  handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    // url ที่กำหนด
-    // const url = "http://192.168.250.134:5555/api/selectVm";
-    const url = process.env.REACT_APP_API_VM;
-    // const qs = require("querystring");
-    // Object Identify ที่ใช้ในการเรียกใช้ State
-    const objid = {
-      customer: this.state.selectedCustomer,
-      device: this.state.selectedVM,
-      sdate: this.state.sdate,
-      edate: this.state.edate,
-      token: localStorage.getItem("access_token"),
+    getCustomers = () => {
+      axios
+        .post(
+          process.env.REACT_APP_API_CUSTOMER,
+          {},
+          {
+            headers: {
+              authorization: `Bearer ${this.state.access_token}`,
+              'Content-Type': 'application/json',
+              'Accept': 'application/json', 
+            },
+          }
+        )
+        .then((res) => {
+          // เซ็ต State ให้เก็บ data ที่ respone แล้วไว้ในตัวแปร customerList
+          this.setState({
+            selectOptionsCustomer: res.data.customername,
+          });
+  
+          this.CustomerSelected(res.data.customername);
+  
+        })
+        .catch((err) => {
+          // console.log("AXIOS ERROR: ", err);
+          if(this.state.selectOptionsCustomer===""){
+            alert("โปรดรอสักครู่เนื่องจากความล่าช้าในการโหลดข้อมูล หรือกรุณาลองใหม่อีกครั้งค่ะ")
+          }
+        });
     };
 
-    try {
-      const res = await axios.post(url, objid, {
-        headers: {
-          authorization: `Bearer ${this.state.access_token}`,
-        },
-      });
-      console.log(res,'res');
+    // เซ็ต State สำหรับปุ่มรับค่า Customer รับค่าเข้ามาใช้หน้า Interface
+    handlecustomers = (e) => {
+      // console.log(e.value,'event');
 
-      const data = res.data;
+      var data = {
+        customer: e.value,
+        // access_token:  this.state.access_token
+      };
+      this.setState({ selectedCustomer: e.value });
+      
+      axios
+        .post(process.env.REACT_APP_API_CUSTOMER, data, {
+          headers: {
+            authorization: `Bearer ${this.state.access_token}`,
+          },
+        })
+        .then((res) => {
+          this.VmSelected(res.data.vmname);
+          // console.log(res.data.vmname,'vm เซ็ตแล้วจ้า');
+          this.setState({
+            selectedVM: res.data.vmname
+          });
+        });
+
+    };
+
+    CustomerSelected = (rows) => {
+      let options = []
   
-      const cpuData = res.data.cpu_data;
-      const diskData = res.data.disk_data;
-      const memoryData = res.data.memory_data;
+      rows.map(item => {
+        options.push({value: item, label: item});
+      })
+  
+      this.setState({
+        selectOptionsCustomer: options
+      })
+      // console.log(this.state.selectOptionsCustomer,'customer จ้า')
 
+    }
+
+    // เซ็ต State ใส่ Label ใน VM
+    VmSelected = (rows) => {
+      let options = []
+  
+      rows.map(item => {
+        options.push({value: item, label: item});
+      })
+  
+      this.setState({
+        selectOptionVM: options
+      })
+    }
+
+  DataFilter = (data) => {
+
+      // console.log(data,'data');
+  
+      const cpuData = data.cpu_data;
+      const diskData = data.disk_data;
+      const memoryData = data.memory_data;
 
       let  chartList = [];
 
@@ -131,41 +197,7 @@ class Report_Modal extends Component {
       this.chartData('disk',diskData,chartList)
       this.chartData('memory',memoryData,chartList)
 
-      this.setState({
-        chart: chartList
-      })
-
-      
-      console.log(this.state.chart,'chart');
-
-      this.setState({loading : true})
-      this.setState({success : true})
-    
-    } catch (error) {
-      console.log({...error});
-
-      if (this.state.selectedCustomer==="") {
-        alert("ไม่พบข้อมูลที่ท่านต้องการ กรุณากรอก Customer ใหม่ด้วยค่ะ")
-      } else if(this.state.selectedVM===""){
-        alert("ไม่พบข้อมูลที่ต้องการ กรุณากรอก VM ใหม่ด้วยค่ะ")
-      }
-
-      if (this.state.sdate==="") {
-        alert("กรุณากรอก \"วันที่เริ่ม\" ใหม่ด้วยค่ะ")
-      } else if(this.state.edate===""){
-        alert("กรุณากรอก \"วันที่สิ้นสุด\" ใหม่ด้วยค่ะ")
-      } else {
-        alert("กรุณากรอกข้อมูลให้ถูกต้องค่ะ")
-      }
-
-      if(objid===""){
-        alert("ไม่พบข้อมูลที่ขอ กรุณาลองใหม่อีกครั้งค่ะ")
-      }
-      if(objid===null){
-        alert("ไม่พบข้อมูลที่ขอ กรุณาลองใหม่อีกครั้งค่ะ")
-      }
-
-    }
+      return chartList;
 
   };
 
@@ -173,6 +205,7 @@ class Report_Modal extends Component {
   chartData = (type,rows,chartList) => {
     rows.forEach(item => {
       // console.log(element,'el');
+      // console.log(item,'item');
 
       let labels = [];
       let freeSpace = [];
@@ -271,7 +304,6 @@ class Report_Modal extends Component {
     });
   }
 
-  
   ramdomColor() {
     const x = Math.floor(Math.random() * 256);
     const y = Math.floor(Math.random() * 256);
@@ -287,25 +319,6 @@ class Report_Modal extends Component {
     this.setState({ selectedVM: e.target.value });
   };
 
-  // เซ็ต State สำหรับปุ่มรับค่า Customer รับค่าเข้ามาใช้หน้า Interface
-  handlecustomers = (e) => {
-    var data = {
-      customer: e.target.value,
-      // access_token:  this.state.access_token
-    };
-    this.setState({ selectedCustomer: e.target.value });
-    
-    axios
-      .post(process.env.REACT_APP_API_CUSTOMER, data, {
-        headers: {
-          authorization: `Bearer ${this.state.access_token}`,
-        },
-      })
-      .then((res) => {
-        this.setState({ VMList: res.data.vmname });
-        // console.log("Customer", res.data.customername);
-      });
-  };
 
   // เซ็ต State สำหรับวันที่เริ่มต้นการแสดงเวลา (sdate)
   handlesdate = (event) => {
@@ -315,34 +328,6 @@ class Report_Modal extends Component {
   // เซ็ต State สำหรับวันที่เริ่มต้นการแสดงเวลา (edate)
   handleedate = (event) => {
     this.state({ edate: event.target.value });
-  };
-
-  getCustomers = () => {
-    axios
-      .post(
-        process.env.REACT_APP_API_CUSTOMER,
-        {},
-        {
-          headers: {
-            authorization: `Bearer ${this.state.access_token}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/json', 
-          },
-        }
-      )
-      .then((res) => {
-        // เซ็ต State ให้เก็บ data ที่ respone แล้วไว้ในตัวแปร customerList
-        this.setState({
-          customerList: res.data.customername,
-        });
-        // console.log(res.data);
-      })
-      .catch((err) => {
-        // console.log("AXIOS ERROR: ", err);
-        if(this.state.custimerList===""){
-          alert("โปรดรอสักครู่เนื่องจากความล่าช้าในการโหลดข้อมูล หรือกรุณาลองใหม่อีกครั้งค่ะ")
-        }
-      });
   };
 
   CompanaName_API = () => {
@@ -366,15 +351,84 @@ class Report_Modal extends Component {
     })
   }
 
-  handleData = () => {
-    axios.get(process.env.REACT_APP_API_VM).then((res) => {
-      this.setState({ data: res.data });
-    });
-  };
+  Multi_VM = async (e) => {
+    e.preventDefault();
+    // console.log(e.target.value,'e value');
+    
+    const url = process.env.REACT_APP_API_VM_MULTI;
+
+    const objid = {
+      customer: this.state.selectedCustomer,
+      device: this.state.selectedVM,
+      sdate: this.state.sdate,
+      edate: this.state.edate,
+      token: localStorage.getItem("access_token"),
+    };
+
+    try {
+      const res = await axios.post(url, objid, {
+        headers: {
+          authorization: `Bearer ${this.state.access_token}`,
+        },
+      });
+
+    var packageChart = []
+
+    res.data.map(item => {
+      // return this.DataFilter(item);
+      console.log(this.DataFilter(item),'Data')
+
+      packageChart.push({
+        vmname:item.vmname,
+        chart: this.DataFilter(item),
+      })
+      
+    })
+
+    this.setState({
+      chart: packageChart
+    })
+
+    console.log(packageChart,' แพ็คเก็จ');
+
+
+    this.setState({loading : true})
+    this.setState({success : true})
+
+
+    } catch (error) {
+      console.log({...error});
+      
+      if (this.state.selectedCustomer==="") {
+        alert("ไม่พบข้อมูลที่ท่านต้องการ กรุณากรอก Customer ใหม่ด้วยค่ะ")
+      } else if(this.state.selectedVM===""){
+        alert("ไม่พบข้อมูลที่ต้องการ กรุณากรอก VM ใหม่ด้วยค่ะ")
+      }
+
+      if (this.state.sdate==="") {
+        alert("กรุณากรอก \"วันที่เริ่ม\" ใหม่ด้วยค่ะ")
+      } else if(this.state.edate===""){
+        alert("กรุณากรอก \"วันที่สิ้นสุด\" ใหม่ด้วยค่ะ")
+      } else {
+        alert("กรุณากรอกข้อมูลให้ถูกต้องค่ะ")
+      }
+
+      if(objid===""){
+        alert("ไม่พบข้อมูลที่ขอ กรุณาลองใหม่อีกครั้งค่ะ")
+      }
+      if(objid===null){
+        alert("ไม่พบข้อมูลที่ขอ กรุณาลองใหม่อีกครั้งค่ะ")
+      }
+
+
+    }
+  }
+
 
   // Life Cycle ที่ใช้เรียกข้อมูลออกมาดู
   componentDidMount() {
     this.getCustomers();
+
 
     // console.log("token", this.state.access_token);
   }
@@ -402,6 +456,13 @@ class Report_Modal extends Component {
       }
     };
 
+    // console.log(this.state.chart.map(item => {
+    //   return item.map((n,index) => {
+    //     console.log(n,'n นะจ๊ะ');
+    //     console.log(index,'index นะจ๊ะ');
+    //   })
+    // }),'chart นะ');
+
 
     return (
       <div className="content">
@@ -421,28 +482,18 @@ class Report_Modal extends Component {
                             <div>
                               <div
                                 className="panel panel-success"
-                                onSubmit={this.handleSubmit}
+                                onSubmit={this.Multi_VM}
                               >
                                 <div className="panel-heading">Customers</div>
                                 <div className="panel-body">
-                                  <select
-                                    id="dropdown"
+
+                                <Select 
                                     onChange={this.handlecustomers}
-                                    className="btn btn-default dropdown-toggle"
-                                  >
-                                    <option value="">Select Customer</option>
-                                    {this.state.customerList
-                                      ? this.state.customerList?.map(
-                                          (item, key) => {
-                                            return (
-                                              <option key={key} value={item}>
-                                                {item}
-                                              </option>
-                                            );
-                                          }
-                                        )
-                                      : null}
-                                  </select>
+                                    isSearchable
+                                    placeholder="Select Customer"
+                                    options={this.state.selectOptionsCustomer}
+                                  />
+
                                 </div>
                               </div>
                             </div>
@@ -453,26 +504,18 @@ class Report_Modal extends Component {
                             <div>
                               <div
                                 className="panel panel-success"
-                                onSubmit={this.handleSubmit}
+                                onSubmit={this.Multi_VM}
                               >
                                 <div className="panel-heading">VM</div>
                                 <div className="panel-body">
-                                  <select
-                                    id="dropdown"
-                                    onChange={this.handlevm}
-                                    className="btn btn-default dropdown-toggle"
-                                  >
-                                    <option value="">Select VM</option>
-                                    {this.state.VMList
-                                      ? this.state.VMList?.map((item, key) => {
-                                          return (
-                                            <option key={key} value={item}>
-                                              {item}
-                                            </option>
-                                          );
-                                        })
-                                      : null}
-                                  </select>
+
+                                  <Select 
+                                    isMulti
+                                    isSearchable
+                                    placeholder="Select VM"
+                                    options={this.state.selectOptionVM} 
+                                  />
+
                                 </div>
                               </div>
                             </div>
@@ -486,7 +529,7 @@ class Report_Modal extends Component {
                             <div>
                               <div
                                 className="panel panel-success"
-                                onSubmit={this.handleSubmit}
+                                onSubmit={this.Multi_VM}
                               >
                                 <div className="panel-heading">ระยะเวลา</div>
                                 <div className="panel-body">
@@ -509,10 +552,17 @@ class Report_Modal extends Component {
 
                     <Col md={1}>
                       <button id="proceed" className="btn btn-primary btn-md" role="button"
-                        onClick={(event) => this.handleSubmit(event) }>
+                        onClick={(event) => this.Multi_VM(event) }>
                         Proceed
                       </button>
                     </Col>
+
+                    {/* <Col md={2}>
+                      <React_PDF chart={this.state.chart}/>
+                    </Col> */}
+
+
+
                     
                     {!this.state.success ? (
                     <FadeIn>
@@ -526,6 +576,7 @@ class Report_Modal extends Component {
                           )}
                       </div>
                     </FadeIn>
+
                   ) : (
                     <FadeIn>
                       <div>
@@ -534,33 +585,10 @@ class Report_Modal extends Component {
                         <Chartjs chart={this.state.chart}/>
                       }
 
-                    {/* เงื่อนไขเช็คข้อมูลก่อนแสดงผลกราฟ */}
-                    {this.state.cpu_total.length > 0 &&
-                      this.state.cpu_datetime.length > 0 &&
-                      this.state.cpu_downtime.length > 0 &&
-                      this.state.disk_FreeSpace.length > 0 &&
-                      this.state.disk_datetime.length > 0 &&
-                      this.state.disk_downtime.length > 0 &&
-                      this.state.memory_percent.length > 0 &&
-                      this.state.memory_datetime.length > 0 &&
-                      this.state.memory_downtime.length > 0 && (
-                        <PDF
-                          chartReference={this.chartReference}
-                          cpu_total={this.state.cpu_total}
-                          cpu_datetime={this.state.cpu_datetime}
-                          cpu_downtime={this.state.cpu_downtime}
-                          disk_FreeSpace={this.state.disk_FreeSpace}
-                          disk_datetime={this.state.disk_datetime}
-                          disk_downtime={this.state.disk_downtime}
-                          memory_percent={this.state.memory_percent}
-                          memory_datetime={this.state.memory_datetime}
-                          memory_downtime={this.state.memory_downtime}
-                          Datareport={this.state.Datareport}
-                        />
-                      )}
 
                       </div>
                     </FadeIn>
+
                     )}
 
                     {/* <Col md={3}>
@@ -583,4 +611,4 @@ class Report_Modal extends Component {
   }
 }
 
-export default Report_Modal;
+export default Reports_Modal;

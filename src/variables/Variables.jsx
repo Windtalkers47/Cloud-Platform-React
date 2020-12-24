@@ -476,9 +476,15 @@ const iconsArray = [
 // //
 //
 // Data for Pie Chart
+const min= 1;
+const max = 100; 
+const rand1 = min + Math.floor(Math.random() * (max-min));
+const rand2 = min + Math.floor(Math.random() * (max-min));
+const rand3 = min + Math.floor(Math.random() * (max-min));
 var dataPie = {
-  labels: ["68%", "8%", "25%"],
-  series: [68, 8, 25]
+  // labels: ["68%", "8%", "25%"],
+  labels: [rand1, 6, rand3],
+  series: [rand1, 6, rand3]
   // labels: ["40%", "20%", "40%"],
   // series: [40, 20, 40]
 };
@@ -488,6 +494,35 @@ var legendPie = {
 };
 
 // Data for Line Chart
+const min_seri= 1;
+const max_seri = 1000; 
+const A1 = min_seri + Math.floor(Math.random() * (max_seri-min));
+const A2 = min_seri + Math.floor(Math.random() * (max_seri-min_seri));
+const A3 = min_seri + Math.floor(Math.random() * (max_seri-min_seri));
+const A4 = min_seri + Math.floor(Math.random() * (max_seri-min_seri));
+const A5 = min_seri + Math.floor(Math.random() * (max_seri-min_seri));
+const A6 = min_seri + Math.floor(Math.random() * (max_seri-min_seri));
+const A7 = min_seri + Math.floor(Math.random() * (max_seri-min_seri));
+const A8 = min_seri + Math.floor(Math.random() * (max_seri-min_seri));
+
+const B1 = min_seri + Math.floor(Math.random() * (max_seri-min));
+const B2 = min_seri + Math.floor(Math.random() * (max_seri-min_seri));
+const B3 = min_seri + Math.floor(Math.random() * (max_seri-min_seri));
+const B4 = min_seri + Math.floor(Math.random() * (max_seri-min_seri));
+const B5 = min_seri + Math.floor(Math.random() * (max_seri-min_seri));
+const B6 = min_seri + Math.floor(Math.random() * (max_seri-min_seri));
+const B7 = min_seri + Math.floor(Math.random() * (max_seri-min_seri));
+const B8 = min_seri + Math.floor(Math.random() * (max_seri-min_seri));
+
+const C1 = min_seri + Math.floor(Math.random() * (max_seri-min));
+const C2 = min_seri + Math.floor(Math.random() * (max_seri-min_seri));
+const C3 = min_seri + Math.floor(Math.random() * (max_seri-min_seri));
+const C4 = min_seri + Math.floor(Math.random() * (max_seri-min_seri));
+const C5 = min_seri + Math.floor(Math.random() * (max_seri-min_seri));
+const C6 = min_seri + Math.floor(Math.random() * (max_seri-min_seri));
+const C7 = min_seri + Math.floor(Math.random() * (max_seri-min_seri));
+const C8 = min_seri + Math.floor(Math.random() * (max_seri-min_seri));
+
 var dataSales = {
   labels: [
     "9:00AM",
@@ -499,15 +534,20 @@ var dataSales = {
     "3:00AM",
     "6:00AM"
   ],
+  // series: [
+  //   [287, 385, 490, 492, 554, 586, 698, 695],
+  //   [67, 152, 143, 240, 287, 335, 435, 437],
+  //   [23, 113, 67, 108, 190, 239, 307, 308]
+  // ]
   series: [
-    [287, 385, 490, 492, 554, 586, 698, 695],
-    [67, 152, 143, 240, 287, 335, 435, 437],
-    [23, 113, 67, 108, 190, 239, 307, 308]
+    [A1, A2, A3, A4, A5, A6, A7, A8],
+    [B1, B2, B3, B4, B5, B6, B7, B8],
+    [C1, C2, C3, C4, C5, C6, C7, C8],
   ]
 };
 var optionsSales = {
   low: 0,
-  high: 800,
+  high: 1000,
   showArea: false,
   height: "245px",
   axisX: {

@@ -17,32 +17,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import Chartlist from "../pdf/chart";
 
-import PDF from "../pdf/PDF.js";
-
-import * as loadingData from "../loading.json";
-import * as successData from "../success.json";
-import FadeIn from "react-fade-in";
-import Lottie from "react-lottie";
 
 require("dotenv").config();
 
-const defaultOptions = {
-  loop: true,
-  autoplay: true,
-  animationData: loadingData.default,
-  rendererSettings: {
-    preserveAspectRatio: "xMidYMid slice"
-  }
-};
-
-const defaultOptions2 = {
-  loop: true,
-  autoplay: true,
-  animationData: successData.default,
-  rendererSettings: {
-    preserveAspectRatio: "xMidYMid slice"
-  }
-};
 
 export default class PRTG_NX_Cloud extends Component {
     constructor(props) {
@@ -78,11 +55,40 @@ export default class PRTG_NX_Cloud extends Component {
           Link_NX_Cloud:"",
           redirect: false,
 
-          loading: false, 
-          success: false,
+          loading: false,
 
         };
       }
+
+      getCustomers = () => {
+        axios
+          .post(
+            process.env.REACT_APP_API_CUSTOMER,
+            {},
+            {
+              headers: {
+                authorization: `Bearer ${this.state.access_token}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json', 
+              },
+            }
+          )
+          .then((res) => {
+            // เซ็ต State ให้เก็บ data ที่ respone แล้วไว้ในตัวแปร customerList
+            this.setState({
+              selectOptionsCustomer: res.data.customername,
+            });
+    
+            this.CustomerSelected(res.data.customername);
+    
+          })
+          .catch((err) => {
+            // console.log("AXIOS ERROR: ", err);
+            if(this.state.selectOptionsCustomer===""){
+              alert("โปรดรอสักครู่เนื่องจากความล่าช้าในการโหลดข้อมูล หรือกรุณาลองใหม่อีกครั้งค่ะ")
+            }
+          });
+      };
 
       handleSubmit = async (e) => {
         e.preventDefault();
@@ -98,6 +104,9 @@ export default class PRTG_NX_Cloud extends Component {
           edate: this.state.edate,
           token:localStorage.getItem('access_token')
         };
+
+        this.setState({ loading: true });
+
     
         // กำหนด Auth ให้ Headers ส่งไป
         try {
@@ -109,12 +118,12 @@ export default class PRTG_NX_Cloud extends Component {
             }
           }).then((result)=>{
 
-            this.setState({loading : true})
-            this.setState({success : true})
 
             this.setState({Link_NX_Cloud : result.data.result});
             window.open(this.state.Link_NX_Cloud)
             // console.log(result)
+            
+            this.setState({loading: false})
 
           }).catch(e => {
             alert("ไม่สามารถส่งคำขอได้ กรุณาเลือกตัวอื่นค่ะ")
@@ -212,9 +221,6 @@ export default class PRTG_NX_Cloud extends Component {
               })
             })
           })
-
-          this.setState({loading : true})
-          this.setState({success : true})
     
           }
         } catch (e) {
@@ -279,16 +285,7 @@ export default class PRTG_NX_Cloud extends Component {
           });
       };
     
-    
-      handleData = () => {
-        axios.get(process.env.REACT_APP_API_VM).then((res) => {
-          this.setState({ data: res.data });
-          console.log('Response',res.data);
-          // console.log(res.data.cpu_data.raw_data);
-    
-          // console.log(this.state.total);
-        });
-      };
+  
     
       // Life Cycle ที่ใช้เรียกข้อมูลออกมาดู
       componentDidMount() {
@@ -306,28 +303,7 @@ export default class PRTG_NX_Cloud extends Component {
 
       render() {
       
-
-                    //   {!this.state.success ? (
-                  //   <FadeIn>
-                  //     <div className ="loading">
-                  //       {!this.state.loading ? (
-                  //         <div className ='loading_img'>
-                  //           <Lottie options={defaultOptions} height={200} width={200} />
-                  //         </div>
-                  //       ) : (
-                  //           <Lottie options={defaultOptions2} height={200} width={200} />
-                  //         )}
-                  //     </div>
-                  //   </FadeIn>
-                  // ) : (
-                  //   <FadeIn>
-                  //     <div>
-
-
-
-                  //   </div>
-                  //   </FadeIn>
-                  //   )}
+        const { loading } = this.state;
 
 
         // ประกาศฟังก์ชั่น setDate เพื่อเซ็ตค่าที่เลือกส่งไปให้ State DatePicker
@@ -453,8 +429,17 @@ export default class PRTG_NX_Cloud extends Component {
 
                     <Col md={2}>
                       <button className="btn btn-primary btn-md" role="button"
-                        onClick={(event) => this.handleSubmit(event)}>
-                        Download PDF
+                        onClick={(event) => this.handleSubmit(event)}
+                        disabled={loading}
+                        >
+                          {loading && (
+                            <l
+                            className="fa fa-refresh fa-spin"
+                            style={{ marginRight: "5px"}}
+                            />
+                          )}
+                        {loading && <span>Loading...</span>}
+                        {!loading && <span>Download</span>}
                       </button>
                     </Col>
 

@@ -21,7 +21,8 @@ import  Dashboard from "./views/Dashboard"
 import TableList from "./views/Reports";
 import PRTG_Test from "./views/PRTG_Test.jsx";
 import PRTG_NX_Cloud from "./views/PRTG_NX_Cloud.jsx";
-import PRTG_Multi_VM_ from "./views/PRTG_Multi_VM";
+import PRTG_NX_Cloud_Multi from "./views/PRTG_NX_Cloud.jsx";
+import PRTG_Multi_VM from "./views/PRTG_Multi_VM";
 import Report_modal from "./views/Report_Modal.jsx";
 
 
@@ -41,6 +42,7 @@ var routes = {
   reports: "/admin/reports",
   report_modal: "/admin/report_modal",
   prtg_nx_cloud: "/admin/prtg_nx_cloud",
+  nx_cloud_multi: "/admin/nx_cloud_multi",
   prtg_multi_vm: "/admin/prtg_multi_vm",
   maps: "/admin/maps",
   user: "/admin/user",
@@ -65,6 +67,7 @@ const render = () => {
       <PrivateRoute path={routes.reports} component={AdminLayout} render={props => <AdminLayout {...props} />} />
       <PrivateRoute path={routes.report_modal} component={AdminLayout} render={props => <AdminLayout {...props} />} />
       <PrivateRoute path={routes.prtg_nx_cloud} component={AdminLayout} render={props => <AdminLayout {...props} />} />
+      <PrivateRoute path={routes.nx_cloud_multi} component={AdminLayout} render={props => <AdminLayout {...props} />} />
       <PrivateRoute path={routes.prtg_multi_vm} component={AdminLayout} render={props => <AdminLayout {...props} />} />
       <PrivateRoute path={routes.maps} component={AdminLayout} render={props => <AdminLayout {...props} />} />
       <PrivateRoute path={routes.user} component={AdminLayout} render={props => <AdminLayout {...props} />} />

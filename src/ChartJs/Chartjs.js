@@ -110,6 +110,18 @@ export default class Chartjs extends Component {
     
     div2PDF = e => {
 
+
+        const KanitRegularNormal = this.fontBinary();
+        const doc = new jsPDF({filters: ['ASCIIHexEncode']})
+
+
+        doc.addFileToVFS("Kanit-Regular-normal.ttf", KanitRegularNormal);
+        doc.addFont('Kanit-Regular-normal.ttf', 'Kanit-Regular', 'normal');
+
+        doc.setFont('Kanit-Regular');
+
+        doc.text("Hello world! สวัสดี", 10, 10);
+
         /////////////////////////////
         // Hide/show button if you need
         /////////////////////////////
@@ -117,24 +129,49 @@ export default class Chartjs extends Component {
         const but = e.target;
         but.style.display = "none";
         let input = window.document.getElementsByClassName("div2PDF")[0];
-        console.log(input,'input');
+        let pagebreak = input.getElementsByClassName("pagebreak");
+
+        let test : string = 'test';
+        test = 123;
+
+        console.log(test,'test')
+
+
+
+        
+        // console.log(input,'input');
+        // console.log(pagebreak,'pagebreak');
     
         html2canvas(input).then(canvas => {
-          const img = canvas.toDataURL("image/png");
-        //   console.log(img,'img');
+            var imgData = canvas.toDataURL('image/png');
 
-          const pdf = new jsPDF({
-            orientation: 'landscape',
-          });
-          const imgProps= pdf.getImageProperties(img);
-          const pdfWidth = pdf.internal.pageSize.getWidth();
-          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-          pdf.addImage(img, 0, 0, pdfWidth, pdfHeight);
+            console.log(canvas,'canvas')
 
-          pdf.save("Cloud Operation.pdf");
-          but.style.display = "block";
+            /*
+            Here are the numbers (paper width and height) that I found to work. 
+            It still creates a little overlap part between the pages, but good enough for me.
+            if you can find an official number from jsPDF, use them.
+            */
+            var imgWidth = 210; 
+            var pageHeight = 295;  
+            var imgHeight = canvas.height * imgWidth / canvas.width;
+            var heightLeft = imgHeight;
+      
+            var doc = new jsPDF('l', 'mm', 'a4');
+            var position = 0;
+      
+            doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+      
+            while (heightLeft >= 0) {
+              position = heightLeft - imgHeight;
+              doc.addPage();
+              doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+              heightLeft -= pageHeight;
+            }
+            doc.save( 'Cloud Operation.pdf');﻿
         });
-      };
+    };
 
 
     render() {

@@ -19,6 +19,7 @@ import Login from "Login/Login.js";
 import Signup from "Login/Signup";
 import PRTG_Test from "views/PRTG_Test.jsx";
 import PRTG_NX_Cloud from "views/PRTG_NX_Cloud.jsx";
+import PRTG_NX_Cloud_Multi from "views/PRTG_NX_Cloud_Multi.jsx";
 import PRTG_Multi_VM from "views/PRTG_Multi_VM.jsx";
 import Report_Modal from "views/Report_Modal.jsx";
 import Chartlist from "./pdf/chart.js";
@@ -53,13 +54,13 @@ const dashboardRoutes = [
   //   component: Alarms,
   //   layout: "/admin"
   // },
-  {
-    path: "/reports",
-    name: "Reports",
-    icon: "pe-7s-print",
-    component: Reports,
-    layout: "/admin"
-  },
+  // {
+  //   path: "/reports",
+  //   name: "Reports",
+  //   icon: "pe-7s-print",
+  //   component: Reports,
+  //   layout: "/admin"
+  // },
   {
     path: "/report_modal",
     name: "Reports_Modal",
@@ -86,6 +87,13 @@ const dashboardRoutes = [
     name: "PRTG-NX-Cloud",
     icon: "pe-7s-cloud-download",
     component: PRTG_NX_Cloud,
+    layout: "/admin"
+  },
+  {
+    path: "/nx_cloud_multi",
+    name: "PRTG-NX-Cloud-Multi",
+    icon: "pe-7s-copy-file",
+    component: PRTG_NX_Cloud_Multi,
     layout: "/admin"
   },
   {

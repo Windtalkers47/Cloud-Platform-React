@@ -65,6 +65,11 @@ componentDidMount(){
 }
 
   render() {
+    const rand1 = Math.floor(Math.random() * 256);
+    const rand2 = Math.floor(Math.random() * 256);
+    const rand3 = Math.floor(Math.random() * 256);
+    const rand4 = Math.floor(Math.random() * 256);
+
     return (
       <div className="content">
         <Grid fluid>
@@ -86,7 +91,7 @@ componentDidMount(){
               <StatsCard
                 bigIcon={<i className="pe-7s-users text-warning" />}
                 statsText="Users"
-                statsValue="0"
+                statsValue={rand1}
                 statsIcon={<i className="fa fa-refresh" />}
                 statsIconText="Updated now"
               />
@@ -107,7 +112,7 @@ componentDidMount(){
               <StatsCard
                 bigIcon={<i className="pe-7s-signal text-success" />}
                 statsText="Sensors"
-                statsValue="33"
+                statsValue={rand2}
                 statsIcon={<i className="fa fa-calendar-o" />}
                 statsIconText="Last day"
               />
@@ -117,7 +122,7 @@ componentDidMount(){
               <StatsCard
                 bigIcon={<i className="pe-7s-graph1 text-danger" />}
                 statsText="Errors"
-                statsValue="0"
+                statsValue={rand3}
                 statsIcon={<i className="fa fa-clock-o" />}
                 statsIconText="In the last hour"
               />
@@ -127,7 +132,7 @@ componentDidMount(){
               <StatsCard
                 bigIcon={<i className="pe-7s-bell text-info" />}
                 statsText="Notifications"
-                statsValue="0"
+                statsValue={rand4}
                 statsIcon={<i className="fa fa-refresh" />}
                 statsIconText="Updated now"
               />
