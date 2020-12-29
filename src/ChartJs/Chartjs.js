@@ -101,7 +101,9 @@ export default class Chartjs extends Component {
         super(props)
     
         this.state = {
-            chartRender : props.chart
+            chartRender : props.chart,
+
+            loading: false,
              
         }
     }
@@ -109,6 +111,8 @@ export default class Chartjs extends Component {
 
     
     div2PDF = e => {
+
+        this.setState({ loading: true });
 
 
         const KanitRegularNormal = this.fontBinary();
@@ -169,12 +173,18 @@ export default class Chartjs extends Component {
               doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
               heightLeft -= pageHeight;
             }
-            doc.save( 'Cloud Operation.pdf');﻿
+            doc.save( 'Cloud Operation.pdf');
+            
+            this.setState({ loading: false });
+
         });
+
     };
 
 
     render() {
+
+        const { loading } = this.state;
 
         // const KanitRegularNormal = this.fontBinary();
         // const doc = new jsPDF({filters: ['ASCIIHexEncode']})
@@ -196,9 +206,16 @@ export default class Chartjs extends Component {
                 <Col md={2}>
                 <div>
                     <button onClick={(e) => this.div2PDF(e)}
-                    id="chart2PDF" className="btn btn-primary btn-md" role="button"
+                    id="chart2PDF" className="btn btn-primary btn-md" role="button" disabled={loading}
                     >
-                        Export PDF
+                        { loading && (
+                            <i
+                            className="fa fa-refresh fa-spin"
+                            style={{ marginRight: "5px" }}
+                            />
+                        )}
+                        {loading && <span>Loading...</span>}
+                        {!loading && <span>Export PDF</span>}
                     </button>
                 </div>
                 </Col>
