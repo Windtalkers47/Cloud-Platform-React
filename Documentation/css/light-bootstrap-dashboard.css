@@ -458,7 +458,7 @@ body > .navbar-collapse[data-color="purple"]:after {
   -webkit-overflow-scrolling: touch; }
 
 .btn {
-  border-width: 2px;
+  border-width: 1px !important;
   background-color: transparent;
   font-weight: 400;
   opacity: 0.8;
