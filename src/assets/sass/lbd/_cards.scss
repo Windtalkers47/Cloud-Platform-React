@@ -44,7 +44,7 @@
         @include opacity(1);
     }
     .content{
-        padding: 15px 15px 10px 15px;
+        padding: 15px 15px 30px 15px;
     }
     .header{
         padding: 15px 15px 0;
@@ -219,4 +219,15 @@
            margin: 0;
         }
     }
+}
+.panel {
+    margin-left: 17px !important;
+    margin-right: 17px !important;
+}
+button#proceed {
+    margin-left: 3px !important;
+}
+
+button.btn.btn-primary.btn-md {
+    margin-left: 3px;
 }

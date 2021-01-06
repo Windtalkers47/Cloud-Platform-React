@@ -71,7 +71,7 @@ export default class Login extends React.Component {
               <form onSubmit={this.login}>
 
                   <div className="form-group">
-                  <h2 className="Login-text">Login...</h2>
+                  <h2 className="Login-text">Login</h2>
                   <br></br>
                   Username: <br></br>
                   <input required type = "text" onChange={this.handleUserName} 
