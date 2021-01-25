@@ -59,8 +59,7 @@ class PRTG_NX_Cloud_Multi extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      customerList: [], // เอาไว้เก็บ res.data ของ api selectCustomer ที่ Post ไว้
-      VMList: [],
+
       selectedCustomer: [], // state ส่ง cus
       selectedVM: [],
       sdate: "",
@@ -181,13 +180,20 @@ class PRTG_NX_Cloud_Multi extends Component {
       this.setState({
         selectOptionVM: options
       })
+      // console.log(this.state.selectOptionVM,'selectOptionVM');
     }
 
 
   // เซ็ต State ส่งค่าไปที่ Button ของ VM
   handlevm = (e) => {
-    // this.setState({ vm: event.target.value });
-    this.setState({ selectedVM: e.target.value });
+    let vm_value = e.map((item1)=>{
+      return item1.value
+    })
+    this.setState({ selectedVM: vm_value})
+    // console.log(vm_value,'VM ที่ Loop ออก Array');
+    // console.log(this.state.selectedVM,'ค่าที่ส่ง Payload');
+    // this.setState({ selectedVM: e.target.value });
+    // console.log(e,'ค่าที่รับเข้ามาของ VM');
   };
 
 
@@ -249,6 +255,8 @@ class PRTG_NX_Cloud_Multi extends Component {
           'Accept': 'application/json', 
         }
       }).then((result)=>{
+
+        console.log(objid,'objid');
 
         this.setState({loading: false})
 
@@ -365,8 +373,6 @@ class PRTG_NX_Cloud_Multi extends Component {
         })
       })
 
-      this.setState({loading : true})
-      this.setState({success : true})
 
       }
     } catch (e) {
@@ -380,7 +386,6 @@ class PRTG_NX_Cloud_Multi extends Component {
   // Life Cycle ที่ใช้เรียกข้อมูลออกมาดู
   componentDidMount() {
     this.getCustomers();
-
 
     // console.log("token", this.state.access_token);
   }
@@ -407,13 +412,6 @@ class PRTG_NX_Cloud_Multi extends Component {
       }
     };
 
-    // console.log(this.state.chart.map(item => {
-    //   return item.map((n,index) => {
-    //     console.log(n,'n นะจ๊ะ');
-    //     console.log(index,'index นะจ๊ะ');
-    //   })
-    // }),'chart นะ');
-
 
     return (
       <div className="content">
@@ -433,7 +431,7 @@ class PRTG_NX_Cloud_Multi extends Component {
                             <div>
                               <div
                                 className="panel panel-success"
-                                onSubmit={this.Multi_VM}
+                                onSubmit={this.handleSubmit}
                               >
                                 <div className="panel-heading">Customers</div>
                                 <div className="panel-body">
@@ -461,6 +459,7 @@ class PRTG_NX_Cloud_Multi extends Component {
                                 <div className="panel-body">
 
                                   <Select 
+                                    onChange={this.handlevm}
                                     isMulti
                                     isSearchable
                                     placeholder="Select VM"
@@ -480,7 +479,7 @@ class PRTG_NX_Cloud_Multi extends Component {
                             <div>
                               <div
                                 className="panel panel-success"
-                                onSubmit={this.Multi_VM}
+                                onSubmit={this.handleSubmit}
                               >
                                 <div className="panel-heading">ระยะเวลา</div>
                                 <div className="panel-body">
