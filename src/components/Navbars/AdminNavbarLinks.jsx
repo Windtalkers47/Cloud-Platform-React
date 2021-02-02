@@ -104,7 +104,7 @@ class AdminNavbarLinks extends Component {
           </NavDropdown> */}
 
           <NavItem eventKey={3} href="#">
-            <div onClick={() => this.logoutHandler()}>Log out</div>
+          <div onClick={() => this.logoutHandler()}>Log out</div>
           </NavItem>
         </Nav>
         {this.state.isLogout === true && <Redirect to="/" push={true} />}

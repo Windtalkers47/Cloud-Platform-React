@@ -1,43 +1,43 @@
 .App {
-    text-align: center;
-  }
-  
-  .App-logo {
-    height: 40vmin;
-    pointer-events: none;
-  }
-  
-  @media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-      animation: App-logo-spin infinite 20s linear;
-    }
-  }
-  
-  .App-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-  }
-  
-  .App-link {
-    color: #61dafb;
-  }
-  
-  @keyframes App-logo-spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
+  text-align: center;
+}
 
-  @import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800');
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@import url("https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800");
 
 * {
   box-sizing: border-box;
@@ -46,52 +46,54 @@ body .mainpage {
   background: #1cf99d;
   min-height: 100vh;
   display: flex;
-  font-weight: 400;
-  font-family: 'Roboto', 'kanit', sans-serif;
+  font-weight: 500;
+  font-family: "Roboto", "kanit", sans-serif;
 }
-
 
 div#root,
-h1,h2,h3,h4,h5,h6,label,span {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label,
+span {
   font-weight: 500;
-  font-family: 'Roboto', 'kanit', sans-serif;
+  font-family: "Roboto", "kanit", sans-serif;
 }
 
-div#root .contentHome{
+div#root .contentHome {
   height: 100%;
-  width:100%;
-  
-  padding: 5% ;
+  width: 100%;
+
+  padding: 5%;
 
   background-image: url("../assets/img/bg_fog.jpg");
-  
+
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  
+
   align-items: center;
-
-
-  
 }
 
-div#root .mainlogin{
+div#root .mainlogin {
   width: 40%;
   height: auto;
   margin: auto;
   z-index: 2;
-  
-
 }
 
-div#root .Login-text{
+div#root .Login-text {
   text-align: center;
 }
 
-
-
-
-body, html, .App, #root, .auth-wrapper {
+body,
+html,
+.App,
+#root,
+.auth-wrapper {
   width: 100%;
   height: 100%;
 }
@@ -110,41 +112,35 @@ div#root,
   padding: auto;
 }
 
-div#root{
+div#root {
   background-color: white;
 }
 
-div#root .mainlogin{
-  -webkit-box-shadow: 5px 5px 15px 5px #000000; 
+div#root .mainlogin {
+  -webkit-box-shadow: 5px 5px 15px 5px #000000;
   box-shadow: 5px 5px 15px 5px #000000;
   background-color: whitesmoke;
   padding: 5%;
   border-radius: 20px 20px 20px 20px;
   font-weight: bold;
   font-size: 18px;
-  
 }
 
-div#root .form-group .btn{
+div#root .form-group .btn {
   font-weight: bold;
   color: #000000;
-  -webkit-box-shadow: 5px 5px 15px 5px #000000; 
+  -webkit-box-shadow: 5px 5px 15px 5px #000000;
   box-shadow: 5px 5px 15px 5px #000000;
 }
 
-div#root button.btn.btn-lg.btn-block{
+div#root button.btn.btn-lg.btn-block {
   font-weight: bold;
   color: #000000;
-  -webkit-box-shadow: 5px 5px 15px 5px #000000; 
+  -webkit-box-shadow: 5px 5px 15px 5px #000000;
   box-shadow: 5px 5px 15px 5px #000000;
 }
 
-
-
-
-
-div#root
-.auth-inner {
+div#root .auth-inner {
   width: 450px;
   margin: auto;
   /* background: #ffffff; */
@@ -152,18 +148,16 @@ div#root
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
   padding: 40px 55px 45px 55px;
   border-radius: 15px;
-  transition: all .3s;
+  transition: all 0.3s;
 }
 
-div#root
-.auth-wrapper .form-control:focus {
+div#root .auth-wrapper .form-control:focus {
   border-color: #1cf99d;
   /* border-color: #167bff; */
   box-shadow: none;
 }
 
-div#root
-.auth-wrapper h3 {
+div#root .auth-wrapper h3 {
   text-align: center;
   margin: 0;
   line-height: 1;
@@ -172,7 +166,7 @@ div#root
 
 div#root,
 .custom-control-label {
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .forgot-password,
@@ -184,11 +178,9 @@ div#root,
   margin: 0;
 }
 
-
 .forgot-password a {
   color: #167bff;
 }
-
 
 /* body {
   margin: 0;
@@ -200,34 +192,27 @@ div#root,
 } */
 
 code {
-  font-family: 'Roboto', 'kanit', sans-serif;
-
+  font-family: "Roboto", "kanit", sans-serif;
 }
 h2.Login-text {
-  font-family: 'Kanit';
+  font-family: "Kanit";
 }
 
 .form-group {
-  font-family: 'Kanit';
+  font-family: "Kanit";
 }
 
 button.btn.btn-lg.btn-block {
-  font-family: 'Kanit';
+  font-family: "Kanit";
 }
 
 @media only screen and (max-width: 500px) {
   .contentHome {
     display: flex;
+  }
+  div#root .mainlogin {
+    height: auto;
+    z-index: 2;
+    width: 100%;
+  }
 }
-div#root .mainlogin {
-  height: auto;
-  z-index: 2;
-  width: 100%;
-}
-}
-
-
-
-
-
-  

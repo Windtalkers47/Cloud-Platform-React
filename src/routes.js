@@ -28,7 +28,7 @@ import Chartlist from "./pdf/chart.js";
 const dashboardRoutes = [
   {
     path: "/dashboard",
-    name: "Dashboard",
+    name: "Dashboard (in develop)",
     icon: "pe-7s-graph",
     component: Dashboard,
     layout: "/admin"
@@ -63,7 +63,7 @@ const dashboardRoutes = [
   // },
   {
     path: "/report_modal",
-    name: "Reports_Modal",
+    name: "Reports (in develop)",
     icon: "pe-7s-file",
     component: Report_Modal,
     layout: "/admin"
@@ -98,7 +98,7 @@ const dashboardRoutes = [
   },
   {
     path: "/prtg_multi_vm",
-    name: "PRTG_Multi_VM",
+    name: "PRTG_Multi_VM (in develop)",
     icon: "pe-7s-graph2",
     component: PRTG_Multi_VM,
     layout: "/admin"
