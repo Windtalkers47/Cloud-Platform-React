@@ -3,6 +3,9 @@ import ReactDOM from "react-dom";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 import  { Redirect } from 'react-router-dom'
 
+import { Modal } from 'react-responsive-modal';
+import 'react-responsive-modal/styles.css';
+
 import Card from "components/Card/Card.jsx";
 import { thArray, tdArray } from "variables/Variables.jsx";
 
@@ -25,6 +28,7 @@ import React_PDF from "../pdf/React_PDF";
 
 import * as loadingData from "../loading.json";
 import * as successData from "../success.json";
+import * as loadingAmongUs from "../loading-among-us.json"
 import FadeIn from "react-fade-in";
 import Lottie from "react-lottie";
 
@@ -53,6 +57,15 @@ const defaultOptions2 = {
     preserveAspectRatio: "xMidYMid slice"
   }
 };
+
+const defaultOptions3 = {
+  loop: true,
+  autoplay: true,
+  animationData: loadingAmongUs.default,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice"
+  }
+}
 
 
 class PRTG_Multi_VM extends Component {
@@ -94,7 +107,11 @@ class PRTG_Multi_VM extends Component {
 
       selectOptionsCustomer : [],
       selectOptionVM:[],
-      value:[]
+      value:[],
+
+      loading: false,
+      openModal : false,
+
 
 
       };
@@ -365,6 +382,9 @@ class PRTG_Multi_VM extends Component {
       token: localStorage.getItem("access_token"),
     };
 
+    this.setState({ loading: true });
+    this.setState({openModal : true})
+
     try {
       const res = await axios.post(url, objid, {
         headers: {
@@ -392,7 +412,7 @@ class PRTG_Multi_VM extends Component {
     console.log(packageChart,' แพ็คเก็จ');
 
 
-    this.setState({loading : true})
+    this.setState({loading: false})
     this.setState({success : true})
 
 
@@ -424,6 +444,9 @@ class PRTG_Multi_VM extends Component {
     }
   }
 
+  onCloseModal = ()=>{
+    this.setState({openModal : false})
+}
 
   // Life Cycle ที่ใช้เรียกข้อมูลออกมาดู
   componentDidMount() {
@@ -442,9 +465,8 @@ class PRTG_Multi_VM extends Component {
 
   render() {
 
-    // if (!this.state.isLoading) {
-    //   return <div>Loading...</div>
-    // }
+    const { loading } = this.state;
+
 
     // ประกาศฟังก์ชั่น setDate เพื่อเซ็ตค่าที่เลือกส่งไปให้ State DatePicker
     const setDate = (key, val) => {
@@ -552,8 +574,32 @@ class PRTG_Multi_VM extends Component {
 
                     <Col md={1}>
                       <button id="proceed" className="btn btn-primary btn-md" role="button"
-                        onClick={(event) => this.Multi_VM(event) }>
-                        Proceed
+                        onClick={(event) => this.Multi_VM(event) }
+                        disabled={loading}
+                        >
+
+                        {loading && (
+                        <l
+                        className="fa fa-refresh fa-spin"
+                        style={{ marginRight: "5px"}}
+                        />,
+
+                        <Modal 
+                          open={this.state.openModal} 
+                          onClose={this.onCloseModal}
+                          center
+                          >
+                            <Lottie 
+                            options={defaultOptions3}
+                              height={400}
+                              width={400}
+                            />
+                          <h2 style={{textAlign: "center"}}>กำลังโหลด...</h2>
+                        </Modal>   
+                        )}
+                          {loading && <span>Loading...</span>}
+                          {!loading && <span>Process</span>}
+
                       </button>
                     </Col>
 

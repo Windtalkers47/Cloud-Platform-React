@@ -1,7 +1,11 @@
 import React, { Component, useState } from "react";
 import ReactDOM from "react-dom";
-import { Grid, Row, Col, Table } from "react-bootstrap";
 import  { Redirect } from 'react-router-dom'
+
+import { Grid, Row, Col, Table} from "react-bootstrap";
+
+import { Modal } from 'react-responsive-modal';
+import 'react-responsive-modal/styles.css';
 
 import Card from "components/Card/Card.jsx";
 import { thArray, tdArray } from "variables/Variables.jsx";
@@ -25,6 +29,7 @@ import React_PDF from "../pdf/React_PDF";
 
 import * as loadingData from "../loading.json";
 import * as successData from "../success.json";
+import * as loadingAmongUs from "../loading-among-us.json"
 import FadeIn from "react-fade-in";
 import Lottie from "react-lottie";
 
@@ -54,8 +59,16 @@ const defaultOptions2 = {
   }
 };
 
+const defaultOptions3 = {
+  loop: true,
+  autoplay: true,
+  animationData: loadingAmongUs.default,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice"
+  }
+}
 
-class PRTG_NX_Cloud_Multi extends Component {
+class PRTG_NX_Cloud_Multi extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -94,6 +107,7 @@ class PRTG_NX_Cloud_Multi extends Component {
       value:[],
 
       loading: false,
+      openModal : false,
 
 
       };
@@ -244,6 +258,7 @@ class PRTG_NX_Cloud_Multi extends Component {
     };
 
     this.setState({ loading: true });
+    this.setState({openModal : true})
 
 
     // กำหนด Auth ให้ Headers ส่งไป
@@ -255,8 +270,6 @@ class PRTG_NX_Cloud_Multi extends Component {
           'Accept': 'application/json', 
         }
       }).then((result)=>{
-
-        console.log(objid,'objid');
 
         this.setState({loading: false})
 
@@ -382,6 +395,9 @@ class PRTG_NX_Cloud_Multi extends Component {
   };
 
 
+  onCloseModal = ()=>{
+    this.setState({openModal : false})
+}
 
   // Life Cycle ที่ใช้เรียกข้อมูลออกมาดู
   componentDidMount() {
@@ -400,7 +416,6 @@ class PRTG_NX_Cloud_Multi extends Component {
   render() {
 
     const { loading } = this.state;
-
 
     // ประกาศฟังก์ชั่น setDate เพื่อเซ็ตค่าที่เลือกส่งไปให้ State DatePicker
     const setDate = (key, val) => {
@@ -506,53 +521,30 @@ class PRTG_NX_Cloud_Multi extends Component {
                         disabled={loading}
                         >
                           {loading && (
+
                             <l
                             className="fa fa-refresh fa-spin"
                             style={{ marginRight: "5px"}}
-                            />
+                            />,
+
+                            <Modal 
+                              open={this.state.openModal} 
+                              onClose={this.onCloseModal}
+                              center
+                              >
+                                <Lottie 
+                                options={defaultOptions3}
+                                  height={400}
+                                  width={400}
+                                />
+                              <h2 style={{textAlign: "center"}}>กำลังโหลด...</h2>
+                            </Modal>   
+
                           )}
                           {loading && <span>Loading...</span>}
                           {!loading && <span>Download PDF</span>}
                       </button>
                     </Col>
-
-
-
-                    
-                    {/* {!this.state.success ? (
-                    <FadeIn>
-                      <div className ="loading">
-                        {!this.state.loading ? (
-                          <div className ='loading_img'>
-                            <Lottie options={defaultOptions} height={200} width={200} />
-                          </div>
-                        ) : (
-                            <Lottie options={defaultOptions2} height={200} width={200} />
-                          )}
-                      </div>
-                    </FadeIn>
-
-                  ) : (
-                    <FadeIn>
-                      <div>
-
-                      {this.state.chart.length > 0 &&
-                        <Chartjs chart={this.state.chart}/>
-                      }
-
-
-                      </div>
-                    </FadeIn>
-
-                    )} */}
-
-                    {/* <Col md={3}>
-                      <PDFexport
-                        component={Chartlist}
-                        chartReference={this.state.chartData}
-                      />
-                    </Col> */}
-
 
                   </div>
                 }
@@ -567,3 +559,4 @@ class PRTG_NX_Cloud_Multi extends Component {
 }
 
 export default PRTG_NX_Cloud_Multi;
+

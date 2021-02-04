@@ -3,6 +3,9 @@ import ReactDOM from "react-dom";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 import  { Redirect } from 'react-router-dom'
 
+import { Modal } from 'react-responsive-modal';
+import 'react-responsive-modal/styles.css';
+
 import Card from "components/Card/Card.jsx";
 import { thArray, tdArray } from "variables/Variables.jsx";
 
@@ -21,6 +24,7 @@ import PDF from "../pdf/PDF.js";
 
 import * as loadingData from "../loading.json";
 import * as successData from "../success.json";
+import * as loadingAmongUs from "../loading-among-us.json"
 import FadeIn from "react-fade-in";
 import Lottie from "react-lottie";
 
@@ -43,6 +47,15 @@ const defaultOptions2 = {
     preserveAspectRatio: "xMidYMid slice"
   }
 };
+
+const defaultOptions3 = {
+  loop: true,
+  autoplay: true,
+  animationData: loadingAmongUs.default,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice"
+  }
+}
 
 export default class PRTG_NX_Cloud extends Component {
     constructor(props) {
@@ -77,6 +90,7 @@ export default class PRTG_NX_Cloud extends Component {
           redirect: false,
 
           loading: false,
+          openModal : false
 
         };
       }
@@ -98,6 +112,9 @@ export default class PRTG_NX_Cloud extends Component {
           edate: this.state.edate,
           token:localStorage.getItem('access_token')
         };
+
+        this.setState({openModal : true})
+
     
         // กำหนด Auth ให้ Headers ส่งไป
         try {
@@ -238,6 +255,10 @@ export default class PRTG_NX_Cloud extends Component {
           return null;
         }
       };
+
+      onCloseModal = ()=>{
+        this.setState({openModal : false})
+      }
     
       // เซ็ต State ส่งค่าไปที่ Button ของ VM
       handlevm = (e) => {
@@ -453,7 +474,21 @@ export default class PRTG_NX_Cloud extends Component {
                             <i
                                 className="fa fa-refresh fa-spin"
                                 style={{ marginRight: "5px"}}
-                            />
+                            />,
+
+                            <Modal 
+                            open={this.state.openModal} 
+                            onClose={this.onCloseModal}
+                            center
+                            >
+                              <Lottie 
+                              options={defaultOptions3}
+                                height={400}
+                                width={400}
+                              />
+                            <h2 style={{textAlign: "center"}}>กำลังโหลด...</h2>
+                          </Modal> 
+
                         )}
                         {loading && <span>Loading...</span>}
                         {!loading && <span>Download</span>}
